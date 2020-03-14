@@ -7,10 +7,14 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { BookListComponent } from './dashboard/book-list/book-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    DashboardComponent,
+    BookListComponent,
   ],
   imports: [
     BrowserModule,
