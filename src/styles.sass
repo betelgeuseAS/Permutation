@@ -2,3 +2,62 @@
 @import "../node_modules/bootstrap/scss/bootstrap.scss"
 @import "../node_modules/bootswatch/dist/sketchy/_bootswatch.scss"
 @import "../node_modules/bootswatch/dist/sketchy/bootstrap.min.css"
+
+//*
+//  outline: none
+
+*,
+*::before,
+*::after
+  box-sizing: border-box
+
+::placeholder
+  color: #666
+
+::selection
+  background-color: $dark
+  color: #fff
+
+body
+  height: 100%
+  scroll-behavior: smooth
+  text-rendering: optimizeSpeed
+  min-width: 320px
+  position: relative
+  line-height: 1.65
+  overflow-x: hidden
+  input, textarea
+    border: #666 1px solid
+    outline: none
+    &:focus:required:invalid
+      border-color: $danger
+    &:required:valid
+      border-color: $success
+
+.cut-text
+  display: block
+  max-width: 98%
+  text-overflow: ellipsis
+  overflow: hidden
+  white-space: nowrap
+
+.img-responsive
+  display: block
+  max-width: 100%
+  height: auto
+  &.img-width
+    width: 100%
+
+::-webkit-scrollbar-button
+  height: 15px
+  background: $light
+::-webkit-scrollbar-track
+  background-color: $dark
+::-webkit-scrollbar-thumb
+  background-color: lighten($dark, 20%)
+::-webkit-resizer
+  width: 5px
+::-webkit-scrollbar
+  width: 10px
+
+@import "./media"
