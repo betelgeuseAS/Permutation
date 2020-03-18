@@ -20,9 +20,11 @@ Bootstrap and package your project with Angular 9 and Electron 8 (Typescript + S
 
 Currently runs with:
 
-- Angular v9.0.2
-- Electron v8.0.1
-- Electron Builder v22.3.2
+- Angular v9.0.5
+- Electron v8.1.0
+- Electron Builder v22.4.1
+- SQLite v4.1.1
+- typeORM v0.2.24
 
 With this sample, you can :
 
@@ -48,7 +50,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 ``` bash
 git clone https://github.com/betelgeuseAS/Permutation.git
 npm install
-npm start
+npm run start
 ```
 
 There is an issue with `yarn` and `node_modules` when the application is built by the packager. Please use `npm` as dependencies manager.
