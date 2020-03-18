@@ -48,6 +48,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 ``` bash
 git clone https://github.com/betelgeuseAS/Permutation.git
 npm install
+npm start
 ```
 
 There is an issue with `yarn` and `node_modules` when the application is built by the packager. Please use `npm` as dependencies manager.
