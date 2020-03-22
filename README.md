@@ -20,11 +20,11 @@ Bootstrap and package your project with Angular 9 and Electron 8 (Typescript + S
 
 Currently runs with:
 
-- Angular v9.0.5
-- Electron v8.1.0
+- Angular v9.0.2
+- Electron v5.0.4
 - Electron Builder v22.4.1
 - SQLite v4.1.1
-- typeORM v0.2.24
+- TypeORM v0.2.24
 
 With this sample, you can :
 
@@ -41,8 +41,9 @@ With this sample, you can :
 ## Technologies
 * `HTML`
 * `CSS` / `Sass`
-* `Angular`
+* `JS` / `TypeScript` / `Angular`
 * `Electron`
+* `SQLite` / `TypeORM`
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.0.5.
 
@@ -63,7 +64,7 @@ npm install -g @angular/cli
 
 ## To build for development
 
-- **in a terminal window** -> npm start
+- **in a terminal window** -> npm run start
 
 Voila! You can use your Angular + Electron app in a local development environment with hot reload !
 
@@ -75,7 +76,6 @@ You can disable "Developer Tools" by commenting `win.webContents.openDevTools();
 
 |Command|Description|
 |--|--|
-|`npm run ng:serve:web`| Execute the app in the browser |
 |`npm run build`| Build the app. Your built files are in the /dist folder. |
 |`npm run build:prod`| Build the app with Angular aot. Your built files are in the /dist folder. |
 |`npm run electron:local`| Builds your application and start electron
@@ -98,3 +98,13 @@ Maybe you want to execute the application in the browser with hot reload ? Just 
 
 1. **Browser mode.** You can't use TypeORM in browser so it is not possible.If you need to run app in browser and don't need TypeORM you can use [angular-electron](https://github.com/maximegris/angular-electron) for that.
 1. **Windows Build.** You cannot make build for `windows` if path to project folder contains spaces or not latin letters.
+
+## Errors
+
+- After build app and launch .exe file. Electron-packager: cannot find module.  
+Make sure every node modules that you need to run on production build added into dependencies in package.json. E.g: npm install <module_name> --save  
+Module dependencies were listed in "devDependencies" in package.json Moving them to "dependencies" and running npm install again solved the problem.  
+
+- Electron application SQLITE package has not been found installed  
+Execute command `npm run postinstall`.  
+SQLite3 is a native Node.js module so it can't be used directly with Electron without rebuilding it to target Electron.The electron-builder will build the native module for our platform and we can then require it in code as normal.
