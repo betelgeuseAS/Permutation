@@ -1,14 +1,14 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 var electron_1 = require("electron");
 var path = require("path");
 var url = require("url");
 var win = null;
-var args = process.argv.slice(1), serve = args.some(function (val) { return val === '--serve'; });
+// detect serve mode
+var args = process.argv.slice(1);
+var serve = args.some(function (val) { return val === '--serve'; });
 function createWindow() {
-    var electronScreen = electron_1.screen;
-    var size = electronScreen.getPrimaryDisplay().workAreaSize;
-    // Create the browser window.
+    var size = electron_1.screen.getPrimaryDisplay().workAreaSize;
     win = new electron_1.BrowserWindow({
         x: 0,
         y: 0,
@@ -16,33 +16,29 @@ function createWindow() {
         height: size.height,
         webPreferences: {
             nodeIntegration: true,
-            allowRunningInsecureContent: (serve) ? true : false,
-        },
+            allowRunningInsecureContent: serve
+        }
     });
     if (serve) {
+        // get dynamic version from localhost:4200
         require('electron-reload')(__dirname, {
             electron: require(__dirname + "/node_modules/electron")
         });
         win.loadURL('http://localhost:4200');
+        // The following is optional and will open the DevTools:
+        win.webContents.openDevTools();
     }
     else {
+        // load the dist folder from Angular
         win.loadURL(url.format({
-            pathname: path.join(__dirname, 'dist/index.html'),
+            pathname: path.join(__dirname, "/dist/index.html"),
             protocol: 'file:',
             slashes: true
         }));
     }
-    if (serve) {
-        win.webContents.openDevTools();
-    }
-    // Emitted when the window is closed.
     win.on('closed', function () {
-        // Dereference the window object, usually you would store window
-        // in an array if your app supports multi windows, this is the time
-        // when you should delete the corresponding element.
         win = null;
     });
-    return win;
 }
 try {
     // This method will be called when Electron has finished
@@ -57,9 +53,8 @@ try {
             electron_1.app.quit();
         }
     });
+    // initialize the app's main window
     electron_1.app.on('activate', function () {
-        // On OS X it's common to re-create a window in the app when the
-        // dock icon is clicked and there are no other windows open.
         if (win === null) {
             createWindow();
         }
@@ -69,4 +64,3 @@ catch (e) {
     // Catch Error
     // throw e;
 }
-//# sourceMappingURL=main.js.map
