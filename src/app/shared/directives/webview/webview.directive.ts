@@ -1,7 +1,7 @@
 import { Directive } from '@angular/core';
 
 @Directive({
-  selector: 'webview'
+  selector: 'app-webview'
 })
 export class WebviewDirective {
   constructor() {}
