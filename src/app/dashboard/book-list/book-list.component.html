@@ -1,40 +1,50 @@
 <div class="jumbotron">
-  <h1 class="display-3">Book List</h1>
-  <p class="lead">Description.</p>
-  <button type="button" class="btn btn-outline-success" (click)="openCreateBookModal(content)">Create Book</button>
+  <h1 class="display-3">{{ 'PAGES.DASHBOARD.BOOK_LIST.TITLE' | translate }}</h1>
+  <p class="lead" [innerHTML]="'PAGES.DASHBOARD.BOOK_LIST.DESCRIPTION' | translate"></p>
+  <button type="button" class="btn btn-outline-success" (click)="openCreateBookModal(content)">{{ 'BUTTONS.BOOK.CREATE_BOOK' | translate }}</button>
   <hr class="my-4">
 
-  <div class="list-group">
-    <a href="#" class="list-group-item list-group-item-action active">Book 1</a>
-    <a href="#" class="list-group-item list-group-item-action">Book 2</a>
-    <a href="#" class="list-group-item list-group-item-action disabled">Book 3</a>
+  <div class="list-group" *ngIf="books.length">
+<!--    <a href="#" class="list-group-item list-group-item-action active">Book 1</a>-->
+<!--    <a href="#" class="list-group-item list-group-item-action">Book 2</a>-->
+<!--    <a href="#" class="list-group-item list-group-item-action disabled">Book 3</a>-->
+
+    <a href="#" class="list-group-item list-group-item-action" *ngFor="let book of books">{{book.name}}</a>
   </div>
+
+  <div class="text-center text-danger" *ngIf="!books.length">{{ 'COMMON.CONTENT.EMPTY_LIST' | translate }}</div>
 </div>
 
 <ng-template #content let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Create New Book</h4>
+    <h4 class="modal-title" id="modal-basic-title">{{ 'PAGES.DASHBOARD.BOOK_LIST.MODAL.TITLE' | translate }}</h4>
     <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
 
   <div class="modal-body">
-    <form>
+    <form [formGroup]="form">
       <div class="form-group">
-        <label for="field-name">Name</label>
-        <input type="text" class="form-control" id="field-name" placeholder="Enter name">
-        <small id="emailHelp" class="form-text text-muted">Come up with a name for the book.</small>
+        <label for="field-name">{{ 'COMMON.FIELDS.NAME' | translate }}</label>
+        <input type="text" class="form-control" id="field-name" formControlName="name" placeholder="{{ 'COMMON.FIELDS.NAME_PLACEHOLDER' | translate }}">
+        <small class="form-text text-danger" *ngIf="form.get('name').invalid && form.get('name').touched">
+          <span *ngIf="form.get('name').errors.required">{{ 'ERRORS.FIELDS.REQUIRED' | translate }}</span>
+          <span *ngIf="form.get('name').errors.minlength" [translate]="'ERRORS.FIELDS.MIN_LENGTH'" [translateParams]="{requiredLength: form.get('name').errors.minlength.requiredLength, actualLength: form.get('name').errors.minlength.actualLength}"></span>
+        </small>
       </div>
 
       <div class="form-group">
-        <label for="field-description">Description</label>
-        <textarea class="form-control" id="field-description" rows="3"></textarea>
+        <label for="field-description">{{ 'COMMON.FIELDS.DESCRIPTION' | translate }}</label>
+        <textarea class="form-control" id="field-description" rows="3" formControlName="description" placeholder="{{ 'COMMON.FIELDS.DESCRIPTION_PLACEHOLDER' | translate }}"></textarea>
+        <small class="form-text text-danger" *ngIf="form.get('description').invalid && form.get('description').touched">
+          <span *ngIf="form.get('description').errors.required">{{ 'ERRORS.FIELDS.REQUIRED' | translate }}</span>
+        </small>
       </div>
     </form>
   </div>
 
   <div class="modal-footer">
-    <button type="button" class="btn btn-outline-success" (click)="c('Save click')">Save</button>
+    <button type="button" class="btn btn-outline-success" [disabled]="form.invalid" (click)="createBook()">{{ 'BUTTONS.COMMON.SAVE' | translate }}</button>
   </div>
 </ng-template>

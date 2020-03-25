@@ -7,6 +7,8 @@ import { SharedModule } from '../shared/shared.module';
 import { DashboardComponent } from './dashboard.component';
 import { BookListComponent } from './book-list/book-list.component';
 
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+
 @NgModule({
   declarations: [
     DashboardComponent,
@@ -15,7 +17,9 @@ import { BookListComponent } from './book-list/book-list.component';
   imports: [
     CommonModule,
     SharedModule,
-    DashboardRoutingModule
+    DashboardRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
   ]
 })
 export class DashboardModule {}

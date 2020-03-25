@@ -36,7 +36,6 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     DashboardModule,
     BrowserModule,
     AppRoutingModule,
-    FormsModule,
     NgbModule,
     HttpClientModule,
     TranslateModule.forRoot({

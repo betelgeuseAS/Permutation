@@ -1,9 +1,7 @@
-@import "../node_modules/bootswatch/dist/sketchy/_variables.scss"
+@import "./sass/var"
 @import "../node_modules/bootstrap/scss/bootstrap.scss"
 @import "../node_modules/bootswatch/dist/sketchy/_bootswatch.scss"
 @import "../node_modules/bootswatch/dist/sketchy/bootstrap.min.css"
-
-@import "./sass/var"
 
 //*
 //  outline: none
@@ -50,6 +48,7 @@ body
   &.img-width
     width: 100%
 
+// Scroll
 ::-webkit-scrollbar-button
   height: 15px
   background: $light
@@ -61,5 +60,12 @@ body
   width: 5px
 ::-webkit-scrollbar
   width: 10px
+
+// Form validator
+input, textarea
+  &.ng-invalid.ng-touched
+    border-color: $danger
+  &.ng-valid.ng-touched
+    border-color: $success
 
 @import "./sass/media"

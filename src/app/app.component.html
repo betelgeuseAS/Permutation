@@ -7,17 +7,3 @@
 
   <router-outlet></router-outlet>
 </div>
-
-<form>
-  <input placeholder="First name" name="firstName" [(ngModel)]="firstName">
-  <input placeholder="Last name" name="lastName" [(ngModel)]="lastName">
-  <input placeholder="Age" name=age [(ngModel)]="age">
-
-  <button type="button" (click)="addUser()">submit</button>
-</form>
-
-<br>
-
-<pre>
-  {{ users | json }}
-</pre>

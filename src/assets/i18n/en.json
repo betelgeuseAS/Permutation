@@ -1,7 +1,40 @@
 {
   "PAGES": {
-      "DASHBOARD": {
-          "TITLE": "App works !"
+    "DASHBOARD": {
+      "BOOK_LIST": {
+        "TITLE": "Books List",
+        "DESCRIPTION": "Create a <strong class=\"text-danger\">new</strong> book or go to an <strong class=\"text-danger\">existing</strong> book.",
+        "MODAL": {
+          "TITLE": "Create New Book"
+        }
       }
+    }
+  },
+  "BUTTONS": {
+    "COMMON": {
+      "SAVE": "Save"
+    },
+    "BOOK": {
+      "CREATE_BOOK": "Create Book"
+    }
+  },
+  "COMMON": {
+    "CONTENT": {
+      "LOADING": "Loading...",
+      "PAGE_NOT_FOUND": "Page Not Found!",
+      "EMPTY_LIST": "Empty List"
+    },
+    "FIELDS": {
+      "NAME": "Name",
+      "NAME_PLACEHOLDER": "Enter Name",
+      "DESCRIPTION": "Description",
+      "DESCRIPTION_PLACEHOLDER": "Enter Description"
+    }
+  },
+  "ERRORS": {
+    "FIELDS": {
+      "REQUIRED": "Required field",
+      "MIN_LENGTH": "Minimum length: {{requiredLength}}, now: {{actualLength}}"
+    }
   }
 }
