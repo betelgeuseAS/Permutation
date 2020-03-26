@@ -7,13 +7,6 @@ import { DatabaseService } from '../../data-access/database.service';
 
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
-export interface BookInterface {
-  id?: number;
-  name: string;
-  description: string;
-  position?: number;
-}
-
 @Component({
   selector: 'app-book-list',
   templateUrl: './book-list.component.html',
@@ -26,11 +19,7 @@ export interface BookInterface {
 export class BookListComponent implements OnInit {
 
   form: FormGroup;
-
   books: Book[] = [];
-
-  name = '';
-  description = '';
 
   constructor(
     config: NgbModalConfig,
@@ -55,6 +44,11 @@ export class BookListComponent implements OnInit {
     this.modalService.open(content, { size: 'lg'/*, centered: true*/ });
   }
 
+  closeCreateBookModal() {
+    this.form.reset();
+    this.modalService.dismissAll('Close create book.');
+  }
+
   getBooks() {
     this.databaseService
       .connection
@@ -66,10 +60,11 @@ export class BookListComponent implements OnInit {
 
   createBook() {
     if (this.form.valid) {
+      let {name, description} = this.form.value;
       const book = new Book();
 
-      book.name = this.name;
-      book.description = this.description;
+      book.name = name;
+      book.description = description;
 
       this.databaseService
         .connection
@@ -78,8 +73,8 @@ export class BookListComponent implements OnInit {
           this.getBooks();
         })
         .then(() => {
-          this.name = '';
-          this.description = '';
+          name = '';
+          description = '';
         });
     }
   }

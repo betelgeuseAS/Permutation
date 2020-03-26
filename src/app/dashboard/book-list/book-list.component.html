@@ -1,7 +1,7 @@
 <div class="jumbotron">
   <h1 class="display-3">{{ 'PAGES.DASHBOARD.BOOK_LIST.TITLE' | translate }}</h1>
   <p class="lead" [innerHTML]="'PAGES.DASHBOARD.BOOK_LIST.DESCRIPTION' | translate"></p>
-  <button type="button" class="btn btn-outline-success" (click)="openCreateBookModal(content)">{{ 'BUTTONS.BOOK.CREATE_BOOK' | translate }}</button>
+  <button type="button" class="btn btn-outline-success" (click)="openCreateBookModal(contentBook)">{{ 'BUTTONS.BOOK.CREATE_BOOK' | translate }}</button>
   <hr class="my-4">
 
   <div class="list-group" *ngIf="books.length">
@@ -15,10 +15,10 @@
   <div class="text-center text-danger" *ngIf="!books.length">{{ 'COMMON.CONTENT.EMPTY_LIST' | translate }}</div>
 </div>
 
-<ng-template #content let-c="close" let-d="dismiss">
+<ng-template #contentBook>
   <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title">{{ 'PAGES.DASHBOARD.BOOK_LIST.MODAL.TITLE' | translate }}</h4>
-    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+    <button type="button" class="close" aria-label="Close" (click)="closeCreateBookModal()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -45,6 +45,6 @@
   </div>
 
   <div class="modal-footer">
-    <button type="button" class="btn btn-outline-success" [disabled]="form.invalid" (click)="createBook()">{{ 'BUTTONS.COMMON.SAVE' | translate }}</button>
+    <button type="button" ngbAutofocus class="btn btn-outline-success" [disabled]="form.invalid" (click)="createBook()">{{ 'BUTTONS.COMMON.SAVE' | translate }}</button>
   </div>
 </ng-template>
