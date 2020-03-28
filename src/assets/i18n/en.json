@@ -8,6 +8,15 @@
           "TITLE": "Create New Book"
         }
       }
+    },
+    "BOOK": {
+      "HERO_LIST": {
+        "TITLE": "Heroes List",
+        "DESCRIPTION": "Create a <strong class=\"text-danger\">new</strong> hero or go to an <strong class=\"text-danger\">existing</strong> hero.",
+        "MODAL": {
+          "TITLE": "Create New Hero"
+        }
+      }
     }
   },
   "BUTTONS": {
@@ -16,6 +25,9 @@
     },
     "BOOK": {
       "CREATE_BOOK": "Create Book"
+    },
+    "HERO": {
+      "CREATE_HERO": "Create Hero"
     }
   },
   "COMMON": {

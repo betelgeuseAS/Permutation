@@ -1,0 +1,46 @@
+<div class="jumbotron">
+  <h1 class="display-3">{{ 'PAGES.BOOK.HERO_LIST.TITLE' | translate }}</h1>
+  <p class="lead" [innerHTML]="'PAGES.BOOK.HERO_LIST.DESCRIPTION' | translate"></p>
+  <button type="button" class="btn btn-outline-success" (click)="openCreateHeroModal(contentHero)">{{ 'BUTTONS.HERO.CREATE_HERO' | translate }}</button>
+  <hr class="my-4">
+
+  <div class="list-group" *ngIf="heroes.length">
+    <a routerLink="/book/{{hero.id}}" routerLinkActive="active" class="list-group-item list-group-item-action" *ngFor="let hero of heroes">{{hero.name}}</a>
+  </div>
+
+  <div class="text-center text-danger" *ngIf="!heroes.length">{{ 'COMMON.CONTENT.EMPTY_LIST' | translate }}</div>
+</div>
+
+<ng-template #contentHero>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">{{ 'PAGES.BOOK.HERO_LIST.MODAL.TITLE' | translate }}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="closeCreateHeroModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <form [formGroup]="form">
+      <div class="form-group">
+        <label for="field-name">{{ 'COMMON.FIELDS.NAME' | translate }}</label>
+        <input type="text" class="form-control" id="field-name" formControlName="name" placeholder="{{ 'COMMON.FIELDS.NAME_PLACEHOLDER' | translate }}">
+        <small class="form-text text-danger" *ngIf="form.get('name').invalid && form.get('name').touched">
+          <span *ngIf="form.get('name').errors.required">{{ 'ERRORS.FIELDS.REQUIRED' | translate }}</span>
+          <span *ngIf="form.get('name').errors.minlength" [translate]="'ERRORS.FIELDS.MIN_LENGTH'" [translateParams]="{requiredLength: form.get('name').errors.minlength.requiredLength, actualLength: form.get('name').errors.minlength.actualLength}"></span>
+        </small>
+      </div>
+
+      <div class="form-group">
+        <label for="field-description">{{ 'COMMON.FIELDS.DESCRIPTION' | translate }}</label>
+        <textarea class="form-control" id="field-description" rows="3" formControlName="description" placeholder="{{ 'COMMON.FIELDS.DESCRIPTION_PLACEHOLDER' | translate }}"></textarea>
+        <small class="form-text text-danger" *ngIf="form.get('description').invalid && form.get('description').touched">
+          <span *ngIf="form.get('description').errors.required">{{ 'ERRORS.FIELDS.REQUIRED' | translate }}</span>
+        </small>
+      </div>
+    </form>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" ngbAutofocus class="btn btn-outline-success" [disabled]="form.invalid" (click)="createHero()">{{ 'BUTTONS.COMMON.SAVE' | translate }}</button>
+  </div>
+</ng-template>
