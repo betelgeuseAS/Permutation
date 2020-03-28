@@ -18,6 +18,7 @@ import { DashboardModule } from './dashboard/dashboard.module';
 
 import { AppComponent } from './app.component';
 import { MenuComponent } from './shared/components/menu/menu.component';
+import { BookModule } from './book/book.module';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
@@ -33,6 +34,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     CoreModule,
     SharedModule,
     DashboardModule,
+    BookModule,
     BrowserModule,
     AppRoutingModule,
     NgbModule,

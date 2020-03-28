@@ -9,7 +9,7 @@
 <!--    <a href="#" class="list-group-item list-group-item-action">Book 2</a>-->
 <!--    <a href="#" class="list-group-item list-group-item-action disabled">Book 3</a>-->
 
-    <a href="#" class="list-group-item list-group-item-action" *ngFor="let book of books">{{book.name}}</a>
+    <a routerLink="/book/{{book.id}}" routerLinkActive="active" class="list-group-item list-group-item-action" *ngFor="let book of books">{{book.name}}</a>
   </div>
 
   <div class="text-center text-danger" *ngIf="!books.length">{{ 'COMMON.CONTENT.EMPTY_LIST' | translate }}</div>
