@@ -26,7 +26,6 @@
         <input type="text" class="form-control" id="field-name" formControlName="name" placeholder="{{ 'COMMON.FIELDS.NAME_PLACEHOLDER' | translate }}">
         <small class="form-text text-danger" *ngIf="form.get('name').invalid && form.get('name').touched">
           <span *ngIf="form.get('name').errors.required">{{ 'ERRORS.FIELDS.REQUIRED' | translate }}</span>
-          <span *ngIf="form.get('name').errors.minlength" [translate]="'ERRORS.FIELDS.MIN_LENGTH'" [translateParams]="{requiredLength: form.get('name').errors.minlength.requiredLength, actualLength: form.get('name').errors.minlength.actualLength}"></span>
         </small>
       </div>
 

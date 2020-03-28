@@ -3,6 +3,7 @@ import { Connection, ConnectionOptions, createConnection } from 'typeorm';
 import { Settings } from './repositories/settings';
 
 import { Book } from './entities/book.entity';
+import { Hero } from './entities/hero.entity';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,7 @@ export class DatabaseService {
     this.options = {
       type: 'sqlite',
       database: Settings.dbPath,
-      entities: [Book],
+      entities: [Book, Hero],
       synchronize: true,
       logging: 'all',
     };

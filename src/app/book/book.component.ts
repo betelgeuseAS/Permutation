@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute} from '@angular/router';
-import {Subscription} from 'rxjs';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
@@ -15,7 +15,6 @@ export class BookComponent implements OnInit {
   constructor(
     private activateRoute: ActivatedRoute
   ) {
-
     this.subscription = activateRoute.params.subscribe(params => this.id = params['id']);
   }
 
