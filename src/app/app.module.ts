@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { CoreModule } from './core/core.module';
@@ -31,6 +32,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     MenuComponent
   ],
   imports: [
+    CommonModule,
     CoreModule,
     SharedModule,
     DashboardModule,

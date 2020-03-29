@@ -1,9 +1,8 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
 import { PageNotFoundComponent } from './components/';
 import { WebviewDirective } from './directives/';
-import { FormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -13,14 +12,14 @@ import { TranslateModule } from '@ngx-translate/core';
     WebviewDirective
   ],
   imports: [
-    CommonModule,
     TranslateModule,
     FormsModule
   ],
   exports: [
     TranslateModule,
     WebviewDirective,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class SharedModule {}
