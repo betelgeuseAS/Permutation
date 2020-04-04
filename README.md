@@ -108,3 +108,10 @@ Module dependencies were listed in "devDependencies" in package.json Moving them
 - Electron application SQLITE package has not been found installed  
 Execute command `npm run postinstall`.  
 SQLite3 is a native Node.js module so it can't be used directly with Electron without rebuilding it to target Electron.The electron-builder will build the native module for our platform and we can then require it in code as normal.
+
+- Circular Dependencies  
+I'm set `"showCircularDependencies": false` in angular.json and you don't see messages about circular dependencies, but command `npx madge --circular --extensions ts ./` show you all circular. And if you see a warning about circular dependencies related with TypeORM entities - just ignore them, but only them.
+Why I set `showCircularDependencies`, because in TypeORM in entity i use `@OneToMany / @ManyToOne` and I permanent see warning about circular dependencies, this should be avoided. But in TypeORM this is acceptable.  
+Description: Beware that circular dependencies can be pretty dangerous, as they lead to null/undefined references that may be hard to debug. That's why I find the warnings are overall helpful.  
+TypeORM can deal with it, because it forwards the reference using a typeFunction. That's btw. the reason you have to write @OneToMany(type => Something) instead of @OneToMany(Something) - because Something can be null/undefined at this time.  
+But if you by accident introduce another circular dependency, the compiler won't warn you, and debugging can be a hard time.  
