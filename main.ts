@@ -8,6 +8,19 @@ let win: BrowserWindow = null;
 const args = process.argv.slice(1);
 const serve: boolean = args.some(val => val === '--serve');
 
+// WARNING:
+// Electron Security Warning (Node.js Integration with Remote Content):
+// The core issue is that too many developers, especially newcomers to Electron, assume that
+// using http:// with nodeIntegration enabled is okay. It's not - the warning is correct, that's
+// a fairly severe security risk. The fact that a major boilerplate actually has that code in
+// there concerns me (a newcomer could easily assume that they could just replace the whole line
+// and point Electron at http://my-other-server.com).
+// process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true';
+// or
+process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = '1'; // Commit it into show warnings.
+// See (Do not enable Node.js Integration for Remote Content):
+// https://www.electronjs.org/docs/tutorial/security#2-do-not-enable-nodejs-integration-for-remote-content
+
 function createWindow() {
   const size = screen.getPrimaryDisplay().workAreaSize;
 
