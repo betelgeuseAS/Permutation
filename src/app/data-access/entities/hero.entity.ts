@@ -1,5 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, ManyToOne } from 'typeorm';
 
+import * as moment from 'moment';
+
 // import { Book } from './book.entity';
 import { IHero } from './IHero';
 import { IBook } from './IBook';
@@ -18,6 +20,9 @@ export class Hero extends BaseEntity implements IHero {
 
   @Column({default: 0})
   position: number;
+
+  @Column({default: moment().format('YYYY-MM-DD H:mm:ss')})
+  created: string;
 
   // WARNING: this path leads to circular dependencies:
   // @ManyToOne(type => Book, book => book.heroes, { nullable: false, eager: true, onDelete: 'CASCADE' })

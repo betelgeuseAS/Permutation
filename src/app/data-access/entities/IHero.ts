@@ -7,4 +7,6 @@ export interface IHero {
   description: string;
 
   position: number;
+
+  created: string;
 }

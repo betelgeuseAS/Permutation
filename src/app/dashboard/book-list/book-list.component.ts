@@ -52,7 +52,7 @@ export class BookListComponent implements OnInit {
   getBooks() {
     this.databaseService
       .connection
-      .then(() => Book.find({ select: ['id', 'name'] })) // get with relations: .find({relations: ['heroes']}) or .find({ select: ['id', 'name'], relations: ['heroes'] })
+      .then(() => Book.find()) // { select: ['id', 'name'] } or get with relations: .find({relations: ['heroes']}) or .find({ select: ['id', 'name'], relations: ['heroes'] })
       .then(books => {
         this.books = books;
       });

@@ -9,7 +9,16 @@
 <!--    <a href="#" class="list-group-item list-group-item-action">Book 2</a>-->
 <!--    <a href="#" class="list-group-item list-group-item-action disabled">Book 3</a>-->
 
-    <a routerLink="/book/{{book.id}}" routerLinkActive="active" class="list-group-item list-group-item-action" *ngFor="let book of books">{{book.name}}</a>
+<!--    <a routerLink="/book/{{book.id}}" routerLinkActive="active" class="list-group-item list-group-item-action" *ngFor="let book of books">{{book.name}}</a>-->
+
+    <div class="list-group-item list-group-item-action flex-column align-items-start" *ngFor="let book of books">
+      <div class="d-flex w-100 justify-content-between">
+        <h5 class="mb-1"><a routerLink="/book/{{book.id}}" routerLinkActive="active" class="nav-link pl-0">{{book.name}}</a></h5>
+        <small>{{book.created}}</small>
+      </div>
+      <p class="mb-1">{{book.description | slice:0:200}} <span *ngIf="book.description.length > 200">...</span></p>
+      <small>Your book.</small>
+    </div>
   </div>
 
   <div class="text-center text-danger" *ngIf="!books.length">{{ 'COMMON.CONTENT.EMPTY_LIST' | translate }}</div>

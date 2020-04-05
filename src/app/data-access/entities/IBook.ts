@@ -7,4 +7,6 @@ export interface IBook {
   description: string;
 
   position: number;
+
+  created: string;
 }
