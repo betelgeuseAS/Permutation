@@ -19,7 +19,6 @@ var serve = args.some(function (val) { return val === '--serve'; });
 process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = '1'; // Commit it into show warnings.
 // See (Do not enable Node.js Integration for Remote Content):
 // https://www.electronjs.org/docs/tutorial/security#2-do-not-enable-nodejs-integration-for-remote-content
-
 function createWindow() {
     var size = electron_1.screen.getPrimaryDisplay().workAreaSize;
     win = new electron_1.BrowserWindow({
