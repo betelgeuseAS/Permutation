@@ -1,12 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
+import { Book } from '../../data-access/entities/book.entity';
 import { Hero } from '../../data-access/entities/hero.entity';
 import { DatabaseService } from '../../data-access/database.service';
-
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Book } from '../../data-access/entities/book.entity';
 
 @Component({
   selector: 'app-hero-list',
@@ -19,6 +18,8 @@ import { Book } from '../../data-access/entities/book.entity';
 })
 export class HeroListComponent implements OnInit {
 
+  @Input() book: Book;
+
   form: FormGroup;
   heroes: Hero[] = [];
 
@@ -29,8 +30,6 @@ export class HeroListComponent implements OnInit {
   ) {
     config.backdrop = 'static';
     config.keyboard = false;
-
-    this.getHeroes();
   }
 
   ngOnInit(): void {
@@ -38,6 +37,9 @@ export class HeroListComponent implements OnInit {
       name: new FormControl('', Validators.required),
       description: new FormControl('', Validators.required)
     });
+
+    // Here we can get data from @Input.
+    // this.getHeroesByBookId(this.book.id);
   }
 
   openCreateHeroModal(content) {
@@ -49,12 +51,12 @@ export class HeroListComponent implements OnInit {
     this.modalService.dismissAll('Close create book.');
   }
 
-  getHeroes() {
+  getHeroesByBookId(bookId) {
     this.databaseService
       .connection
-      .then(() => Hero.find({relations: ['book']}))
+      .then(() => Hero.find({ where: {book: {id: bookId}},  relations: ['book'] }))
       .then(heroes => {
-        this.heroes = heroes;
+        this.book.heroes = heroes;
       });
   }
 
@@ -65,13 +67,13 @@ export class HeroListComponent implements OnInit {
 
       hero.name = name;
       hero.description = description;
-      // hero.book = book: Book;
+      hero.book = this.book;
 
       this.databaseService
         .connection
         .then(() => hero.save())
         .then(() => {
-          this.getHeroes();
+          this.getHeroesByBookId(this.book.id);
         })
         .then(() => {
           name = '';

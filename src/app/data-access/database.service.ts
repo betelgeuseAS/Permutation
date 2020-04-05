@@ -20,7 +20,7 @@ export class DatabaseService {
       database: Settings.dbPath,
       entities: [Book, Hero],
       synchronize: true,
-      logging: 'all',
+      // logging: 'all',
     };
     this.connection = createConnection(this.options);
   }

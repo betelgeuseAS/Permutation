@@ -1,20 +1,26 @@
-<div class="row">
+<div class="row" *ngIf="book">
   <div class="col">
     <div class="alert alert-dismissible alert-info">
       <button type="button" class="close" data-dismiss="alert">&times;</button>
       <strong>Book id: </strong>
       <a href="#" class="alert-link">{{id}}</a>
     </div>
+
+    <div class="alert alert-dismissible alert-success">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      <strong>Description: </strong>
+      <p>{{book.description}}</p>
+    </div>
   </div>
 </div>
 
-<div class="row">
+<div class="row" *ngIf="book">
   <div class="col-md-4">
     Notes
   </div>
 
   <div class="col-md-4">
-    <app-hero-list></app-hero-list>
+    <app-hero-list [book]="book"></app-hero-list>
   </div>
 
   <div class="col-md-4">

@@ -1,14 +1,15 @@
-<div class="jumbotron">
+<div class="jumbotron" *ngIf="book">
+  <p>{{book.name}}</p>
   <h1 class="display-3">{{ 'PAGES.BOOK.HERO_LIST.TITLE' | translate }}</h1>
   <p class="lead" [innerHTML]="'PAGES.BOOK.HERO_LIST.DESCRIPTION' | translate"></p>
   <button type="button" class="btn btn-outline-success" (click)="openCreateHeroModal(contentHero)">{{ 'BUTTONS.HERO.CREATE_HERO' | translate }}</button>
   <hr class="my-4">
 
-  <div class="list-group" *ngIf="heroes.length">
-    <a routerLink="/book/{{hero.id}}" routerLinkActive="active" class="list-group-item list-group-item-action" *ngFor="let hero of heroes">{{hero.name}}</a>
+  <div class="list-group" *ngIf="book.heroes.length">
+    <a routerLink="/book/:id/hero/{{hero.id}}" routerLinkActive="active" class="list-group-item list-group-item-action" *ngFor="let hero of book.heroes">{{hero.name}}</a>
   </div>
 
-  <div class="text-center text-danger" *ngIf="!heroes.length">{{ 'COMMON.CONTENT.EMPTY_LIST' | translate }}</div>
+  <div class="text-center text-danger" *ngIf="!book.heroes.length">{{ 'COMMON.CONTENT.EMPTY_LIST' | translate }}</div>
 </div>
 
 <ng-template #contentHero>
