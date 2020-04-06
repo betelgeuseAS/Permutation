@@ -7,10 +7,13 @@ import { WebviewDirective } from './directives/';
 
 import { TranslateModule } from '@ngx-translate/core';
 
+import { MomentPipe } from './pipes/moment.pipe';
+
 @NgModule({
   declarations: [
     PageNotFoundComponent,
-    WebviewDirective
+    WebviewDirective,
+    MomentPipe
   ],
   imports: [
     TranslateModule,
@@ -21,7 +24,8 @@ import { TranslateModule } from '@ngx-translate/core';
     WebviewDirective,
     FormsModule,
     ReactiveFormsModule,
-    DragDropModule
+    DragDropModule,
+    MomentPipe
   ]
 })
 export class SharedModule {}
