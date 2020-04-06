@@ -4,20 +4,24 @@
   <button type="button" class="btn btn-outline-success" (click)="openCreateBookModal(contentBook)">{{ 'BUTTONS.BOOK.CREATE_BOOK' | translate }}</button>
   <hr class="my-4">
 
-  <div class="list-group" *ngIf="books.length">
+  <div class="list-group" *ngIf="books.length" cdkDropList (cdkDropListDropped)="drop($event)">
 <!--    <a href="#" class="list-group-item list-group-item-action active">Book 1</a>-->
 <!--    <a href="#" class="list-group-item list-group-item-action">Book 2</a>-->
 <!--    <a href="#" class="list-group-item list-group-item-action disabled">Book 3</a>-->
 
 <!--    <a routerLink="/book/{{book.id}}" routerLinkActive="active" class="list-group-item list-group-item-action" *ngFor="let book of books">{{book.name}}</a>-->
 
-    <div class="list-group-item list-group-item-action flex-column align-items-start" *ngFor="let book of books">
+    <div class="list-group-item list-group-item-action flex-column align-items-start" *ngFor="let book of books" cdkDrag>
       <div class="d-flex w-100 justify-content-between">
         <h5 class="mb-1"><a routerLink="/book/{{book.id}}" routerLinkActive="active" class="nav-link pl-0">{{book.name}}</a></h5>
         <small>{{book.created}}</small>
       </div>
       <p class="mb-1">{{book.description | slice:0:200}} <span *ngIf="book.description.length > 200">...</span></p>
-      <small>Your book.</small>
+      <small>Position: {{book.position}}</small>
+
+      <div cdkDragHandle>
+        <img src="../../../assets/icons/drag-and-drop.png" alt="drag">
+      </div>
     </div>
   </div>
 

@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 import { PageNotFoundComponent } from './components/';
 import { WebviewDirective } from './directives/';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -19,7 +20,8 @@ import { TranslateModule } from '@ngx-translate/core';
     TranslateModule,
     WebviewDirective,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    DragDropModule
   ]
 })
 export class SharedModule {}

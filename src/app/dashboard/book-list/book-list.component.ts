@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { getManager } from 'typeorm';
 
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -52,7 +54,7 @@ export class BookListComponent implements OnInit {
   getBooks() {
     this.databaseService
       .connection
-      .then(() => Book.find()) // { select: ['id', 'name'] } or get with relations: .find({relations: ['heroes']}) or .find({ select: ['id', 'name'], relations: ['heroes'] })
+      .then(() => Book.find({order: {position: 'ASC'}})) // { select: ['id', 'name'] } or get with relations: .find({relations: ['heroes']}) or .find({ select: ['id', 'name'], relations: ['heroes'] })
       .then(books => {
         this.books = books;
       });
@@ -75,7 +77,25 @@ export class BookListComponent implements OnInit {
         .then(() => {
           name = '';
           description = '';
+
+          this.closeCreateBookModal();
         });
+    }
+  }
+
+  drop(event: CdkDragDrop<string[]>) {
+    console.log(event);
+    moveItemInArray(this.books, event.previousIndex, event.currentIndex);
+
+    this.books.forEach((book, index) => {
+      book.position = index;
+    });
+
+    try {
+      const entityManager = getManager();
+      entityManager.save(this.books);
+    } catch (e) {
+      console.log(e);
     }
   }
 }
