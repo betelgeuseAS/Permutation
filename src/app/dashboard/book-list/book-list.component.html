@@ -4,7 +4,7 @@
   <button type="button" class="btn btn-outline-success" (click)="openCreateBookModal(contentBook)">{{ 'BUTTONS.BOOK.CREATE_BOOK' | translate }}</button>
   <hr class="my-4">
 
-  <div class="list-group" *ngIf="books.length" cdkDropList (cdkDropListDropped)="drop($event)">
+  <div class="list-group" *ngIf="books.length" cdkDropList (cdkDropListDropped)="dragDropEntities($event)">
 <!--    <a href="#" class="list-group-item list-group-item-action active">Book 1</a>-->
 <!--    <a href="#" class="list-group-item list-group-item-action">Book 2</a>-->
 <!--    <a href="#" class="list-group-item list-group-item-action disabled">Book 3</a>-->

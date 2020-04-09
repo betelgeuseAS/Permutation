@@ -27,8 +27,8 @@ export class BookComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  async getBookById(bookId) {
-    await this.databaseService
+  getBookById(bookId) {
+    this.databaseService
       .connection
       .then(() => Book.findOne({ where: {id: bookId},  relations: ['heroes'] }))
       .then(book => {

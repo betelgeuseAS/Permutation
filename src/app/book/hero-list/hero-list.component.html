@@ -4,8 +4,19 @@
   <button type="button" class="btn btn-outline-success" (click)="openCreateHeroModal(contentHero)">{{ 'BUTTONS.HERO.CREATE_HERO' | translate }}</button>
   <hr class="my-4">
 
-  <div class="list-group" *ngIf="book.heroes.length">
-    <a routerLink="/book/:id/hero/{{hero.id}}" routerLinkActive="active" class="list-group-item list-group-item-action" *ngFor="let hero of book.heroes">{{hero.name}}</a>
+  <div class="list-group" *ngIf="book.heroes.length" cdkDropList (cdkDropListDropped)="dragDropEntities($event)">
+    <div class="list-group-item list-group-item-action flex-column align-items-start" *ngFor="let hero of book.heroes" cdkDrag>
+      <div class="d-flex w-100 justify-content-between">
+        <h5 class="mb-1"><a routerLink="/book/{{hero.id}}" routerLinkActive="active" class="nav-link pl-0">{{hero.name}}</a></h5>
+        <small>{{hero.created | date:'dd MMMM yyyy'}}</small>
+      </div>
+      <p class="mb-1">{{hero.description | slice:0:200}} <span *ngIf="hero.description.length > 200">...</span></p>
+      <small>Position: {{hero.position}}</small>
+
+      <div cdkDragHandle>
+        <img src="../../../assets/icons/drag-and-drop.png" alt="drag">
+      </div>
+    </div>
   </div>
 
   <div class="text-center text-danger" *ngIf="!book.heroes.length">{{ 'COMMON.CONTENT.EMPTY_LIST' | translate }}</div>

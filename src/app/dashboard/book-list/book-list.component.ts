@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { getManager } from 'typeorm';
+import { CdkDragDrop } from '@angular/cdk/drag-drop';
 
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { Book } from '../../data-access/entities/book.entity';
 import { DatabaseService } from '../../data-access/database.service';
+
+import { DragAndDropService } from '../../shared/services/drag-and-drop.service';
 
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
@@ -26,7 +27,8 @@ export class BookListComponent implements OnInit {
   constructor(
     config: NgbModalConfig,
     private modalService: NgbModal,
-    private databaseService: DatabaseService
+    private databaseService: DatabaseService,
+    private dragAndDropService: DragAndDropService
   ) {
     // Customize default values of modals used by this component tree
     config.backdrop = 'static';
@@ -83,19 +85,7 @@ export class BookListComponent implements OnInit {
     }
   }
 
-  drop(event: CdkDragDrop<string[]>) {
-    console.log(event);
-    moveItemInArray(this.books, event.previousIndex, event.currentIndex);
-
-    this.books.forEach((book, index) => {
-      book.position = index;
-    });
-
-    try {
-      const entityManager = getManager();
-      entityManager.save(this.books);
-    } catch (e) {
-      console.log(e);
-    }
+  dragDropEntities(event: CdkDragDrop<string[]>) {
+    this.dragAndDropService.dragDropEntities(event, this.books);
   }
 }

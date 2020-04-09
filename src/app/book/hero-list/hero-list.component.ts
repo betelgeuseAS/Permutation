@@ -1,11 +1,14 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {CdkDragDrop} from '@angular/cdk/drag-drop';
 
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { Book } from '../../data-access/entities/book.entity';
 import { Hero } from '../../data-access/entities/hero.entity';
 import { DatabaseService } from '../../data-access/database.service';
+
+import {DragAndDropService} from '../../shared/services/drag-and-drop.service';
 
 @Component({
   selector: 'app-hero-list',
@@ -26,7 +29,8 @@ export class HeroListComponent implements OnInit {
   constructor(
     config: NgbModalConfig,
     private modalService: NgbModal,
-    private databaseService: DatabaseService
+    private databaseService: DatabaseService,
+    private dragAndDropService: DragAndDropService,
   ) {
     config.backdrop = 'static';
     config.keyboard = false;
@@ -82,5 +86,9 @@ export class HeroListComponent implements OnInit {
           this.closeCreateHeroModal();
         });
     }
+  }
+
+  dragDropEntities(event: CdkDragDrop<string[]>) {
+    this.dragAndDropService.dragDropEntities(event, this.heroes);
   }
 }
