@@ -10,6 +10,8 @@ import { DatabaseService } from '../../data-access/database.service';
 
 import {DragAndDropService} from '../../shared/services/drag-and-drop.service';
 
+import * as moment from 'moment';
+
 @Component({
   selector: 'app-hero-list',
   templateUrl: './hero-list.component.html',
@@ -71,6 +73,7 @@ export class HeroListComponent implements OnInit {
 
       hero.name = name;
       hero.description = description;
+      hero.created = moment().format('YYYY-MM-DD H:mm:ss');
       hero.book = this.book;
 
       this.databaseService

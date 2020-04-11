@@ -10,6 +10,8 @@ import { DragAndDropService } from '../../shared/services/drag-and-drop.service'
 
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
+import * as moment from 'moment';
+
 @Component({
   selector: 'app-book-list',
   templateUrl: './book-list.component.html',
@@ -69,6 +71,7 @@ export class BookListComponent implements OnInit {
 
       book.name = name;
       book.description = description;
+      book.created = moment().format('YYYY-MM-DD H:mm:ss');
 
       this.databaseService
         .connection
