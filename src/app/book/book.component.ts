@@ -30,9 +30,14 @@ export class BookComponent implements OnInit {
   getBookById(bookId) {
     this.databaseService
       .connection
-      .then(() => Book.findOne({ where: {id: bookId},  relations: ['heroes'] }))
+      .then(() => Book.findOne({ where: {id: bookId},  relations: ['heroes', 'heroes.imagePreview'] }))
       .then(book => {
         this.book = book;
       });
+
+    // let book = await repository.createQueryBuilder('book')
+    //   .innerJoinAndSelect('book.heroes', 'heroes')
+    //   .innerJoinAndSelect('heroes.imagePreview', 'imagePreview')
+    //   .getMany();
   }
 }

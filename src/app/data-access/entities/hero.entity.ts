@@ -1,6 +1,7 @@
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, ManyToOne } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, ManyToOne, OneToOne, JoinColumn } from 'typeorm';
 
 import { Book } from './book.entity';
+import { ImageHeroPreview } from './image-hero-preview.entity';
 
 @Entity({name: 'hero'})
 export class Hero extends BaseEntity {
@@ -26,4 +27,8 @@ export class Hero extends BaseEntity {
   // Than use implements interface and:
   @ManyToOne('Book', 'heroes', { nullable: false, eager: true, onDelete: 'CASCADE' })
   book: Book;
+
+  @OneToOne(type => ImageHeroPreview, { cascade: true, onDelete: 'CASCADE' })
+  @JoinColumn()
+  imagePreview: ImageHeroPreview;
 }

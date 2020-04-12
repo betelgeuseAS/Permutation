@@ -46,7 +46,8 @@
   "ERRORS": {
     "FIELDS": {
       "REQUIRED": "Required field",
-      "MIN_LENGTH": "Minimum length: {{requiredLength}}, now: {{actualLength}}"
+      "MIN_LENGTH": "Minimum length: {{requiredLength}}, now: {{actualLength}}",
+      "FILE_TYPE": "Type not available. Allowed: {{allowType}}"
     }
   }
 }
