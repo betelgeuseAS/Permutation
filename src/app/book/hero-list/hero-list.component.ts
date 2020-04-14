@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 
@@ -13,7 +13,10 @@ import { DragAndDropService } from '../../shared/services/drag-and-drop.service'
 
 import { MyValidators } from '../../shared/validators/my.validators';
 
+import { FilepondService } from '../../shared/services/filepond.service';
+
 import * as moment from 'moment';
+import * as filepond from 'filepond';
 
 @Component({
   selector: 'app-hero-list',
@@ -27,16 +30,23 @@ import * as moment from 'moment';
 export class HeroListComponent implements OnInit {
 
   @Input() book: Book;
-
   form: FormGroup;
-  fileToUpload: File = null;
+  fileToUpload: filepond.File = null;
   heroes: Hero[] = [];
+
+  pondOptions = this.filepondService.getOptions({
+    allowImagePreview: true,
+    imageCropAspectRatio: '16:10',
+    acceptedFileTypes: ['image/jpg', 'image/jpeg', 'image/png']
+  });
+  pondFiles = this.filepondService.getFiles();
 
   constructor(
     config: NgbModalConfig,
     private modalService: NgbModal,
     private databaseService: DatabaseService,
     private dragAndDropService: DragAndDropService,
+    private filepondService: FilepondService
   ) {
     config.backdrop = 'static';
     config.keyboard = false;
@@ -82,20 +92,22 @@ export class HeroListComponent implements OnInit {
       hero.book = this.book;
 
       if (this.fileToUpload) {
+        const {file, filename, fileType, fileSize} = this.fileToUpload;
+
         const reader = new FileReader();
-        reader.readAsDataURL(this.fileToUpload);
+        reader.readAsDataURL(file);
 
         reader.onload = () => {
           const imageHeroPreview = new ImageHeroPreview();
-          imageHeroPreview.name = this.fileToUpload.name;
+          imageHeroPreview.name = filename;
 
           // Convert Image To Base64 string.
           // img to base64: https://www.base64-image.de/
           // base64 to img: https://codebeautify.org/base64-to-image-converter
           imageHeroPreview.data = typeof reader.result === 'string' ? reader.result : Buffer.from(reader.result).toString();
 
-          imageHeroPreview.mimeType = this.fileToUpload.type;
-          imageHeroPreview.size = this.fileToUpload.size;
+          imageHeroPreview.mimeType = fileType;
+          imageHeroPreview.size = fileSize;
 
           hero.imagePreview = imageHeroPreview;
 
@@ -138,11 +150,16 @@ export class HeroListComponent implements OnInit {
     this.closeCreateHeroModal();
   }
 
-  dragDropEntities(event: CdkDragDrop<string[]>) {
-    this.dragAndDropService.dragDropEntities(event, this.heroes);
+  pondHandleInit() {
+    console.log('FilePond has initialised');
   }
 
-  handleFileInput(files: FileList) {
-    this.fileToUpload = files.item(0);
+  pondHandleAddFile(event: any) {
+    this.fileToUpload = event.file;
+    console.log('A file was added', event);
+  }
+
+  dragDropEntities(event: CdkDragDrop<string[]>) {
+    this.dragAndDropService.dragDropEntities(event, this.heroes);
   }
 }
