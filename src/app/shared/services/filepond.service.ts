@@ -21,6 +21,15 @@ interface Options {
 })
 export class FilepondService {
 
+  // HTML:
+  // <file-pond
+  //   id="image-preview"
+  //   [options]="pondOptions"
+  //   [files]="pondFiles"
+  //   (oninit)="pondHandleInit()"
+  //   (onaddfile)="pondHandleAddFile($event)">
+  // </file-pond>
+
   // Events: https://pqina.nl/filepond/docs/patterns/api/filepond-instance/
   // document.addEventListener('FilePond:loaded', e => {});
 
