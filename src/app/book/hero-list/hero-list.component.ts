@@ -16,7 +16,7 @@ import { MyValidators } from '../../shared/validators/my.validators';
 import { FilepondService } from '../../shared/services/filepond.service';
 
 import * as moment from 'moment';
-import * as filepond from 'filepond';
+import * as Filepond from 'filepond';
 
 @Component({
   selector: 'app-hero-list',
@@ -31,7 +31,7 @@ export class HeroListComponent implements OnInit {
 
   @Input() book: Book;
   form: FormGroup;
-  fileToUpload: filepond.File = null;
+  fileToUpload: Filepond.File = null;
   heroes: Hero[] = [];
 
   pondOptions = this.filepondService.getOptions({
