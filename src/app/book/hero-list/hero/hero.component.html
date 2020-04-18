@@ -1,4 +1,46 @@
 <div class="jumbotron" *ngIf="hero">
   <h1 class="display-3">{{hero.name}}</h1>
-  <p class="lead">{{hero.description}}</p>
+
+  <div class="row">
+    <div class="col-md-6">
+      <p class="lead">{{hero.description}}</p>
+    </div>
+
+    <div class="col-md-6">
+      <div class="alert alert-dismissible alert-success">
+        <h4>Gallery</h4>
+
+        <div class="plain-container-row">
+          <ng-container *ngFor="let img of images; let i = index">
+            <div *ngIf="i <= 2">
+              <img *ngIf="img.plain && img.plain.img; else noThumb"
+                 class="my-app-custom-image-row"
+                 [src]="img.plain.img"
+                 (click)="ksGalleryService.openImageModalRow(img, images)"
+                 [alt]="img.modal.description"/>
+
+              <a class="more" *ngIf="i==2" (click)="ksGalleryService.openImageModalRow(img, images)"> +{{images.length - 2 - 1}} more </a>
+
+              <ng-template #noThumb>
+                <span class="cover-custom-image-row">
+                  <img class="custom-image-row"
+                     [src]="img.modal.img"
+                     (click)="ksGalleryService.openImageModalRow(img, images)"
+                     [alt]="img.modal.description"/>
+                </span>
+              </ng-template>
+            </div>
+          </ng-container>
+        </div>
+        <ks-modal-gallery
+          [id]="0"
+          [modalImages]="images"
+          [enableCloseOutside]="false"
+          [plainGalleryConfig]="ksGalleryService.customPlainGalleryRowConfig"
+          [previewConfig]="{visible: true, number: 5}"
+          [slideConfig]="{infinite: true}">
+        </ks-modal-gallery>
+      </div>
+    </div>
+  </div>
 </div>

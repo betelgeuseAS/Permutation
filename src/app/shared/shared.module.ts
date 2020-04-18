@@ -25,6 +25,10 @@ import { TranslateModule } from '@ngx-translate/core';
 
 import { MomentPipe } from './pipes/moment.pipe';
 
+import 'hammerjs';
+import 'mousetrap';
+import { GalleryModule } from '@ks89/angular-modal-gallery';
+
 @NgModule({
   declarations: [
     PageNotFoundComponent,
@@ -34,7 +38,8 @@ import { MomentPipe } from './pipes/moment.pipe';
   imports: [
     TranslateModule,
     FormsModule,
-    FilePondModule
+    FilePondModule,
+    GalleryModule.forRoot()
   ],
   exports: [
     TranslateModule,
@@ -43,7 +48,8 @@ import { MomentPipe } from './pipes/moment.pipe';
     ReactiveFormsModule,
     DragDropModule,
     MomentPipe,
-    FilePondModule
+    FilePondModule,
+    GalleryModule
   ]
 })
 export class SharedModule {}

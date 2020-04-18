@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 
+// import * as FilePond from 'filepond';
+
 interface Options {
   name?: string;
   className?: string;
@@ -23,9 +25,8 @@ export class FilepondService {
 
   // HTML:
   // <file-pond
-  //   id="image-preview"
-  //   [options]="pondOptions"
-  //   [files]="pondFiles"
+  //   [options]="options" - type: object
+  //   [files]="files" - type: Array<string>
   //   (oninit)="pondHandleInit()"
   //   (onaddfile)="pondHandleAddFile($event)">
   // </file-pond>
@@ -54,7 +55,7 @@ export class FilepondService {
      imagePreviewMaxHeight = 256,
      imageCropAspectRatio = '1:1',
      acceptedFileTypes = []
-   }: Options): object {
+   }: Options): object/*FilePond.FilePond*/ {
     return {
       // Core modules https://pqina.nl/filepond/docs/patterns/api/filepond-instance/
       element: null,
