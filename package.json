@@ -61,6 +61,7 @@
     "bootstrap": "^4.4.1",
     "bootswatch": "^4.4.1",
     "filepond": "^4.13.2",
+    "filepond-plugin-file-encode": "^2.1.5",
     "filepond-plugin-file-rename": "^1.1.4",
     "filepond-plugin-file-validate-type": "^1.2.5",
     "filepond-plugin-image-crop": "^2.0.3",

@@ -9,13 +9,15 @@ import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
 import FilePondPluginImageCrop from 'filepond-plugin-image-crop';
 import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orientation';
 import FilePondPluginImageValidateSize from 'filepond-plugin-image-validate-size';
+import FilePondPluginFileEncode from 'filepond-plugin-file-encode';
 registerPlugin(
   FilePondPluginImagePreview,
   FilePondPluginFileRename,
   FilePondPluginImageCrop,
   FilePondPluginImageExifOrientation,
   FilePondPluginFileValidateType,
-  FilePondPluginImageValidateSize
+  FilePondPluginImageValidateSize,
+  FilePondPluginFileEncode
 );
 
 import { PageNotFoundComponent } from './components/';
