@@ -201,7 +201,9 @@ export class FilepondService {
       labelFileTypeNotAllowed: 'File of invalid type',
       fileValidateTypeLabelExpectedTypes: 'Expects {allButLastType} or {lastType}',
       fileValidateTypeLabelExpectedTypesMap: {},
-      fileValidateTypeDetectType: null // (file, type) => { return Promise; }
+      fileValidateTypeDetectType: null, // (file, type) => { return Promise; }
+      // FileEncode (Plugin)
+      allowFileEncode: true
     };
   }
 
