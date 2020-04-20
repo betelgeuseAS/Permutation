@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-interface OwnImage {
+export interface KsOwnImage {
   data: string;
   alt?: string;
 }
@@ -31,12 +31,14 @@ export class KsGalleryService {
     this.customPlainGalleryRowConfig = Object.assign({}, this.customPlainGalleryRowConfig, { layout: new AdvancedLayout(index, true) });
   }
 
-  getImages(entities?: Array<OwnImage>): Image[] {
+  getImages(entities?: Array<KsOwnImage>): Image[] {
     return entities.map((item, index) => {
-      return new Image(
-        index,
-        {img: item.data, description: '', title: '', alt: item.alt, ariaLabel: ''}
-      );
+      if (item && item.data) {
+        return new Image(
+          index,
+          {img: item.data, description: '', title: '', alt: item.alt, ariaLabel: ''}
+        );
+      }
     });
   }
 }

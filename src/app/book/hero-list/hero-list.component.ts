@@ -32,6 +32,7 @@ export class HeroListComponent implements OnInit {
   @Input() book: Book;
   form: FormGroup;
   fileToUpload: Filepond.File = null;
+  fileBase64ToUpload: string;
   heroes: Hero[] = [];
 
   pondOptions = this.filepondService.getOptions({
@@ -92,59 +93,33 @@ export class HeroListComponent implements OnInit {
       hero.book = this.book;
 
       if (this.fileToUpload) {
-        const {file, filename, fileType, fileSize} = this.fileToUpload;
+        const {filename, fileType, fileSize} = this.fileToUpload;
 
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
+        const imageHeroPreview = new ImageHeroPreview();
+        imageHeroPreview.name = filename;
 
-        reader.onload = () => {
-          const imageHeroPreview = new ImageHeroPreview();
-          imageHeroPreview.name = filename;
+        // img to base64: https://www.base64-image.de/
+        // base64 to img: https://codebeautify.org/base64-to-image-converter
+        imageHeroPreview.data = this.fileBase64ToUpload;
 
-          // Convert Image To Base64 string.
-          // img to base64: https://www.base64-image.de/
-          // base64 to img: https://codebeautify.org/base64-to-image-converter
-          imageHeroPreview.data = typeof reader.result === 'string' ? reader.result : Buffer.from(reader.result).toString();
+        imageHeroPreview.mimeType = fileType;
+        imageHeroPreview.size = fileSize;
 
-          imageHeroPreview.mimeType = fileType;
-          imageHeroPreview.size = fileSize;
-
-          hero.imagePreview = imageHeroPreview;
-
-          this.databaseService
-            .connection
-            .then(() => hero.save())
-            .then(() => {
-              this.getHeroesByBookId(this.book.id);
-            })
-            .then(() => {
-              name = '';
-              description = '';
-
-              imageHeroPreview.name = '';
-              imageHeroPreview.data = '';
-              imageHeroPreview.mimeType = '';
-              imageHeroPreview.size = 0;
-
-              this.fileToUpload = null;
-            });
-        };
-
-        reader.onerror = (error) => {
-          console.log('Error: ', error);
-        };
-      } else {
-        this.databaseService
-          .connection
-          .then(() => hero.save())
-          .then(() => {
-            this.getHeroesByBookId(this.book.id);
-          })
-          .then(() => {
-            name = '';
-            description = '';
-          });
+        hero.imagePreview = imageHeroPreview;
       }
+
+      this.databaseService
+        .connection
+        .then(() => hero.save())
+        .then(() => {
+          this.getHeroesByBookId(this.book.id);
+        })
+        .then(() => {
+          name = '';
+          description = '';
+
+          this.fileToUpload = undefined;
+        });
     }
 
     this.closeCreateHeroModal();
@@ -156,7 +131,12 @@ export class HeroListComponent implements OnInit {
 
   pondHandleAddFile(event: any) {
     this.fileToUpload = event.file;
-    console.log('A file was added', event);
+    this.fileBase64ToUpload = event.file.getFileEncodeDataURL();
+  }
+
+  poundHandleRemoveFile(event: any) {
+    this.fileToUpload = undefined;
+    this.fileBase64ToUpload = undefined;
   }
 
   dragDropEntities(event: CdkDragDrop<string[]>) {
