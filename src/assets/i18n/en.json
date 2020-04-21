@@ -21,20 +21,23 @@
   },
   "BUTTONS": {
     "COMMON": {
-      "SAVE": "Save"
+      "SAVE": "Save",
+      "UPDATE": "Update"
     },
     "BOOK": {
       "CREATE_BOOK": "Create Book"
     },
     "HERO": {
-      "CREATE_HERO": "Create Hero"
+      "CREATE_HERO": "Create Hero",
+      "UPDATE_HERO": "Update Hero"
     }
   },
   "COMMON": {
     "CONTENT": {
       "LOADING": "Loading...",
       "PAGE_NOT_FOUND": "Page Not Found!",
-      "EMPTY_LIST": "Empty List"
+      "EMPTY_LIST": "Empty List",
+      "EMPTY_GALLERY": "Empty Gallery"
     },
     "FIELDS": {
       "NAME": "Name",
