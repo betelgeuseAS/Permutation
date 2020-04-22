@@ -95,9 +95,6 @@ export class HeroComponent implements OnInit {
       let {name, description} = this.form.value;
       const hero = this.hero;
 
-      // console.log(this.fileToUploadGallery);
-      // console.log(this.fileBase64ToUploadPreview);
-
       hero.name = name;
       hero.description = description;
 
