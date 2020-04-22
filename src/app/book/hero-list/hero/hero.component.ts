@@ -31,7 +31,7 @@ export class HeroComponent implements OnInit {
 
   pondOptionsGallery: Filepond.FilePondOptionProps = this.filepondService.getOptions({
     allowMultiple: true,
-    // maxFiles: 10,
+    maxFiles: 10,
     allowImagePreview: true,
     imageCropAspectRatio: '16:10',
     acceptedFileTypes: ['image/jpg', 'image/jpeg', 'image/png']

@@ -15,14 +15,14 @@
 
         <div class="plain-container-row" *ngIf="images.length">
           <ng-container *ngFor="let img of images; let i = index">
-            <div *ngIf="i <= 4">
+            <div *ngIf="i <= 2">
               <img *ngIf="img.plain && img.plain.img; else noThumb"
                    class="my-app-custom-image-row"
                    [src]="img.plain.img"
                    (click)="ksGalleryService.openImageModalRow(img, images)"
                    [alt]="img.modal.description"/>
 
-              <a class="more" *ngIf="i==4" (click)="ksGalleryService.openImageModalRow(img, images)"> +{{images.length - 5}} more </a>
+              <a class="more" *ngIf="i==2 && i>0" (click)="ksGalleryService.openImageModalRow(img, images)"> +{{images.length - 3}} more </a>
 
               <ng-template #noThumb>
                 <span class="cover-custom-image-row">
