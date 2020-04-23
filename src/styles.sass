@@ -58,6 +58,15 @@ body
   &.img-width
     width: 100%
 
+img
+  border-radius: 3px
+  user-drag: none
+  user-select: none
+  -moz-user-select: none
+  -webkit-user-drag: none
+  -webkit-user-select: none
+  -ms-user-select: none
+
 //----------------------------------------------------------------------------------------------------------------------
 // Scroll
 //----------------------------------------------------------------------------------------------------------------------
@@ -116,10 +125,20 @@ img[alt="drag"]
   .cover-custom-image-row
     object-fit: cover
     .custom-image-row
-      border-radius: 3px
       cursor: pointer
       height: 60px
       margin: 5px
+
+.close-image
+  background-image: url(./assets/icons/close.png) !important
+.left-arrow-image
+  background-image: url(./assets/icons/left.png) !important
+  opacity: .8
+  transition: .5s
+.right-arrow-image
+  background-image: url(./assets/icons/right.png) !important
+  opacity: .8
+  transition: .5s
 
 //----------------------------------------------------------------------------------------------------------------------
 // End

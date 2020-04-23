@@ -6,7 +6,7 @@ export interface KsOwnImage {
 }
 
 import {
-  AdvancedLayout,
+  AdvancedLayout, ButtonsConfig, ButtonsStrategy,
   Image,
   PlainGalleryConfig,
   PlainGalleryStrategy,
@@ -20,6 +20,11 @@ export class KsGalleryService {
   customPlainGalleryRowConfig: PlainGalleryConfig = {
     strategy: PlainGalleryStrategy.CUSTOM,
     layout: new AdvancedLayout(-1, true)
+  };
+
+  buttonsConfigFull: ButtonsConfig = {
+    visible: true,
+    strategy: ButtonsStrategy.FULL
   };
 
   private static getCurrentIndexCustomLayout(image: Image, images: Image[]): number {

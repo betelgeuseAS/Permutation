@@ -16,6 +16,11 @@
         "MODAL": {
           "TITLE": "Create New Hero"
         }
+      },
+      "HERO": {
+        "MODAL": {
+          "UPDATE_TITLE": "Update New Hero"
+        }
       }
     }
   },

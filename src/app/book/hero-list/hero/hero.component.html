@@ -38,10 +38,12 @@
         <ks-modal-gallery
           [id]="0"
           [modalImages]="images"
+          [buttonsConfig]="ksGalleryService.buttonsConfigFull"
           [enableCloseOutside]="false"
           [plainGalleryConfig]="ksGalleryService.customPlainGalleryRowConfig"
           [previewConfig]="{visible: true, number: 5}"
-          [slideConfig]="{infinite: true}">
+          [slideConfig]="{infinite: true}"
+          [currentImageConfig]="{loadingConfig: {enable: true, type: 4}}">
         </ks-modal-gallery>
 
         <div class="text-center font-weight-normal text-danger" *ngIf="!images.length">{{ 'COMMON.CONTENT.EMPTY_GALLERY' | translate }}</div>
@@ -56,7 +58,7 @@
 
 <ng-template #contentHero>
   <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">{{ 'PAGES.BOOK.HERO_LIST.MODAL.TITLE' | translate }}</h4>
+    <h4 class="modal-title" id="modal-basic-title">{{ 'PAGES.BOOK.HERO.MODAL.UPDATE_TITLE' | translate }}</h4>
     <button type="button" class="close" aria-label="Close" (click)="closeUpdateHeroModal()">
       <span aria-hidden="true">&times;</span>
     </button>
