@@ -163,7 +163,7 @@ export class HeroComponent implements OnInit {
     this.fileToUploadGallery = [];
     this.fileToUploadPreview = null;
     this.form.reset();
-    this.modalService.dismissAll('Close create book.');
+    this.modalService.dismissAll('Close update hero.');
   }
 
   pondHandleAddFileGallery(event: any) {

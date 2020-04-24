@@ -10,6 +10,11 @@
       }
     },
     "BOOK": {
+      "BOOK": {
+        "MODAL": {
+          "UPDATE_TITLE": "Update Book"
+        }
+      },
       "HERO_LIST": {
         "TITLE": "Heroes List",
         "DESCRIPTION": "Create a <strong class=\"text-danger\">new</strong> hero or go to an <strong class=\"text-danger\">existing</strong> hero.",
@@ -19,7 +24,7 @@
       },
       "HERO": {
         "MODAL": {
-          "UPDATE_TITLE": "Update New Hero"
+          "UPDATE_TITLE": "Update Hero"
         }
       }
     }
@@ -30,7 +35,8 @@
       "UPDATE": "Update"
     },
     "BOOK": {
-      "CREATE_BOOK": "Create Book"
+      "CREATE_BOOK": "Create Book",
+      "UPDATE_BOOK": "Update Book"
     },
     "HERO": {
       "CREATE_HERO": "Create Hero",
