@@ -20,6 +20,9 @@ export class Hero extends BaseEntity {
   position: number;
 
   @Column({nullable: true})
+  content: string;
+
+  @Column({nullable: true})
   created: string;
 
   // WARNING: this path leads to circular dependencies:
