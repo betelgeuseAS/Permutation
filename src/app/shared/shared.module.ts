@@ -19,6 +19,7 @@ registerPlugin(
   FilePondPluginImageValidateSize,
   FilePondPluginFileEncode
 );
+import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 
 import { PageNotFoundComponent } from './components/';
 import { WebviewDirective } from './directives/';
@@ -41,7 +42,9 @@ import { GalleryModule } from '@ks89/angular-modal-gallery';
     TranslateModule,
     FormsModule,
     FilePondModule,
-    GalleryModule.forRoot()
+    GalleryModule.forRoot(),
+    FroalaEditorModule.forRoot(),
+    FroalaViewModule.forRoot()
   ],
   exports: [
     TranslateModule,
@@ -51,7 +54,9 @@ import { GalleryModule } from '@ks89/angular-modal-gallery';
     DragDropModule,
     MomentPipe,
     FilePondModule,
-    GalleryModule
+    GalleryModule,
+    FroalaEditorModule,
+    FroalaViewModule
   ]
 })
 export class SharedModule {}

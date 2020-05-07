@@ -110,3 +110,13 @@
     <button type="button" ngbAutofocus class="btn btn-outline-success" [disabled]="form.invalid" (click)="updateHero()">{{ 'BUTTONS.COMMON.UPDATE' | translate }}</button>
   </div>
 </ng-template>
+
+<div class="jumbotron" *ngIf="hero">
+  <div class="row">
+    <div class="col-12">
+      <h3>Content</h3>
+
+      <div [froalaEditor]="froalaOptions" [froalaModel]="froalaContent"></div>
+    </div>
+  </div>
+</div>

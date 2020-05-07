@@ -11,6 +11,7 @@ import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { FilepondService } from '../../../shared/services/filepond.service';
 import * as Filepond from 'filepond';
 import { ImageHeroPreview } from '../../../data-access/entities/image-hero-preview.entity';
+import { FroalaService } from '../../../shared/services/froala/froala.service';
 
 @Component({
   selector: 'app-hero',
@@ -28,6 +29,25 @@ export class HeroComponent implements OnInit {
   fileToUploadPreview: Filepond.File;
   fileBase64ToUploadPreview: string;
   private subscription: Subscription;
+
+  // froalaOptions = this.froalaService.getOptions({
+  //   placeholderText: 'Edit Your Hero Here.',
+  //   charCounterCount: true,
+  //   // events: {
+  //   //   focus: (e, editor) => {
+  //   //     console.log(e);
+  //   //   }
+  //   // }
+  // });
+  froalaOptions = {
+    placeholderText: 'Edit Your Hero Here.',
+    charCounterCount: true, // Also need to include js from: ./node_modules/froala-editor/js/plugins/char_counter.min.js
+    toolbarInline: false,
+    fullPage: true,
+    theme: 'dark', // Also need to include css from: ./node_modules/froala-editor/css/themes/...
+    toolbarButtons: [['bold', 'italic', 'underline', 'strikeThrough', 'subscript', 'superscript'], ['fontFamily', 'fontSize', 'textColor', 'backgroundColor'], ['inlineClass', 'inlineStyle', 'clearFormatting']]
+  };
+  froalaContent;
 
   pondOptionsGallery: Filepond.FilePondOptionProps = this.filepondService.getOptions({
     allowMultiple: true,
@@ -51,7 +71,8 @@ export class HeroComponent implements OnInit {
     private filepondService: FilepondService,
     private databaseService: DatabaseService,
     private activateRoute: ActivatedRoute,
-    public ksGalleryService: KsGalleryService
+    public ksGalleryService: KsGalleryService,
+    public froalaService: FroalaService
   ) {
     this.subscription = activateRoute.params.subscribe(params => this.id = params['id']);
 
@@ -69,8 +90,8 @@ export class HeroComponent implements OnInit {
     this.databaseService
       .connection
       .then(() => Hero.findOne({ where: {id: heroId},  relations: ['imagePreview', 'images'] }))
-      .then(book => {
-        this.hero = book;
+      .then(hero => {
+        this.hero = hero;
 
         const img: Array<KsOwnImage> = [...this.hero.images];
         if (this.hero.imagePreview) {
@@ -87,6 +108,8 @@ export class HeroComponent implements OnInit {
         //     return item.data;
         //   });
         // }
+
+        this.froalaContent = hero.content;
       });
   }
 
