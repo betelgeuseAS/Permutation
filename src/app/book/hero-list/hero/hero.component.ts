@@ -45,7 +45,7 @@ export class HeroComponent implements OnInit {
     toolbarInline: false,
     fullPage: true,
     theme: 'dark', // Also need to include css from: ./node_modules/froala-editor/css/themes/...
-    toolbarButtons: [['bold', 'italic', 'underline', 'strikeThrough', 'subscript', 'superscript'], ['fontFamily', 'fontSize', 'textColor', 'backgroundColor'], ['inlineClass', 'inlineStyle', 'clearFormatting']]
+    // toolbarButtons: [['bold', 'italic', 'underline', 'strikeThrough', 'subscript', 'superscript'], ['fontFamily', 'fontSize', 'textColor', 'backgroundColor'], ['inlineClass', 'inlineStyle', 'clearFormatting']]
   };
   froalaContent;
 

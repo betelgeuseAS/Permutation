@@ -1,4 +1,4 @@
-<div class="jumbotron" *ngIf="hero">
+<div *ngIf="hero">
   <div class="row">
     <div class="col-12">
       <h1 class="display-3 float-left">{{hero.name}}</h1>
@@ -111,12 +111,8 @@
   </div>
 </ng-template>
 
-<div class="jumbotron" *ngIf="hero">
-  <div class="row">
-    <div class="col-12">
-      <h3>Content</h3>
-
-      <div [froalaEditor]="froalaOptions" [froalaModel]="froalaContent"></div>
-    </div>
+<div class="row">
+  <div class="col-12">
+    <div [froalaEditor]="froalaOptions" [froalaModel]="froalaContent"></div>
   </div>
 </div>
