@@ -4,6 +4,7 @@ interface Options {
   placeholderText?: string;
   charCounterCount?: boolean;
   toolbarInline?: boolean;
+  fullPage?: boolean;
   events?: any;
 }
 
@@ -73,8 +74,9 @@ export class FroalaService {
 
   getOptions({
     placeholderText = 'Type Something',
-    charCounterCount = true,
+    charCounterCount = false,
     toolbarInline = false,
+    fullPage = false,
     events = null
   }: Options): object {
     return {
@@ -83,7 +85,7 @@ export class FroalaService {
       attribution: true,
       autoStart: true,
       autofocus: false,
-      charCounterCount,
+      charCounterCount, // Also need to include js from: ./node_modules/froala-editor/js/plugins/char_counter.min.js
       charCounterMax: -1,
       codeBeautifierOptions: {
         end_with_newline: true,
@@ -233,7 +235,7 @@ export class FroalaService {
       formMultipleStyles: true,
       formStyles: {'fr-rounded': "Rounded", 'fr-large': "Large"},
       formUpdateButtons: ["inputBack", "|"],
-      fullPage: false,
+      fullPage,
       height: null,
       heightMax: null,
       heightMin: null,
@@ -486,7 +488,7 @@ export class FroalaService {
         'fr-dashed-borders': 'Dashed Borders',
         'fr-alternate-rows': 'Alternate Rows'
       },
-      theme: null, // "dark"
+      theme: 'dark', // Also need to include css from: ./node_modules/froala-editor/css/themes/...
       toolbarBottom: false,
       toolbarButtons: {
         moreText: {

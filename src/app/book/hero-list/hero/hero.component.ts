@@ -30,24 +30,18 @@ export class HeroComponent implements OnInit {
   fileBase64ToUploadPreview: string;
   private subscription: Subscription;
 
-  // froalaOptions = this.froalaService.getOptions({
-  //   placeholderText: 'Edit Your Hero Here.',
-  //   charCounterCount: true,
-  //   // events: {
-  //   //   focus: (e, editor) => {
-  //   //     console.log(e);
-  //   //   }
-  //   // }
-  // });
-  froalaOptions = {
+  froalaOptions = this.froalaService.getOptions({
     placeholderText: 'Edit Your Hero Here.',
-    charCounterCount: true, // Also need to include js from: ./node_modules/froala-editor/js/plugins/char_counter.min.js
+    charCounterCount: true,
     toolbarInline: false,
-    fullPage: true,
-    theme: 'dark', // Also need to include css from: ./node_modules/froala-editor/css/themes/...
-    // toolbarButtons: [['bold', 'italic', 'underline', 'strikeThrough', 'subscript', 'superscript'], ['fontFamily', 'fontSize', 'textColor', 'backgroundColor'], ['inlineClass', 'inlineStyle', 'clearFormatting']]
-  };
-  froalaContent;
+    fullPage: true
+    // events: {
+    //   focus: (e, editor) => {
+    //     console.log(e);
+    //   }
+    // }
+  });
+  froalaContent = null;
 
   pondOptionsGallery: Filepond.FilePondOptionProps = this.filepondService.getOptions({
     allowMultiple: true,
@@ -74,7 +68,7 @@ export class HeroComponent implements OnInit {
     public ksGalleryService: KsGalleryService,
     public froalaService: FroalaService
   ) {
-    this.subscription = activateRoute.params.subscribe(params => this.id = params['id']);
+    this.subscription = activateRoute.params.subscribe(params => this.id = params.id);
 
     this.getHeroById(this.id);
   }
