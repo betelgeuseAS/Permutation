@@ -13,9 +13,6 @@ interface Options {
 })
 export class FroalaService {
 
-  // https://froala.com/wysiwyg-editor/examples/
-  // https://github.com/froala/angular-froala-wysiwyg#extend-functionality
-
   // HTML:
   // <div
   //   [froalaEditor]="options" // options - options froala
