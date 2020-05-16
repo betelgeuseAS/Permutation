@@ -20,6 +20,7 @@ registerPlugin(
   FilePondPluginFileEncode
 );
 import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
+import { EditorModule, TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
 
 import { PageNotFoundComponent } from './components/';
 import { WebviewDirective } from './directives/';
@@ -44,7 +45,8 @@ import { GalleryModule } from '@ks89/angular-modal-gallery';
     FilePondModule,
     GalleryModule.forRoot(),
     FroalaEditorModule.forRoot(),
-    FroalaViewModule.forRoot()
+    FroalaViewModule.forRoot(),
+    EditorModule
   ],
   exports: [
     TranslateModule,
@@ -56,7 +58,14 @@ import { GalleryModule } from '@ks89/angular-modal-gallery';
     FilePondModule,
     GalleryModule,
     FroalaEditorModule,
-    FroalaViewModule
+    FroalaViewModule,
+    EditorModule
+  ],
+  providers: [
+    {
+      provide: TINYMCE_SCRIPT_SRC,
+      useValue: 'tinymce/tinymce.min.js'
+    }
   ]
 })
 export class SharedModule {}
