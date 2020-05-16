@@ -113,6 +113,16 @@
 
 <div class="row">
   <div class="col-12">
-    <div [froalaEditor]="froalaOptions" [froalaModel]="froalaContent"></div>
+    <editor
+      [init]="{
+      height: 500,
+      menubar: false,
+      plugins: [
+        'advlist autolink lists link image charmap print preview anchor',
+        'searchreplace visualblocks code fullscreen',
+        'insertdatetime media table paste code help wordcount'
+      ]
+    }"
+    ></editor>
   </div>
 </div>

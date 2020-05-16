@@ -19,7 +19,6 @@ registerPlugin(
   FilePondPluginImageValidateSize,
   FilePondPluginFileEncode
 );
-import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 import { EditorModule, TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
 
 import { PageNotFoundComponent } from './components/';
@@ -44,8 +43,6 @@ import { GalleryModule } from '@ks89/angular-modal-gallery';
     FormsModule,
     FilePondModule,
     GalleryModule.forRoot(),
-    FroalaEditorModule.forRoot(),
-    FroalaViewModule.forRoot(),
     EditorModule
   ],
   exports: [
@@ -57,8 +54,6 @@ import { GalleryModule } from '@ks89/angular-modal-gallery';
     MomentPipe,
     FilePondModule,
     GalleryModule,
-    FroalaEditorModule,
-    FroalaViewModule,
     EditorModule
   ],
   providers: [

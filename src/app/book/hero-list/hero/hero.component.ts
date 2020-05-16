@@ -11,7 +11,6 @@ import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { FilepondService } from '../../../shared/services/filepond.service';
 import * as Filepond from 'filepond';
 import { ImageHeroPreview } from '../../../data-access/entities/image-hero-preview.entity';
-import { FroalaService } from '../../../shared/services/froala/froala.service';
 
 @Component({
   selector: 'app-hero',
@@ -29,19 +28,6 @@ export class HeroComponent implements OnInit {
   fileToUploadPreview: Filepond.File;
   fileBase64ToUploadPreview: string;
   private subscription: Subscription;
-
-  froalaOptions = this.froalaService.getOptions({
-    placeholderText: 'Edit Your Hero Here.',
-    charCounterCount: true,
-    toolbarInline: false,
-    fullPage: true
-    // events: {
-    //   focus: (e, editor) => {
-    //     console.log(e);
-    //   }
-    // }
-  });
-  froalaContent = null;
 
   pondOptionsGallery: Filepond.FilePondOptionProps = this.filepondService.getOptions({
     allowMultiple: true,
@@ -65,8 +51,7 @@ export class HeroComponent implements OnInit {
     private filepondService: FilepondService,
     private databaseService: DatabaseService,
     private activateRoute: ActivatedRoute,
-    public ksGalleryService: KsGalleryService,
-    public froalaService: FroalaService
+    public ksGalleryService: KsGalleryService
   ) {
     this.subscription = activateRoute.params.subscribe(params => this.id = params.id);
 
@@ -103,7 +88,6 @@ export class HeroComponent implements OnInit {
         //   });
         // }
 
-        this.froalaContent = hero.content;
       });
   }
 
