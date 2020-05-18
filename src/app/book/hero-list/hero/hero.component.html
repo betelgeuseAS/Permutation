@@ -114,15 +114,7 @@
 <div class="row">
   <div class="col-12">
     <editor
-      [init]="{
-      height: 500,
-      menubar: false,
-      plugins: [
-        'advlist autolink lists link image charmap print preview anchor',
-        'searchreplace visualblocks code fullscreen',
-        'insertdatetime media table paste code help wordcount'
-      ]
-    }"
+      [init]="tinyMCEOptions"
     ></editor>
   </div>
 </div>

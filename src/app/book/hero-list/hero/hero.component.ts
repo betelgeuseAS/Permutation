@@ -11,6 +11,7 @@ import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { FilepondService } from '../../../shared/services/filepond.service';
 import * as Filepond from 'filepond';
 import { ImageHeroPreview } from '../../../data-access/entities/image-hero-preview.entity';
+import { TinyMCEService } from '../../../shared/services/tinymce.service';
 
 @Component({
   selector: 'app-hero',
@@ -45,13 +46,42 @@ export class HeroComponent implements OnInit {
   });
   pondFilesPreview = this.filepondService.getFiles();
 
+  tinyMCEOptions = this.tinyMCEService.getOptions({
+    templates: [
+      { title: 'New Table', description: 'creates a new table', content: '<div class="mceTmpl"><table width="98%%"  border="0" cellspacing="0" cellpadding="0"><tr><th scope="col"> </th><th scope="col"> </th></tr><tr><td> </td><td> </td></tr></table></div>' },
+      { title: 'Starting my story', description: 'A cure for writers block', content: 'Once upon a time...' },
+      { title: 'New list with dates', description: 'New List with dates', content: '<div class="mceTmpl"><span class="cdate">cdate</span><br /><span class="mdate">mdate</span><h2>My List</h2><ul><li></li><li></li></ul></div>' }
+    ],
+    template_cdate_format: '[Date Created (CDATE): %m/%d/%Y : %H:%M:%S]',
+    template_mdate_format: '[Date Modified (MDATE): %m/%d/%Y : %H:%M:%S]',
+
+    quickbars_selection_toolbar: 'bold italic | quicklink h2 h3 blockquote quickimage quicktable',
+
+    menu: {
+      tc: {
+        title: 'TinyComments',
+        items: 'addcomment showcomments deleteallconversations'
+      }
+    },
+    menubar: 'file edit view insert format tools table tc help',
+    height: 600,
+    contextmenu: "link image imagetools table configurepermanentpen",
+
+    // autosave_ask_before_unload: true,
+    // autosave_interval: "30s",
+    // autosave_prefix: "{path}{query}-{id}-",
+    // autosave_restore_when_empty: false,
+    // autosave_retention: "2m",
+  });
+
   constructor(
     config: NgbModalConfig,
     private modalService: NgbModal,
     private filepondService: FilepondService,
     private databaseService: DatabaseService,
     private activateRoute: ActivatedRoute,
-    public ksGalleryService: KsGalleryService
+    public ksGalleryService: KsGalleryService,
+    public tinyMCEService: TinyMCEService
   ) {
     this.subscription = activateRoute.params.subscribe(params => this.id = params.id);
 

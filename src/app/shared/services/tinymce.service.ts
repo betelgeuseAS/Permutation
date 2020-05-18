@@ -1,7 +1,22 @@
 import { Injectable } from '@angular/core';
 
 interface Options {
+  plugins?: string;
+  toolbar?: string;
+  toolbar_mode?: string;
 
+  // template plugin
+  templates?: object;
+  template_cdate_format: string;
+  template_mdate_format: string;
+
+  menu?: object;
+  menubar?: string;
+  height?: number|string;
+  contextmenu?: string;
+
+  // quick toolbars plugin
+  quickbars_selection_toolbar?: string;
 }
 
 @Injectable({
@@ -25,8 +40,23 @@ export class TinyMCEService {
   // ></editor>
 
   getOptions({
+    plugins = 'print preview searchreplace autolink autosave save directionality visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons',
+    toolbar = 'undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist checklist | forecolor backcolor casechange permanentpen formatpainter removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media pageembed template link anchor codesample | ltr rtl',
+    toolbar_mode = 'floating',
 
-   }: Options): object {
+    // template plugin
+    templates = [],
+    template_cdate_format = '',
+    template_mdate_format = '',
+
+    // quick toolbars plugin
+    quickbars_selection_toolbar = 'bold italic | quicklink h2 h3 blockquote quickimage quicktable',
+
+    menu = {},
+    menubar = 'file edit insert view format table tools help',
+    height = 300,
+    contextmenu = "link image imagetools table configurepermanentpen"
+  }: Options): object {
     return {
       // Integration options (Essential editor configuration, including `selector` and `plugins` keys) https://www.tiny.cloud/docs/configure/integration-and-setup/
       // auto_focus: 'element',
@@ -41,7 +71,7 @@ export class TinyMCEService {
       // init_instance_callback: (editor) => {
       //   console.log("Editor: " + editor.id + " is now initialized.");
       // },
-      plugins: 'advlist autolink link image lists charmap print preview', // This option allows you to specify which plugins TinyMCE will attempt to load when starting up. By default, TinyMCE will not load any plugins.
+      plugins, // This option allows you to specify which plugins TinyMCE will attempt to load when starting up. By default, TinyMCE will not load any plugins.
       // referrer_policy: '',
       // selector: 'textarea#editable', // This option allows you to specify a CSS selector for the areas that TinyMCE should make editable.
       // setup: (editor) => { // This option allows you to specify a callback that will be executed before the TinyMCE editor instance is rendered.
@@ -55,7 +85,7 @@ export class TinyMCEService {
       // User interface options (Configure the editor's appearance, including menu and toolbar controls) https://www.tiny.cloud/docs/configure/editor-appearance/
       block_formats: 'Paragraph=p; Heading 1=h1; Heading 2=h2; Heading 3=h3; Heading 4=h4; Heading 5=h5; Heading 6=h6; Preformatted=pre', // This option defines the formats to be displayed in the formatselect dropdown toolbar button and the blockformats menu item. Each item in the string should be separated by semi-colons and specified using the form title=block.
       branding: false, // Use the branding option to disable the “Powered by Tiny” displayed in the status bar for product attribution.
-      // contextmenu: 'link image imagetools table spellchecker',
+      contextmenu,
       // contextmenu_never_use_native: false, // The contextmenu_never_use_native option allows you to disable the browser’s native context menu from appearing within the editor.
       // custom_ui_selector: '.my-custom-button',
       draggable_modal: false, // Use the draggable_modal option to enable dragging for modal dialogs.
@@ -64,7 +94,7 @@ export class TinyMCEService {
       // fixed_toolbar_container: '#mytoolbar', // Use this option to render the inline toolbar into a fixed positioned HTML element. For example, you could fix the toolbar to the top of the browser viewport.
       font_formats: 'Andale Mono=andale mono,times; Arial=arial,helvetica,sans-serif; Arial Black=arial black,avant garde; Book Antiqua=book antiqua,palatino; Comic Sans MS=comic sans ms,sans-serif; Courier New=courier new,courier; Georgia=georgia,palatino; Helvetica=helvetica; Impact=impact,chicago; Symbol=symbol; Tahoma=tahoma,arial,helvetica,sans-serif; Terminal=terminal,monaco; Times New Roman=times new roman,times; Trebuchet MS=trebuchet ms,geneva; Verdana=verdana,geneva; Webdings=webdings; Wingdings=wingdings,zapf dingbats', // This option defines the fonts to be displayed in the fontselect dropdown toolbar button and the fontformats menu item. Each item in the string should be separated by semi-colons and specified using the form of: title=font-family.
       fontsize_formats: '11px 12px 14px 16px 18px 24px 36px 48px', // This option allows you to override the font sizes displayed in the fontsizeselect dropdown toolbar button and the fontsizes menu item. Each item in the string should be space or comma-separated and include units.
-      height: 300, // height sets the height of the entire editor, including the menu bar, toolbars, and status bar. Note: If a number is provided, TinyMCE sets the height in pixels. If a string is provided, TinyMCE assumes the value is valid CSS and simply sets the editor’s height as the string value. This allows for alternate units such as %, em, and vh.
+      height, // height sets the height of the entire editor, including the menu bar, toolbars, and status bar. Note: If a number is provided, TinyMCE sets the height in pixels. If a string is provided, TinyMCE assumes the value is valid CSS and simply sets the editor’s height as the string value. This allows for alternate units such as %, em, and vh.
       // icons: '', // The icons option allows the editor icons to be extended or replaced using an icon pack. For information on creating icon packs, see: Create an icon pack for TinyMCE: https://www.tiny.cloud/docs/advanced/creating-an-icon-pack/
       // icons_url: '', // The icons_url option allows the editor icons to be extended or replaced using an icon pack. For information on creating icon packs, see: Create an icon pack for TinyMCE: https://www.tiny.cloud/docs/advanced/creating-an-icon-pack/
       inline: false, // The inline option allows you to specify whether TinyMCE should run in inline mode.
@@ -80,7 +110,7 @@ export class TinyMCEService {
         table: {title: 'Table', items: 'inserttable | cell row column | tableprops deletetable'},
         help: {title: 'Help', items: 'help'}
       },
-      menubar: 'file edit insert view format table tools help', // This option allows you to specify which menus should appear and the order that they appear in the menu bar at the top of TinyMCE. Possible Values: true, false, or string of menus.
+      menubar, // This option allows you to specify which menus should appear and the order that they appear in the menu bar at the top of TinyMCE. Possible Values: true, false, or string of menus.
       // min_height: 100, // The min_height option has two kinds of behaviors depending on the state of the autoresize plugin: autoresize OFF (Default) : Without the autoresize plugin, this option allows you to set the minimum height that a user can shrink the entire TinyMCE interface (by grabbing the dragable area in the bottom right of the editor interface). autoresize ON : With the autoresize plugin, this option sets the minimum height the editor can automatically shrink to.
       // min_width: 400, // Note that this behavior is different than the autoresize plugin, which controls the resizing of the editable area only, not the entire editor.
       // mobile: { // This option allows you specify an alternative configuration for mobile devices. This setting allows for overriding settings specifically for mobile devices. For information on customizing TinyMCE for mobile devices, see: TinyMCE mobile: https://www.tiny.cloud/docs/mobile/
@@ -129,25 +159,26 @@ export class TinyMCEService {
       // style_formats_merge: false,
       theme: 'silver', // This option allows you to specify the theme that TinyMCE should use. The default theme included with TinyMCE is called Silver.
       // theme_url: '/mytheme/mytheme.js',
+      toolbar, // See: https://www.tiny.cloud/docs/advanced/editor-control-identifiers/#toolbarcontrols
       // toolbar: 'undo redo | styleselect | bold italic | link image', // This option allows you to specify the buttons and the order that they will appear on TinyMCE’s toolbar. See: https://www.tiny.cloud/docs/advanced/editor-control-identifiers/#toolbarcontrols
       // or:
-      toolbar: [
-        {
-          name: 'history', items: [ 'undo', 'redo' ]
-        },
-        {
-          name: 'styles', items: [ 'styleselect' ]
-        },
-        {
-          name: 'formatting', items: [ 'bold', 'italic']
-        },
-        {
-          name: 'alignment', items: [ 'alignleft', 'aligncenter', 'alignright', 'alignjustify' ]
-        },
-        {
-          name: 'indentation', items: [ 'outdent', 'indent' ]
-        }
-      ],
+      // toolbar: [
+      //   {
+      //     name: 'history', items: [ 'undo', 'redo' ]
+      //   },
+      //   {
+      //     name: 'styles', items: [ 'styleselect' ]
+      //   },
+      //   {
+      //     name: 'formatting', items: [ 'bold', 'italic']
+      //   },
+      //   {
+      //     name: 'alignment', items: [ 'alignleft', 'aligncenter', 'alignright', 'alignjustify' ]
+      //   },
+      //   {
+      //     name: 'indentation', items: [ 'outdent', 'indent' ]
+      //   }
+      // ],
       // or:
       // toolbar: false, // To disable the toolbar, the toolbar option should be provided a boolean value of false.
       // or:
@@ -155,7 +186,7 @@ export class TinyMCEService {
       //   'undo redo | styleselect | bold italic | link image',
       //   'alignleft aligncenter alignright'
       // ],
-      toolbar_mode: 'floating', // The toolbar_mode option is used to extend the toolbar to accommodate the overflowing toolbar buttons. This option is useful for small screens or small editor frames. Possible Values: 'floating', 'sliding', 'scrolling', or 'wrap'.
+      toolbar_mode, // The toolbar_mode option is used to extend the toolbar to accommodate the overflowing toolbar buttons. This option is useful for small screens or small editor frames. Possible Values: 'floating', 'sliding', 'scrolling', or 'wrap'.
       // toolbar_groups: { // The toolbar_groups option creates a toolbar button that displays a collection of other toolbar buttons as a pop-up toolbar. The style of toolbar shown is based on the current toolbar mode. For example, if toolbar_mode is set to floating, the toolbar group pop-up will appear in a floating shelf.
       //   formatting: {
       //     icon: 'bold',
@@ -434,6 +465,14 @@ export class TinyMCEService {
       // object_resizing : false //or 'img',
       // resize_img_proportional: true,
       // typeahead_urls: true,
+
+      // Template plugin https://www.tiny.cloud/docs/plugins/template/
+      templates,
+      template_cdate_format,
+      template_mdate_format,
+
+      // Quick Toolbars plugin https://www.tiny.cloud/docs/plugins/quickbars/#quickbars_selection_toolbar
+      quickbars_selection_toolbar
     };
   }
 }
