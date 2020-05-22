@@ -32,6 +32,8 @@ import 'hammerjs';
 import 'mousetrap';
 import { GalleryModule } from '@ks89/angular-modal-gallery';
 
+import { MaterialModule } from '../material.module';
+
 @NgModule({
   declarations: [
     PageNotFoundComponent,
@@ -54,7 +56,8 @@ import { GalleryModule } from '@ks89/angular-modal-gallery';
     MomentPipe,
     FilePondModule,
     GalleryModule,
-    EditorModule
+    EditorModule,
+    MaterialModule
   ],
   providers: [
     {

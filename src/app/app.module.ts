@@ -5,9 +5,6 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
 
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-// import {NgbPaginationModule, NgbAlertModule} from '@ng-bootstrap/ng-bootstrap'; //You could only import modules with components you need.
-
 import { AppRoutingModule } from './app-routing.module';
 
 // NG Translate
@@ -25,6 +22,9 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 
+// import { MaterialModule } from './material.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -37,7 +37,6 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     BookModule,
     BrowserModule,
     AppRoutingModule,
-    NgbModule,
     HttpClientModule,
     TranslateModule.forRoot({
       loader: {
@@ -45,9 +44,11 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
         useFactory: HttpLoaderFactory,
         deps: [HttpClient]
       }
-    })
+    }),
+    BrowserAnimationsModule
   ],
+  // exports: [MaterialModule],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}
