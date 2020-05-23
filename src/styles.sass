@@ -7,6 +7,9 @@
 @import "../node_modules/filepond/dist/filepond.min.css"
 @import '../node_modules/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css'
 
+// Angular Material
+@import '~@angular/material/theming'
+
 //----------------------------------------------------------------------------------------------------------------------
 // Generic
 //----------------------------------------------------------------------------------------------------------------------
@@ -30,9 +33,10 @@ body
   scroll-behavior: smooth
   text-rendering: optimizeSpeed
   min-width: 320px
-  position: relative
   line-height: 1.65
   overflow-x: hidden
+  //position: relative
+  margin: 0
   input, textarea
     border: #666 1px solid
     outline: none
