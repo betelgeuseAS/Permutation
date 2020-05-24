@@ -34,6 +34,8 @@ import { GalleryModule } from '@ks89/angular-modal-gallery';
 
 import { MaterialModule } from '../material.module';
 
+import { FlexLayoutModule } from '@angular/flex-layout';
+
 @NgModule({
   declarations: [
     PageNotFoundComponent,
@@ -45,7 +47,8 @@ import { MaterialModule } from '../material.module';
     FormsModule,
     FilePondModule,
     GalleryModule.forRoot(),
-    EditorModule
+    EditorModule,
+    FlexLayoutModule
   ],
   exports: [
     TranslateModule,
@@ -57,7 +60,8 @@ import { MaterialModule } from '../material.module';
     FilePondModule,
     GalleryModule,
     EditorModule,
-    MaterialModule
+    MaterialModule,
+    FlexLayoutModule
   ],
   providers: [
     {
