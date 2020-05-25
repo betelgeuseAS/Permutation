@@ -1,9 +1,15 @@
-<div class="container-fluid">
-  <div class="row">
-    <div class="col">
-      <app-menu></app-menu>
-    </div>
-  </div>
+<mat-drawer-container class="main-container">
+  <mat-drawer #drawer mode="over">
+    <app-menu></app-menu>
+  </mat-drawer>
 
-  <router-outlet></router-outlet>
-</div>
+  <mat-drawer-content>
+    <!--<button mat-raised-button (click)="drawer.toggle()">Toggle drawer</button>-->
+
+    <app-toolbar [drawer]="drawer"></app-toolbar>
+
+    <div class="wrapper-router-outlet">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-drawer-content>
+</mat-drawer-container>
