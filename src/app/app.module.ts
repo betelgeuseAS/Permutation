@@ -15,6 +15,7 @@ import { DashboardModule } from './dashboard/dashboard.module';
 
 import { AppComponent } from './app.component';
 import { MenuComponent } from './shared/components/menu/menu.component';
+import { ToolbarComponent } from './shared/components/toolbar/toolbar.component';
 import { BookModule } from './book/book.module';
 
 // AoT requires an exported function for factories
@@ -28,7 +29,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 @NgModule({
   declarations: [
     AppComponent,
-    MenuComponent
+    MenuComponent,
+    ToolbarComponent
   ],
   imports: [
     CoreModule,
