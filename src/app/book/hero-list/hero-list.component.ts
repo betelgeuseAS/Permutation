@@ -1,19 +1,15 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { CdkDragDrop } from '@angular/cdk/drag-drop';
-
-import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { Book } from '../../data-access/entities/book.entity';
 import { Hero } from '../../data-access/entities/hero.entity';
 import { ImageHeroPreview } from '../../data-access/entities/image-hero-preview.entity';
 import { DatabaseService } from '../../data-access/database.service';
 
-import { DragAndDropService } from '../../shared/services/drag-and-drop.service';
-
 import { MyValidators } from '../../shared/validators/my.validators';
 
-import { FilepondService } from '../../shared/services/filepond.service';
+import { MatDialog } from '@angular/material/dialog';
+import { CreateHeroDialogComponent } from './dialog/create-hero-dialog/create-hero-dialog.component';
 
 import * as moment from 'moment';
 import * as Filepond from 'filepond';
@@ -22,10 +18,7 @@ import * as Filepond from 'filepond';
   selector: 'app-hero-list',
   templateUrl: './hero-list.component.html',
   styleUrls: ['./hero-list.component.sass'],
-  providers: [
-    NgbModalConfig,
-    NgbModal
-  ]
+  providers: []
 })
 export class HeroListComponent implements OnInit {
 
@@ -35,23 +28,10 @@ export class HeroListComponent implements OnInit {
   fileBase64ToUpload: string;
   heroes: Hero[] = [];
 
-  pondOptions = this.filepondService.getOptions({
-    allowImagePreview: true,
-    imageCropAspectRatio: '16:10',
-    acceptedFileTypes: ['image/jpg', 'image/jpeg', 'image/png']
-  });
-  pondFiles = this.filepondService.getFiles();
-
   constructor(
-    config: NgbModalConfig,
-    private modalService: NgbModal,
     private databaseService: DatabaseService,
-    private dragAndDropService: DragAndDropService,
-    private filepondService: FilepondService
-  ) {
-    config.backdrop = 'static';
-    config.keyboard = false;
-  }
+    public dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
     this.form = new FormGroup({
@@ -64,13 +44,25 @@ export class HeroListComponent implements OnInit {
     // this.getHeroesByBookId(this.book.id);
   }
 
-  openCreateHeroModal(content) {
-    this.modalService.open(content, { size: 'lg'/*, centered: true*/ });
-  }
+  openCreateHeroDialog() {
+    const dialogRef = this.dialog.open(CreateHeroDialogComponent, {
+      data: {
+        form: this.form
+      },
+      disableClose: true,
+      width: '60vw'
+    });
 
-  closeCreateHeroModal() {
-    this.form.reset();
-    this.modalService.dismissAll('Close create book.');
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.fileToUpload = result.fileToUpload;
+        this.fileBase64ToUpload = result.fileBase64ToUpload;
+
+        this.createHero();
+      }
+
+      this.form.reset();
+    });
   }
 
   getHeroesByBookId(bookId) {
@@ -122,24 +114,6 @@ export class HeroListComponent implements OnInit {
         });
     }
 
-    this.closeCreateHeroModal();
-  }
-
-  pondHandleInit() {
-    console.log('FilePond has initialised');
-  }
-
-  pondHandleAddFile(event: any) {
-    this.fileToUpload = event.file;
-    this.fileBase64ToUpload = event.file.getFileEncodeDataURL();
-  }
-
-  poundHandleRemoveFile(event: any) {
-    this.fileToUpload = undefined;
-    this.fileBase64ToUpload = undefined;
-  }
-
-  dragDropEntities(event: CdkDragDrop<string[]>) {
-    this.dragAndDropService.dragDropEntities(event, this.heroes);
+    this.dialog.closeAll();
   }
 }
