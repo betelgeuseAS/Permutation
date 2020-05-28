@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { FormGroup } from '@angular/forms';
-import { FilepondService } from '../../../../shared/services/filepond.service';
+import { FilepondService } from '../../../../../shared/services/filepond.service';
 import * as Filepond from 'filepond';
 
 interface DialogData {

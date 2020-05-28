@@ -33,9 +33,7 @@ body
   scroll-behavior: smooth
   text-rendering: optimizeSpeed
   min-width: 320px
-  line-height: 1.65
   overflow-x: hidden
-  //position: relative
   margin: 0
   input, textarea
     border: #666 1px solid
@@ -98,11 +96,11 @@ img
 //----------------------------------------------------------------------------------------------------------------------
 // Form validator
 //----------------------------------------------------------------------------------------------------------------------
-input, textarea
-  &.ng-invalid.ng-touched
-    border-color: $danger
-  &.ng-valid.ng-touched
-    border-color: $success
+//input, textarea
+//  &.ng-invalid.ng-touched
+//    border-color: $danger
+//  &.ng-valid.ng-touched
+//    border-color: $success
 
 //----------------------------------------------------------------------------------------------------------------------
 // Drag And Drop icon
@@ -142,8 +140,8 @@ img[alt="drag"]
       height: 60px
       margin: 5px
 
-.close-image
-  background-image: url(./assets/icons/close.png) !important
+//.close-image
+  //background-image: url(./assets/icons/close.png) !important
 .left-arrow-image
   background-image: url(./assets/icons/left.png) !important
   opacity: .8
@@ -152,6 +150,29 @@ img[alt="drag"]
   background-image: url(./assets/icons/right.png) !important
   opacity: .8
   transition: .5s
+
+
+//----------------------------------------------------------------------------------------------------------------------
+// Material (styles which works only root style file)
+//----------------------------------------------------------------------------------------------------------------------
+app-book-list
+  mat-card
+    mat-list-item
+      .mat-list-item-content
+        justify-content: space-between
+
+app-hero-list
+  mat-card
+    mat-list-item
+      .mat-list-item-content
+        flex-direction: column !important
+        align-items: flex-start !important
+
+//----------------------------------------------------------------------------------------------------------------------
+// Empty List
+//----------------------------------------------------------------------------------------------------------------------
+.empty-list
+  color: $danger
 
 //----------------------------------------------------------------------------------------------------------------------
 // End
