@@ -1,14 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { CdkDragDrop } from '@angular/cdk/drag-drop';
-
-import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { Book } from '../../data-access/entities/book.entity';
 import { DatabaseService } from '../../data-access/database.service';
 
-import { DragAndDropService } from '../../shared/services/drag-and-drop.service';
-
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+
+import { MatDialog } from '@angular/material/dialog';
+import { CreateBookDialogComponent } from './dialog/create-book-dialog/create-book-dialog.component';
 
 import * as moment from 'moment';
 
@@ -16,10 +14,7 @@ import * as moment from 'moment';
   selector: 'app-book-list',
   templateUrl: './book-list.component.html',
   styleUrls: ['./book-list.component.sass'],
-  providers: [
-    NgbModalConfig,
-    NgbModal
-  ]
+  providers: []
 })
 export class BookListComponent implements OnInit {
 
@@ -27,15 +22,9 @@ export class BookListComponent implements OnInit {
   books: Book[] = [];
 
   constructor(
-    config: NgbModalConfig,
-    private modalService: NgbModal,
     private databaseService: DatabaseService,
-    private dragAndDropService: DragAndDropService
+    public dialog: MatDialog
   ) {
-    // Customize default values of modals used by this component tree
-    config.backdrop = 'static';
-    config.keyboard = false;
-
     this.getBooks();
   }
 
@@ -46,13 +35,22 @@ export class BookListComponent implements OnInit {
     });
   }
 
-  openCreateBookModal(content) {
-    this.modalService.open(content, { size: 'lg'/*, centered: true*/ });
-  }
+  openCreateBookDialog() {
+    const dialogRef = this.dialog.open(CreateBookDialogComponent, {
+      data: {
+        form: this.form
+      },
+      disableClose: true,
+      width: '60vw'
+    });
 
-  closeCreateBookModal() {
-    this.form.reset();
-    this.modalService.dismissAll('Close create book.');
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.createBook();
+      }
+
+      this.form.reset();
+    });
   }
 
   getBooks() {
@@ -83,12 +81,8 @@ export class BookListComponent implements OnInit {
           name = '';
           description = '';
 
-          this.closeCreateBookModal();
+          this.dialog.closeAll();
         });
     }
-  }
-
-  dragDropEntities(event: CdkDragDrop<string[]>) {
-    this.dragAndDropService.dragDropEntities(event, this.books);
   }
 }

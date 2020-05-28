@@ -1,63 +1,24 @@
-<div class="jumbotron">
-  <h1 class="display-3">{{ 'PAGES.DASHBOARD.BOOK_LIST.TITLE' | translate }}</h1>
-  <p class="lead" [innerHTML]="'PAGES.DASHBOARD.BOOK_LIST.DESCRIPTION' | translate"></p>
-  <button type="button" class="btn btn-outline-success" (click)="openCreateBookModal(contentBook)">{{ 'BUTTONS.BOOK.CREATE_BOOK' | translate }}</button>
-  <hr class="my-4">
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>{{ 'PAGES.DASHBOARD.BOOK_LIST.TITLE' | translate }}</mat-card-title>
+    <mat-card-subtitle [innerHTML]="'PAGES.DASHBOARD.BOOK_LIST.DESCRIPTION' | translate"></mat-card-subtitle>
+  </mat-card-header>
 
-  <div class="list-group" *ngIf="books.length" cdkDropList (cdkDropListDropped)="dragDropEntities($event)">
-<!--    <a href="#" class="list-group-item list-group-item-action active">Book 1</a>-->
-<!--    <a href="#" class="list-group-item list-group-item-action">Book 2</a>-->
-<!--    <a href="#" class="list-group-item list-group-item-action disabled">Book 3</a>-->
+  <mat-card-content>
+    <mat-list role="list">
+      <mat-list-item role="listitem" *ngFor="let book of books">
+        <span>{{book.name}}</span>
 
-<!--    <a routerLink="/book/{{book.id}}" routerLinkActive="active" class="list-group-item list-group-item-action" *ngFor="let book of books">{{book.name}}</a>-->
+        <button mat-button routerLink="/book/{{book.id}}" routerLinkActive="active">View</button>
+      </mat-list-item>
 
-    <div class="list-group-item list-group-item-action flex-column align-items-start" *ngFor="let book of books" cdkDrag>
-      <div class="d-flex w-100 justify-content-between">
-        <h5 class="mb-1"><a routerLink="/book/{{book.id}}" routerLinkActive="active" class="nav-link pl-0">{{book.name}}</a></h5>
-        <small>{{book.created | date:'dd MMMM yyyy'}}</small>
-      </div>
-      <p class="mb-1">{{book.description | slice:0:200}} <span *ngIf="book.description.length > 200">...</span></p>
-      <small>Position: {{book.position}}</small>
+      <mat-list-item *ngIf="!books.length">
+        <div class="empty-list">{{ 'COMMON.CONTENT.EMPTY_LIST' | translate }}</div>
+      </mat-list-item>
+    </mat-list>
+  </mat-card-content>
 
-      <div cdkDragHandle>
-        <img src="../../../assets/icons/drag-and-drop.png" alt="drag">
-      </div>
-    </div>
-  </div>
-
-  <div class="text-center text-danger" *ngIf="!books.length">{{ 'COMMON.CONTENT.EMPTY_LIST' | translate }}</div>
-</div>
-
-<ng-template #contentBook>
-  <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">{{ 'PAGES.DASHBOARD.BOOK_LIST.MODAL.TITLE' | translate }}</h4>
-    <button type="button" class="close" aria-label="Close" (click)="closeCreateBookModal()">
-      <img src="../../../assets/icons/close.png" alt="Close">
-    </button>
-  </div>
-
-  <div class="modal-body">
-    <form [formGroup]="form">
-      <div class="form-group">
-        <label for="field-name">{{ 'COMMON.FIELDS.NAME' | translate }}</label>
-        <input type="text" class="form-control" [ngClass]="{'is-valid': form.get('name').valid, 'is-invalid': form.get('name').invalid && form.get('name').touched}" id="field-name" formControlName="name" placeholder="{{ 'COMMON.FIELDS.NAME_PLACEHOLDER' | translate }}">
-        <small class="form-text text-danger" *ngIf="form.get('name').invalid && form.get('name').touched">
-          <span *ngIf="form.get('name').errors.required">{{ 'ERRORS.FIELDS.REQUIRED' | translate }}</span>
-          <span *ngIf="form.get('name').errors.minlength" [translate]="'ERRORS.FIELDS.MIN_LENGTH'" [translateParams]="{requiredLength: form.get('name').errors.minlength.requiredLength, actualLength: form.get('name').errors.minlength.actualLength}"></span>
-        </small>
-      </div>
-
-      <div class="form-group">
-        <label for="field-description">{{ 'COMMON.FIELDS.DESCRIPTION' | translate }}</label>
-        <textarea class="form-control" [ngClass]="{'is-valid': form.get('description').valid, 'is-invalid': form.get('description').invalid && form.get('description').touched}" id="field-description" rows="3" formControlName="description" placeholder="{{ 'COMMON.FIELDS.DESCRIPTION_PLACEHOLDER' | translate }}"></textarea>
-        <small class="form-text text-danger" *ngIf="form.get('description').invalid && form.get('description').touched">
-          <span *ngIf="form.get('description').errors.required">{{ 'ERRORS.FIELDS.REQUIRED' | translate }}</span>
-        </small>
-      </div>
-    </form>
-  </div>
-
-  <div class="modal-footer">
-    <button type="button" ngbAutofocus class="btn btn-outline-success" [disabled]="form.invalid" (click)="createBook()">{{ 'BUTTONS.COMMON.SAVE' | translate }}</button>
-  </div>
-</ng-template>
+  <mat-card-actions>
+    <button mat-button (click)="openCreateBookDialog()">{{ 'BUTTONS.BOOK.CREATE_BOOK' | translate | uppercase }}</button>
+  </mat-card-actions>
+</mat-card>
