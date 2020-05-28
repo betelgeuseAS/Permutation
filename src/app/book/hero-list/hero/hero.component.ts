@@ -7,11 +7,11 @@ import { KsGalleryService, KsOwnImage } from '../../../shared/services/ks-modal-
 import { Image } from '@ks89/angular-modal-gallery';
 import { ImageHero } from '../../../data-access/entities/image-hero.entity';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
-import { FilepondService } from '../../../shared/services/filepond.service';
 import * as Filepond from 'filepond';
 import { ImageHeroPreview } from '../../../data-access/entities/image-hero-preview.entity';
 import { TinyMCEService } from '../../../shared/services/tinymce.service';
+import { MatDialog } from '@angular/material/dialog';
+import { UpdateHeroDialogComponent } from './dialog/update-hero-dialog/update-hero-dialog.component';
 
 @Component({
   selector: 'app-hero',
@@ -29,22 +29,6 @@ export class HeroComponent implements OnInit {
   fileToUploadPreview: Filepond.File;
   fileBase64ToUploadPreview: string;
   private subscription: Subscription;
-
-  pondOptionsGallery: Filepond.FilePondOptionProps = this.filepondService.getOptions({
-    allowMultiple: true,
-    maxFiles: 10,
-    allowImagePreview: true,
-    imageCropAspectRatio: '16:10',
-    acceptedFileTypes: ['image/jpg', 'image/jpeg', 'image/png']
-  });
-  pondFilesGallery = this.filepondService.getFiles();
-
-  pondOptionsPreview: Filepond.FilePondOptionProps = this.filepondService.getOptions({
-    allowImagePreview: true,
-    imageCropAspectRatio: '16:10',
-    acceptedFileTypes: ['image/jpg', 'image/jpeg', 'image/png']
-  });
-  pondFilesPreview = this.filepondService.getFiles();
 
   tinyMCEOptions = this.tinyMCEService.getOptions({
     templates: [
@@ -75,13 +59,11 @@ export class HeroComponent implements OnInit {
   });
 
   constructor(
-    config: NgbModalConfig,
-    private modalService: NgbModal,
-    private filepondService: FilepondService,
     private databaseService: DatabaseService,
     private activateRoute: ActivatedRoute,
     public ksGalleryService: KsGalleryService,
-    public tinyMCEService: TinyMCEService
+    public tinyMCEService: TinyMCEService,
+    public dialog: MatDialog
   ) {
     this.subscription = activateRoute.params.subscribe(params => this.id = params.id);
 
@@ -178,51 +160,36 @@ export class HeroComponent implements OnInit {
           this.fileBase64ToUploadGallery = [];
         });
 
-      this.closeUpdateHeroModal();
+      this.dialog.closeAll();
     }
   }
 
-  openUpdateHeroModal(content) {
+  openUpdateHeroDialog() {
     const {name, description} = this.hero;
     this.form.controls.name.setValue(name);
     this.form.controls.description.setValue(description);
 
-    this.modalService.open(content, { size: 'lg' });
-  }
-
-  closeUpdateHeroModal() {
-    this.fileToUploadGallery = [];
-    this.fileToUploadPreview = null;
-    this.form.reset();
-    this.modalService.dismissAll('Close update hero.');
-  }
-
-  pondHandleAddFileGallery(event: any) {
-    this.fileToUploadGallery.push(event.file);
-
-    const base64StringDataURL = event.file.getFileEncodeDataURL();
-    // const base64String = event.file.getFileEncodeBase64String();
-    this.fileBase64ToUploadGallery.push(base64StringDataURL);
-  }
-
-  poundHandleRemoveFileGallery(event: any) {
-    const index = this.fileToUploadGallery.findIndex((item) => {
-      return item.id === event.file.id;
+    const dialogRef = this.dialog.open(UpdateHeroDialogComponent, {
+      data: {
+        form: this.form
+      },
+      disableClose: true,
+      width: '80vw'
     });
 
-    if (index > -1) {
-      this.fileToUploadGallery.splice(index, 1);
-      this.fileBase64ToUploadGallery.splice(index, 1);
-    }
-  }
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.fileToUploadGallery = result.fileToUploadGallery;
+        this.fileBase64ToUploadGallery = result.fileBase64ToUploadGallery;
+        this.fileToUploadPreview = result.fileToUploadPreview;
+        this.fileBase64ToUploadPreview = result.fileBase64ToUploadPreview;
 
-  pondHandleAddFilePreview(event: any) {
-    this.fileToUploadPreview = event.file;
-    this.fileBase64ToUploadPreview = event.file.getFileEncodeDataURL();
-  }
+        this.updateHero();
+      }
 
-  poundHandleRemoveFilePreview(event: any) {
-    this.fileToUploadPreview = null;
-    this.fileBase64ToUploadPreview = null;
+      this.fileToUploadGallery = [];
+      this.fileToUploadPreview = null;
+      this.form.reset();
+    });
   }
 }
