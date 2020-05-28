@@ -4,10 +4,9 @@ import { Subscription } from 'rxjs';
 
 import { Book } from '../data-access/entities/book.entity';
 import { DatabaseService } from '../data-access/database.service';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {NgbModal, NgbModalConfig} from '@ng-bootstrap/ng-bootstrap';
-import {ImageHero} from '../data-access/entities/image-hero.entity';
-import {ImageHeroPreview} from '../data-access/entities/image-hero-preview.entity';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { UpdateBookDialogComponent } from './dialog/update-book-dialog/update-book-dialog.component';
 
 @Component({
   selector: 'app-book',
@@ -20,14 +19,14 @@ export class BookComponent implements OnInit {
   form: FormGroup;
   book: Book;
   private subscription: Subscription;
+  panelOpenState = false;
 
   constructor(
-    config: NgbModalConfig,
-    private modalService: NgbModal,
     private databaseService: DatabaseService,
     private activateRoute: ActivatedRoute,
+    public dialog: MatDialog
   ) {
-    this.subscription = activateRoute.params.subscribe(params => this.id = params['id']);
+    this.subscription = activateRoute.params.subscribe(params => this.id = params.id);
 
     this.getBookById(this.id);
   }
@@ -72,20 +71,29 @@ export class BookComponent implements OnInit {
           description = '';
         });
 
-      this.closeUpdateBookModal();
+      this.dialog.closeAll();
     }
   }
 
-  openUpdateBookModal(content) {
+  openUpdateBookDialog() {
     const {name, description} = this.book;
     this.form.controls.name.setValue(name);
     this.form.controls.description.setValue(description);
 
-    this.modalService.open(content, { size: 'lg' });
-  }
+    const dialogRef = this.dialog.open(UpdateBookDialogComponent, {
+      data: {
+        form: this.form
+      },
+      disableClose: true,
+      width: '80vw'
+    });
 
-  closeUpdateBookModal() {
-    this.form.reset();
-    this.modalService.dismissAll('Close update book.');
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.updateBook();
+      }
+
+      this.form.reset();
+    });
   }
 }
