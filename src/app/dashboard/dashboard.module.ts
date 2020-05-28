@@ -6,11 +6,13 @@ import { DashboardRoutingModule } from './dashboard-routing.module';
 import { SharedModule } from '../shared/shared.module';
 import { DashboardComponent } from './dashboard.component';
 import { BookListComponent } from './book-list/book-list.component';
+import { CreateBookDialogComponent } from './book-list/dialog/create-book-dialog/create-book-dialog.component';
 
 @NgModule({
   declarations: [
     DashboardComponent,
-    BookListComponent
+    BookListComponent,
+    CreateBookDialogComponent
   ],
   imports: [
     CommonModule,
