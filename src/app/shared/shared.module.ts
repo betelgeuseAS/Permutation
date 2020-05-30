@@ -20,21 +20,16 @@ registerPlugin(
   FilePondPluginFileEncode
 );
 import { EditorModule, TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
-
 import { PageNotFoundComponent } from './components/';
 import { WebviewDirective } from './directives/';
-
 import { TranslateModule } from '@ngx-translate/core';
-
 import { MomentPipe } from './pipes/moment.pipe';
-
 import 'hammerjs';
 import 'mousetrap';
 import { GalleryModule } from '@ks89/angular-modal-gallery';
-
 import { MaterialModule } from '../material.module';
-
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { NgxAudioPlayerModule } from 'ngx-audio-player';
 
 @NgModule({
   declarations: [
@@ -48,7 +43,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     FilePondModule,
     GalleryModule.forRoot(),
     EditorModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    NgxAudioPlayerModule
   ],
   exports: [
     TranslateModule,
@@ -61,7 +57,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     GalleryModule,
     EditorModule,
     MaterialModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    NgxAudioPlayerModule
   ],
   providers: [
     {

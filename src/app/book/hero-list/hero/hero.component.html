@@ -63,7 +63,7 @@
 <mat-card class="example-card">
   <mat-card-header>
     <mat-card-title>Content</mat-card-title>
-    <mat-card-subtitle>Content</mat-card-subtitle>
+    <mat-card-subtitle>Write down your thoughts or create a voice recording.</mat-card-subtitle>
   </mat-card-header>
 
   <mat-card-content>
@@ -75,7 +75,18 @@
       </mat-tab>
 
       <mat-tab label="Voice">
-        Voice
+        <mat-advanced-audio-player
+          *ngIf="playlist.length"
+          [playlist]="playlist"
+          [displayTitle]="displayTitle"
+          [autoPlay]="false"
+          muted="muted"
+          [displayPlaylist]="displayPlayList"
+          [pageSizeOptions]="pageSizeOptions"
+          (ended)="handelPlayerEnded($event)"
+          [displayVolumeControls]="displayVolumeControls"
+          [expanded]="true"
+        ></mat-advanced-audio-player>
       </mat-tab>
     </mat-tab-group>
   </mat-card-content>

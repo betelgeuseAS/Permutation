@@ -12,6 +12,8 @@ import { ImageHeroPreview } from '../../../data-access/entities/image-hero-previ
 import { TinyMCEService } from '../../../shared/services/tinymce.service';
 import { MatDialog } from '@angular/material/dialog';
 import { UpdateHeroDialogComponent } from './dialog/update-hero-dialog/update-hero-dialog.component';
+import { Track } from 'ngx-audio-player';
+import { AudioPlayerService } from '../../../shared/services/audio-player.service';
 
 @Component({
   selector: 'app-hero',
@@ -58,11 +60,18 @@ export class HeroComponent implements OnInit {
     // autosave_retention: "2m",
   });
 
+  playlist: Track[] = [];
+  displayTitle = this.audioPlayerService.getOptions().displayTitle;
+  displayPlayList = this.audioPlayerService.getOptions().displayPlayList;
+  pageSizeOptions = this.audioPlayerService.getOptions().pageSizeOptions;
+  displayVolumeControls = this.audioPlayerService.getOptions().displayVolumeControls;
+
   constructor(
     private databaseService: DatabaseService,
     private activateRoute: ActivatedRoute,
     public ksGalleryService: KsGalleryService,
     public tinyMCEService: TinyMCEService,
+    public audioPlayerService: AudioPlayerService,
     public dialog: MatDialog
   ) {
     this.subscription = activateRoute.params.subscribe(params => this.id = params.id);
@@ -100,6 +109,12 @@ export class HeroComponent implements OnInit {
         //   });
         // }
 
+        this.playlist = [
+          // {
+          //   title: 'Title',
+          //   link: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3'
+          // }
+        ];
       });
   }
 
@@ -191,5 +206,9 @@ export class HeroComponent implements OnInit {
       this.fileToUploadPreview = null;
       this.form.reset();
     });
+  }
+
+  handelPlayerEnded($event) {
+    // console.log($event);
   }
 }
