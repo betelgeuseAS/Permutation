@@ -58,7 +58,6 @@
     "@ks89/angular-modal-gallery": "^7.2.5",
     "@ngx-translate/core": "^12.1.2",
     "@ngx-translate/http-loader": "^4.0.0",
-    "@tinymce/tinymce-angular": "^3.5.2",
     "@types/hammerjs": "^2.0.36",
     "@types/mousetrap": "^1.6.3",
     "filepond": "^4.13.2",
@@ -75,7 +74,6 @@
     "ngx-filepond": "^5.0.1",
     "rxjs": "~6.5.4",
     "sqlite3": "^4.1.1",
-    "tinymce": "^5.2.2",
     "tslib": "^1.10.0",
     "typeorm": "^0.2.24",
     "zone.js": "~0.10.2"

@@ -18,9 +18,7 @@ registerPlugin(
   FilePondPluginFileValidateType,
   FilePondPluginImageValidateSize,
   FilePondPluginFileEncode
-);
-import { EditorModule, TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
-import { PageNotFoundComponent } from './components/';
+);import { PageNotFoundComponent } from './components/';
 import { WebviewDirective } from './directives/';
 import { TranslateModule } from '@ngx-translate/core';
 import { MomentPipe } from './pipes/moment.pipe';
@@ -42,7 +40,6 @@ import { NgxAudioPlayerModule } from 'ngx-audio-player';
     FormsModule,
     FilePondModule,
     GalleryModule.forRoot(),
-    EditorModule,
     FlexLayoutModule,
     NgxAudioPlayerModule
   ],
@@ -55,16 +52,10 @@ import { NgxAudioPlayerModule } from 'ngx-audio-player';
     MomentPipe,
     FilePondModule,
     GalleryModule,
-    EditorModule,
     MaterialModule,
     FlexLayoutModule,
     NgxAudioPlayerModule
   ],
-  providers: [
-    {
-      provide: TINYMCE_SCRIPT_SRC,
-      useValue: 'tinymce/tinymce.min.js'
-    }
-  ]
+  providers: []
 })
 export class SharedModule {}
