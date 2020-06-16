@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 
@@ -18,7 +18,8 @@ registerPlugin(
   FilePondPluginFileValidateType,
   FilePondPluginImageValidateSize,
   FilePondPluginFileEncode
-);import { PageNotFoundComponent } from './components/';
+);
+import { PageNotFoundComponent } from './components/';
 import { WebviewDirective } from './directives/';
 import { TranslateModule } from '@ngx-translate/core';
 import { MomentPipe } from './pipes/moment.pipe';
@@ -28,6 +29,8 @@ import { GalleryModule } from '@ks89/angular-modal-gallery';
 import { MaterialModule } from '../material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { NgxAudioPlayerModule } from 'ngx-audio-player';
+import { QuillModule } from 'ngx-quill';
+import Counter from './counter';
 
 @NgModule({
   declarations: [
@@ -41,7 +44,17 @@ import { NgxAudioPlayerModule } from 'ngx-audio-player';
     FilePondModule,
     GalleryModule.forRoot(),
     FlexLayoutModule,
-    NgxAudioPlayerModule
+    NgxAudioPlayerModule,
+    QuillModule.forRoot({
+      customModules: [{
+        implementation: Counter,
+        path: 'modules/counter'
+      }],
+      customOptions: [{
+        import: 'formats/font',
+        whitelist: ['mirza', 'roboto', 'aref', 'serif', 'sansserif', 'monospace']
+      }]
+    })
   ],
   exports: [
     TranslateModule,
@@ -54,8 +67,10 @@ import { NgxAudioPlayerModule } from 'ngx-audio-player';
     GalleryModule,
     MaterialModule,
     FlexLayoutModule,
-    NgxAudioPlayerModule
+    NgxAudioPlayerModule,
+    QuillModule
   ],
-  providers: []
+  providers: [],
+  schemas: [NO_ERRORS_SCHEMA]
 })
 export class SharedModule {}

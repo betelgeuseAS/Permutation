@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { DatabaseService } from '../../../data-access/database.service';
 import { ActivatedRoute } from '@angular/router';
@@ -13,6 +13,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { UpdateHeroDialogComponent } from './dialog/update-hero-dialog/update-hero-dialog.component';
 import { Track } from 'ngx-audio-player';
 import { AudioPlayerService } from '../../../shared/services/audio-player.service';
+import { QuillService } from '../../../shared/services/quill.service';
+import { QuillEditorComponent } from 'ngx-quill';
 
 @Component({
   selector: 'app-hero',
@@ -37,12 +39,17 @@ export class HeroComponent implements OnInit {
   pageSizeOptions = this.audioPlayerService.getOptions().pageSizeOptions;
   displayVolumeControls = this.audioPlayerService.getOptions().displayVolumeControls;
 
+  @ViewChild(QuillEditorComponent, { static: true }) quillEditor: QuillEditorComponent;
+  quillModules: object;
+  QuillContent: string | null;
+
   constructor(
     private databaseService: DatabaseService,
     private activateRoute: ActivatedRoute,
     public ksGalleryService: KsGalleryService,
     public audioPlayerService: AudioPlayerService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    public quillService: QuillService
   ) {
     this.subscription = activateRoute.params.subscribe(params => this.id = params.id);
 
@@ -53,6 +60,11 @@ export class HeroComponent implements OnInit {
     this.form = new FormGroup({
       name: new FormControl('', Validators.required),
       description: new FormControl('', Validators.required)
+    });
+
+    this.quillModules = this.quillService.getModule({
+      quillEditor: this.quillEditor,
+      dataMention: [{id: 1, value: 'Triss Merigold'}, {id: 1, value: 'Shanni Overing'}]
     });
   }
 
@@ -85,6 +97,8 @@ export class HeroComponent implements OnInit {
           //   link: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3'
           // }
         ];
+
+        this.QuillContent = this.hero.content;
       });
   }
 
