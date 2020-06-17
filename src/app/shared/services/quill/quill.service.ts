@@ -1,24 +1,23 @@
 import { Injectable } from '@angular/core';
 
-// It can be also in main.ts file imported:
-import 'quill-emoji';
-import 'quill-mention';
-
 // import {EditorChangeContent, EditorChangeSelection} from 'ngx-quill';
 
 import Quill from 'quill';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
 // const parchment = Quill.import('parchment');
 // const block = parchment.query('block');
 // block.tagName = 'DIV';
 // // or class NewBlock extends Block {} NewBlock.tagName = 'DIV'
 // Quill.register(block /* or NewBlock */, true);
 
+// It can be also in main.ts file imported:
+import 'quill-emoji';
+import 'quill-mention';
+
 // import {Mention} from 'quill-mention';
 // Quill.register('modules/mention', Mention);
 
-// import ImageResize from 'quill-image-resize-module';
-// Quill.register('modules/imageResize', ImageResize);
+import ImageResize from 'quill-image-resize-module';
+Quill.register('modules/imageResize', ImageResize);
 
 interface Options {
   quillEditor: any;
@@ -96,13 +95,18 @@ export class QuillService {
    }: Options): object {
     return { // https://quilljs.com/docs/modules/
       // Emoji plugin:
+      // https://www.npmjs.com/package/quill-emoji
+      // https://stackblitz.com/edit/ngx-quill-emoji?file=src%2Fapp%2Fapp.component.ts
       'emoji-shortname': true,
       'emoji-textarea': false,
       'emoji-toolbar': true,
 
       // Mention plugin:
+      // https://www.npmjs.com/package/quill-mention
+      // https://github.com/afry/quill-mention
       mention: {
-        allowedChars: /^[A-Za-z\0-9]*$/,
+        allowedChars: /^[A-Za-z\sÅÄÖåäö]*$/,
+        mentionDenotationChars: ["@", "#"],
         onSelect: (item, insertItem) => {
           // const editor = this.editor.quillEditor;
           const editor = quillEditor.quillEditor;
@@ -110,7 +114,7 @@ export class QuillService {
           // necessary because quill-mention triggers changes as 'api' instead of 'user'
           editor.insertText(editor.getLength() - 1, '', 'user');
         },
-        source: (searchTerm, renderList) => {
+        source: (searchTerm, renderList, mentionChar) => {
           // const values = [
           //   { id: 1, value: 'Value 1' },
           //   { id: 2, value: 'Value 2' }
@@ -129,8 +133,49 @@ export class QuillService {
             });
             renderList(matches, searchTerm);
           }
+
+          // ----------
+          // let values;
+          //
+          // if (mentionChar === "@") {
+          //   values = atValues;
+          // } else {
+          //   values = hashValues;
+          // }
+          //
+          // if (searchTerm.length === 0) {
+          //   renderList(values, searchTerm);
+          // } else {
+          //   const matches = [];
+          //   for (let i = 0; i < values.length; i++)
+          //     if (
+          //       ~values[i].value.toLowerCase().indexOf(searchTerm.toLowerCase())
+          //     )
+          //       matches.push(values[i]);
+          //   renderList(matches, searchTerm);
+          // }
         }
       },
+
+      // Image resize plugin:
+      // https://www.npmjs.com/package/quill-image-resize
+      imageResize: {
+        displaySize: true,
+        modules: ['Resize', 'DisplaySize', 'Toolbar'], // You can add own module https://www.npmjs.com/package/quill-image-resize
+        // handleStyles: {
+        //   backgroundColor: 'black',
+        //   border: 'none',
+        //   color: 'white'
+        // },
+        // toolbarStyles: {
+        //   backgroundColor: 'black',
+        //   border: 'none',
+        //   color: 'white'
+        // },
+        // toolbarButtonStyles: {},
+        // toolbarButtonSvgStyles: {},
+      },
+      // imageResize: true,
 
       toolbar: { // https://quilljs.com/docs/modules/toolbar/
         container: [
