@@ -13,7 +13,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { UpdateHeroDialogComponent } from './dialog/update-hero-dialog/update-hero-dialog.component';
 import { Track } from 'ngx-audio-player';
 import { AudioPlayerService } from '../../../shared/services/audio-player.service';
-import { QuillService } from '../../../shared/services/quill.service';
+import { QuillService } from '../../../shared/services/quill/quill.service';
 import { QuillEditorComponent } from 'ngx-quill';
 
 @Component({

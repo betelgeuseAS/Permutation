@@ -31,6 +31,7 @@ interface Options {
 export class QuillService {
   // ng-quill: https://github.com/KillerCodeMonkey/ngx-quill
   // Quill: https://quilljs.com/docs/quickstart/
+  // Quill API: https://quilljs.com/docs/api/
   // Building a Custom Module: https://quilljs.com/guides/building-a-custom-module/
   // Examples: https://killercodemonkey.github.io/ngx-quill-example/
 
@@ -174,6 +175,14 @@ export class QuillService {
           },
           redo() {
             quillEditor.quillEditor.history.redo();
+          },
+          counter() {
+            const btn = document.querySelector('.ql-toolbar .ql-formats .ql-counter');
+            if (btn) {
+              const wordsCount = btn.innerHTML.match(/\d+/g)[0];
+              const editor = quillEditor.quillEditor;
+              editor.insertText(editor.getLength(), `${wordsCount} word(s)`, {color: '#17A2B8', italic: true});
+            }
           }
         }
       },

@@ -30,7 +30,7 @@ import { MaterialModule } from '../material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { NgxAudioPlayerModule } from 'ngx-audio-player';
 import { QuillModule } from 'ngx-quill';
-import Counter from './counter';
+import Counter from './services/quill/counter';
 
 @NgModule({
   declarations: [
