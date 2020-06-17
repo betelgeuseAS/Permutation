@@ -1,4 +1,4 @@
-import {Injectable, OnInit} from '@angular/core';
+import { Injectable } from '@angular/core';
 
 // It can be also in main.ts file imported:
 import 'quill-emoji';
@@ -7,6 +7,7 @@ import 'quill-mention';
 // import {EditorChangeContent, EditorChangeSelection} from 'ngx-quill';
 
 import Quill from 'quill';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 // const parchment = Quill.import('parchment');
 // const block = parchment.query('block');
 // block.tagName = 'DIV';
@@ -79,18 +80,19 @@ export class QuillService {
   //   console.log('blur', $event);
   // }
 
-  getModule({
-     quillEditor = null,
-     dataMention = []
-   }: Options): object {
-
+  constructor() {
     // Set new icons in exits buttons
     // Quill icons: https://github.com/quilljs/quill/tree/develop/assets/icons
     const icons = Quill.import('ui/icons');
     // icons['bold'] = '<i class="fa fa-bold" aria-hidden="true"></i>';
     icons['undo'] = '<svg viewbox="0 0 18 18"><polygon class="ql-fill ql-stroke" points="6 10 4 12 2 10 6 10"></polygon><path class="ql-stroke" d="M8.09,13.91A4.6,4.6,0,0,0,9,14,5,5,0,1,0,4,9"></path></svg>';
     icons['redo'] = '<svg viewbox="0 0 18 18"><polygon class="ql-fill ql-stroke" points="12 10 14 12 16 10 12 10"></polygon><path class="ql-stroke" d="M9.91,13.91A4.6,4.6,0,0,1,9,14a5,5,0,1,1,5-5"></path></svg>';
+  }
 
+  getModule({
+     quillEditor = null,
+     dataMention = []
+   }: Options): object {
     return { // https://quilljs.com/docs/modules/
       // Emoji plugin:
       'emoji-shortname': true,
@@ -176,7 +178,18 @@ export class QuillService {
         }
       },
 
-      keyboard: {}, // https://quilljs.com/docs/modules/keyboard/
+      keyboard: { // https://quilljs.com/docs/modules/keyboard/
+        // bindings: {
+        //   custom: { // Shift + B
+        //     key: 'B',
+        //     shiftKey: true,
+        //     handler(range, context) {
+        //       // Handle shift+b
+        //       console.log(range, context);
+        //     }
+        //   },
+        // }
+      },
 
       history: { // https://quilljs.com/docs/modules/history/
         delay: 2000,
@@ -188,7 +201,11 @@ export class QuillService {
 
       },
 
-      syntax: false, // https://quilljs.com/docs/modules/syntax/
+      // https://quilljs.com/docs/modules/syntax/
+      // You nee include Highlight.js:
+      // https://highlightjs.org/
+      // https://ngx-highlight.netlify.app/
+      syntax: false,
 
       // Custom counter plugin:
       // counter: { container: '#counter', unit: 'word' }
