@@ -21,7 +21,12 @@ Quill.register('modules/imageResize', ImageResize);
 
 interface Options {
   quillEditor: any;
-  dataMention: Array<{id: number; value: string}>;
+  dataMention: {
+    heroes?: Array<{id: number; value: string}>,
+    places?: Array<{id: number; value: string}>,
+    notes?: Array<{id: number; value: string}>,
+    plots?: Array<{id: number; value: string}>
+  };
 }
 
 @Injectable({
@@ -85,13 +90,18 @@ export class QuillService {
     // Quill icons: https://github.com/quilljs/quill/tree/develop/assets/icons
     const icons = Quill.import('ui/icons');
     // icons['bold'] = '<i class="fa fa-bold" aria-hidden="true"></i>';
-    icons['undo'] = '<svg viewbox="0 0 18 18"><polygon class="ql-fill ql-stroke" points="6 10 4 12 2 10 6 10"></polygon><path class="ql-stroke" d="M8.09,13.91A4.6,4.6,0,0,0,9,14,5,5,0,1,0,4,9"></path></svg>';
-    icons['redo'] = '<svg viewbox="0 0 18 18"><polygon class="ql-fill ql-stroke" points="12 10 14 12 16 10 12 10"></polygon><path class="ql-stroke" d="M9.91,13.91A4.6,4.6,0,0,1,9,14a5,5,0,1,1,5-5"></path></svg>';
+    icons.undo = '<svg viewbox="0 0 18 18"><polygon class="ql-fill ql-stroke" points="6 10 4 12 2 10 6 10"></polygon><path class="ql-stroke" d="M8.09,13.91A4.6,4.6,0,0,0,9,14,5,5,0,1,0,4,9"></path></svg>';
+    icons.redo = '<svg viewbox="0 0 18 18"><polygon class="ql-fill ql-stroke" points="12 10 14 12 16 10 12 10"></polygon><path class="ql-stroke" d="M9.91,13.91A4.6,4.6,0,0,1,9,14a5,5,0,1,1,5-5"></path></svg>';
   }
 
   getModule({
      quillEditor = null,
-     dataMention = []
+     dataMention = {
+        heroes: [],
+        places: [],
+        notes: [],
+        plots: []
+     }
    }: Options): object {
     return { // https://quilljs.com/docs/modules/
       // Emoji plugin:
@@ -106,7 +116,7 @@ export class QuillService {
       // https://github.com/afry/quill-mention
       mention: {
         allowedChars: /^[A-Za-z\sÅÄÖåäö]*$/,
-        mentionDenotationChars: ["@", "#"],
+        mentionDenotationChars: ["@", "#", "Hero-", "Place-", "Note-", "Plot-"],
         onSelect: (item, insertItem) => {
           // const editor = this.editor.quillEditor;
           const editor = quillEditor.quillEditor;
@@ -119,9 +129,24 @@ export class QuillService {
           //   { id: 1, value: 'Value 1' },
           //   { id: 2, value: 'Value 2' }
           // ];
-          const values = dataMention;
+          let values = [];
 
-          if (searchTerm.length === 0) {
+          switch (mentionChar) {
+            case 'Hero-':
+              values = dataMention.heroes;
+              break;
+            case 'Place-':
+              values = dataMention.places;
+              break;
+            case 'Note-':
+              values = dataMention.notes;
+              break;
+            case 'Plot-':
+              values = dataMention.plots;
+              break;
+          }
+
+          if (searchTerm.length === 0 || !values) {
             renderList(values, searchTerm);
           } else {
             const matches = [];
@@ -133,48 +158,27 @@ export class QuillService {
             });
             renderList(matches, searchTerm);
           }
-
-          // ----------
-          // let values;
-          //
-          // if (mentionChar === "@") {
-          //   values = atValues;
-          // } else {
-          //   values = hashValues;
-          // }
-          //
-          // if (searchTerm.length === 0) {
-          //   renderList(values, searchTerm);
-          // } else {
-          //   const matches = [];
-          //   for (let i = 0; i < values.length; i++)
-          //     if (
-          //       ~values[i].value.toLowerCase().indexOf(searchTerm.toLowerCase())
-          //     )
-          //       matches.push(values[i]);
-          //   renderList(matches, searchTerm);
-          // }
         }
       },
 
       // Image resize plugin:
       // https://www.npmjs.com/package/quill-image-resize
-      imageResize: {
-        displaySize: true,
-        modules: ['Resize', 'DisplaySize', 'Toolbar'], // You can add own module https://www.npmjs.com/package/quill-image-resize
-        // handleStyles: {
-        //   backgroundColor: 'black',
-        //   border: 'none',
-        //   color: 'white'
-        // },
-        // toolbarStyles: {
-        //   backgroundColor: 'black',
-        //   border: 'none',
-        //   color: 'white'
-        // },
-        // toolbarButtonStyles: {},
-        // toolbarButtonSvgStyles: {},
-      },
+      // imageResize: {
+      //   displaySize: true,
+      //   modules: ['Resize', 'DisplaySize', 'Toolbar'], // You can add own module https://www.npmjs.com/package/quill-image-resize
+      //   // handleStyles: {
+      //   //   backgroundColor: 'black',
+      //   //   border: 'none',
+      //   //   color: 'white'
+      //   // },
+      //   // toolbarStyles: {
+      //   //   backgroundColor: 'black',
+      //   //   border: 'none',
+      //   //   color: 'white'
+      //   // },
+      //   // toolbarButtonStyles: {},
+      //   // toolbarButtonSvgStyles: {},
+      // },
       // imageResize: true,
 
       toolbar: { // https://quilljs.com/docs/modules/toolbar/
