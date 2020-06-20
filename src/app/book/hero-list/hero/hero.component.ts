@@ -63,8 +63,7 @@ export class HeroComponent implements OnInit {
     });
 
     this.quillModules = this.quillService.getModule({
-      quillEditor: this.quillEditor,
-      dataMention: [{id: 1, value: 'Triss Merigold'}, {id: 1, value: 'Shanni Overing'}]
+      quillEditor: this.quillEditor
     });
   }
 

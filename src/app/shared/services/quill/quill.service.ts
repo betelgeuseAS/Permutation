@@ -19,14 +19,13 @@ import 'quill-mention';
 import ImageResize from 'quill-image-resize-module';
 Quill.register('modules/imageResize', ImageResize);
 
+import { DatabaseService } from '../../../data-access/database.service';
+import { getRepository, getConnection, createQueryBuilder } from "typeorm";
+import { Hero } from '../../../data-access/entities/hero.entity';
+import {Book} from '../../../data-access/entities/book.entity';
+
 interface Options {
   quillEditor: any;
-  dataMention: {
-    heroes?: Array<{id: number; value: string}>,
-    places?: Array<{id: number; value: string}>,
-    notes?: Array<{id: number; value: string}>,
-    plots?: Array<{id: number; value: string}>
-  };
 }
 
 @Injectable({
@@ -85,23 +84,35 @@ export class QuillService {
   //   console.log('blur', $event);
   // }
 
-  constructor() {
+  dataMention: {
+    heroes?: Array<{id: number; value: string}>,
+    places?: Array<{id: number; value: string}>,
+    notes?: Array<{id: number; value: string}>,
+    plots?: Array<{id: number; value: string}>
+  } = {};
+
+  constructor(
+    private databaseService: DatabaseService,
+  ) {
     // Set new icons in exits buttons
     // Quill icons: https://github.com/quilljs/quill/tree/develop/assets/icons
     const icons = Quill.import('ui/icons');
     // icons['bold'] = '<i class="fa fa-bold" aria-hidden="true"></i>';
     icons.undo = '<svg viewbox="0 0 18 18"><polygon class="ql-fill ql-stroke" points="6 10 4 12 2 10 6 10"></polygon><path class="ql-stroke" d="M8.09,13.91A4.6,4.6,0,0,0,9,14,5,5,0,1,0,4,9"></path></svg>';
     icons.redo = '<svg viewbox="0 0 18 18"><polygon class="ql-fill ql-stroke" points="12 10 14 12 16 10 12 10"></polygon><path class="ql-stroke" d="M9.91,13.91A4.6,4.6,0,0,1,9,14a5,5,0,1,1,5-5"></path></svg>';
+
+    this.databaseService
+      .connection
+      .then(() => Hero.find({ select: ["id", "name"] }))
+      .then(heroes => {
+        this.dataMention.heroes = heroes.map(item => {
+          return {id: item.id, value: item.name};
+        });
+      });
   }
 
   getModule({
-     quillEditor = null,
-     dataMention = {
-        heroes: [],
-        places: [],
-        notes: [],
-        plots: []
-     }
+     quillEditor = null
    }: Options): object {
     return { // https://quilljs.com/docs/modules/
       // Emoji plugin:
@@ -133,16 +144,16 @@ export class QuillService {
 
           switch (mentionChar) {
             case 'Hero-':
-              values = dataMention.heroes;
+              values = this.dataMention.heroes;
               break;
             case 'Place-':
-              values = dataMention.places;
+              values = this.dataMention.places;
               break;
             case 'Note-':
-              values = dataMention.notes;
+              values = this.dataMention.notes;
               break;
             case 'Plot-':
-              values = dataMention.plots;
+              values = this.dataMention.plots;
               break;
           }
 
