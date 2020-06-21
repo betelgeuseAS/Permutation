@@ -217,9 +217,10 @@ export class QuillService {
           ['link', 'image', 'video'],
 
           ['emoji'], // emoji module
-          ['counter'], // custom counter
 
-          ['undo', 'redo']
+          ['undo', 'redo'],
+
+          ['counter'], // custom counter
         ],
         handlers: {
           // link(value) {
@@ -241,7 +242,8 @@ export class QuillService {
             if (btn) {
               const wordsCount = btn.innerHTML.match(/\d+/g)[0];
               const editor = quillEditor.quillEditor;
-              editor.insertText(editor.getLength(), `${wordsCount} word(s)`, {color: '#17A2B8', italic: true});
+              const suffix = Number(wordsCount) > 1 ? 's' : '';
+              editor.insertText(editor.getLength(), `${wordsCount} word${suffix}`, {color: '#17A2B8', italic: true});
             }
           }
         }
