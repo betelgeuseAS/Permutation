@@ -16,15 +16,17 @@ interface DialogData {
 export class CreateHeroDialogComponent implements OnInit {
 
   form: FormGroup = this.data.form;
-  fileToUpload: Filepond.File = null;
-  fileBase64ToUpload: string;
+  fileToUploadGallery: Filepond.File[] = [];
+  fileBase64ToUploadGallery: Array<string> = [];
 
-  pondOptions = this.filepondService.getOptions({
+  pondOptionsGallery: Filepond.FilePondOptionProps = this.filepondService.getOptions({
+    allowMultiple: true,
+    maxFiles: 10,
     allowImagePreview: true,
     imageCropAspectRatio: '16:10',
     acceptedFileTypes: ['image/jpg', 'image/jpeg', 'image/png']
   });
-  pondFiles = this.filepondService.getFiles();
+  pondFilesGallery = this.filepondService.getFiles();
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
@@ -33,24 +35,28 @@ export class CreateHeroDialogComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  pondHandleInit() {
-    // console.log('FilePond has initialised');
+  pondHandleAddFileGallery(event: any) {
+    this.fileToUploadGallery.push(event.file);
+
+    const base64StringDataURL = event.file.getFileEncodeDataURL();
+    this.fileBase64ToUploadGallery.push(base64StringDataURL);
   }
 
-  pondHandleAddFile(event: any) {
-    this.fileToUpload = event.file;
-    this.fileBase64ToUpload = event.file.getFileEncodeDataURL();
-  }
+  poundHandleRemoveFileGallery(event: any) {
+    const index = this.fileToUploadGallery.findIndex((item) => {
+      return item.id === event.file.id;
+    });
 
-  poundHandleRemoveFile(event: any) {
-    this.fileToUpload = undefined;
-    this.fileBase64ToUpload = undefined;
+    if (index > -1) {
+      this.fileToUploadGallery.splice(index, 1);
+      this.fileBase64ToUploadGallery.splice(index, 1);
+    }
   }
 
   getResult(): object {
     return {
-      fileToUpload: this.fileToUpload,
-      fileBase64ToUpload: this.fileBase64ToUpload
+      fileToUploadGallery: this.fileToUploadGallery,
+      fileBase64ToUploadGallery: this.fileBase64ToUploadGallery
     };
   }
 }

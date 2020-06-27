@@ -7,11 +7,13 @@
   <mat-card-content>
     <mat-list role="list">
       <mat-list-item role="listitem" *ngFor="let hero of book.heroes">
-        <span>{{hero.name}}</span>
+        <span class="hero-list-name">{{hero.name}}</span>
 
-        <img class="img-responsive img-width" src="{{hero.imagePreview.data}}" alt="{{hero.imagePreview.name}}" *ngIf="hero.imagePreview">
-
-        <button mat-button routerLink="/book/hero/{{hero.id}}" routerLinkActive="active">View</button>
+        <div class="hero-list-buttons">
+          <button mat-raised-button routerLink="/book/hero/{{hero.id}}" routerLinkActive="active">View</button>
+          <button mat-raised-button routerLink="/book/hero/{{hero.id}}" routerLinkActive="active">Edit</button>
+          <button mat-raised-button routerLink="/book/hero/{{hero.id}}" routerLinkActive="active">Remove</button>
+        </div>
 
         <mat-divider></mat-divider>
       </mat-list-item>

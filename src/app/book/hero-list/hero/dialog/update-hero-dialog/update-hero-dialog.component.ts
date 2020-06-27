@@ -18,8 +18,6 @@ export class UpdateHeroDialogComponent implements OnInit {
   form: FormGroup = this.data.form;
   fileToUploadGallery: Filepond.File[] = [];
   fileBase64ToUploadGallery: Array<string> = [];
-  fileToUploadPreview: Filepond.File;
-  fileBase64ToUploadPreview: string;
 
   pondOptionsGallery: Filepond.FilePondOptionProps = this.filepondService.getOptions({
     allowMultiple: true,
@@ -29,13 +27,6 @@ export class UpdateHeroDialogComponent implements OnInit {
     acceptedFileTypes: ['image/jpg', 'image/jpeg', 'image/png']
   });
   pondFilesGallery = this.filepondService.getFiles();
-
-  pondOptionsPreview: Filepond.FilePondOptionProps = this.filepondService.getOptions({
-    allowImagePreview: true,
-    imageCropAspectRatio: '16:10',
-    acceptedFileTypes: ['image/jpg', 'image/jpeg', 'image/png']
-  });
-  pondFilesPreview = this.filepondService.getFiles();
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
@@ -63,22 +54,10 @@ export class UpdateHeroDialogComponent implements OnInit {
     }
   }
 
-  pondHandleAddFilePreview(event: any) {
-    this.fileToUploadPreview = event.file;
-    this.fileBase64ToUploadPreview = event.file.getFileEncodeDataURL();
-  }
-
-  poundHandleRemoveFilePreview(event: any) {
-    this.fileToUploadPreview = null;
-    this.fileBase64ToUploadPreview = null;
-  }
-
   getResult(): object {
     return {
       fileToUploadGallery: this.fileToUploadGallery,
-      fileBase64ToUploadGallery: this.fileBase64ToUploadGallery,
-      fileToUploadPreview: this.fileToUploadPreview,
-      fileBase64ToUploadPreview: this.fileBase64ToUploadPreview
+      fileBase64ToUploadGallery: this.fileBase64ToUploadGallery
     };
   }
 }

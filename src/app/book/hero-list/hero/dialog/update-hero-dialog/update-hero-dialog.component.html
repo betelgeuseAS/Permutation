@@ -24,16 +24,6 @@
       </mat-form-field>
 
       <div>
-        <label for="image-preview">Preview</label>
-
-        <file-pond
-          id="image-preview"
-          [options]="pondOptionsPreview"
-          [files]="pondFilesPreview"
-          (onaddfile)="pondHandleAddFilePreview($event)"
-          (onremovefile)="poundHandleRemoveFilePreview($event)">
-        </file-pond>
-
         <label for="image-gallery">Gallery</label>
 
         <file-pond

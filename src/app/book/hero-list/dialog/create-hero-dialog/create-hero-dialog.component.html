@@ -24,8 +24,7 @@
       </mat-form-field>
 
       <div>
-        <label for="image-preview">Preview</label>
-
+        <label for="image-gallery">Gallery</label>
         <!--<input type="file" id="image-preview" formControlName="file" (change)="handleFileInput($event.target.files)">-->
         <!--<small class="form-text text-danger" *ngIf="form.get('file').invalid && form.get('file').touched">-->
         <!--  <span *ngIf="form.get('file').errors.notSupportImageType"></span>-->
@@ -33,12 +32,11 @@
         <!--</small>-->
 
         <file-pond
-          id="image-preview"
-          [options]="pondOptions"
-          [files]="pondFiles"
-          (oninit)="pondHandleInit()"
-          (onaddfile)="pondHandleAddFile($event)"
-          (onremovefile)="poundHandleRemoveFile($event)">
+          id="image-gallery"
+          [options]="pondOptionsGallery"
+          [files]="pondFilesGallery"
+          (onaddfile)="pondHandleAddFileGallery($event)"
+          (onremovefile)="poundHandleRemoveFileGallery($event)">
         </file-pond>
       </div>
     </form>

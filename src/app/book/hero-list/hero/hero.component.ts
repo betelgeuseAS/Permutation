@@ -8,7 +8,6 @@ import { Image } from '@ks89/angular-modal-gallery';
 import { ImageHero } from '../../../data-access/entities/image-hero.entity';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import * as Filepond from 'filepond';
-import { ImageHeroPreview } from '../../../data-access/entities/image-hero-preview.entity';
 import { MatDialog } from '@angular/material/dialog';
 import { UpdateHeroDialogComponent } from './dialog/update-hero-dialog/update-hero-dialog.component';
 import { Track } from 'ngx-audio-player';
@@ -29,8 +28,6 @@ export class HeroComponent implements OnInit {
   images: Image[] = [];
   fileToUploadGallery: Filepond.File[] = [];
   fileBase64ToUploadGallery: Array<string> = [];
-  fileToUploadPreview: Filepond.File;
-  fileBase64ToUploadPreview: string;
   private subscription: Subscription;
 
   playlist: Track[] = [];
@@ -70,14 +67,11 @@ export class HeroComponent implements OnInit {
   getHeroById(heroId) {
     this.databaseService
       .connection
-      .then(() => Hero.findOne({ where: {id: heroId},  relations: ['imagePreview', 'images'] }))
+      .then(() => Hero.findOne({ where: {id: heroId},  relations: ['images'] }))
       .then(hero => {
         this.hero = hero;
 
         const img: Array<KsOwnImage> = [...this.hero.images];
-        if (this.hero.imagePreview) {
-          img.push(this.hero.imagePreview);
-        }
         this.images = this.ksGalleryService.getImages(img);
 
         // if (this.hero.imagePreview) {
@@ -128,22 +122,6 @@ export class HeroComponent implements OnInit {
         });
       }
 
-      if (this.fileToUploadPreview) {
-        let imageHeroPreview = hero.imagePreview;
-        if (!this.hero.imagePreview) {
-          imageHeroPreview = new ImageHeroPreview();
-        }
-
-        const {filename, fileType, fileSize} = this.fileToUploadPreview;
-
-        imageHeroPreview.name = filename;
-        imageHeroPreview.data = this.fileBase64ToUploadPreview;
-        imageHeroPreview.mimeType = fileType;
-        imageHeroPreview.size = fileSize;
-
-        hero.imagePreview = imageHeroPreview;
-      }
-
       this.databaseService
         .connection
         .then(() => hero.save())
@@ -179,14 +157,11 @@ export class HeroComponent implements OnInit {
       if (result) {
         this.fileToUploadGallery = result.fileToUploadGallery;
         this.fileBase64ToUploadGallery = result.fileBase64ToUploadGallery;
-        this.fileToUploadPreview = result.fileToUploadPreview;
-        this.fileBase64ToUploadPreview = result.fileBase64ToUploadPreview;
 
         this.updateHero();
       }
 
       this.fileToUploadGallery = [];
-      this.fileToUploadPreview = null;
       this.form.reset();
     });
   }

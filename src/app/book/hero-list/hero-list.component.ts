@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { Book } from '../../data-access/entities/book.entity';
 import { Hero } from '../../data-access/entities/hero.entity';
-import { ImageHeroPreview } from '../../data-access/entities/image-hero-preview.entity';
+import { ImageHero } from '../../data-access/entities/image-hero.entity';
 import { DatabaseService } from '../../data-access/database.service';
 
 import { MyValidators } from '../../shared/validators/my.validators';
@@ -24,8 +24,8 @@ export class HeroListComponent implements OnInit {
 
   @Input() book: Book;
   form: FormGroup;
-  fileToUpload: Filepond.File = null;
-  fileBase64ToUpload: string;
+  fileToUploadGallery: Filepond.File[] = [];
+  fileBase64ToUploadGallery: Array<string> = [];
   heroes: Hero[] = [];
 
   constructor(
@@ -55,8 +55,8 @@ export class HeroListComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.fileToUpload = result.fileToUpload;
-        this.fileBase64ToUpload = result.fileBase64ToUpload;
+        this.fileToUploadGallery = result.fileToUploadGallery;
+        this.fileBase64ToUploadGallery = result.fileBase64ToUploadGallery;
 
         this.createHero();
       }
@@ -68,7 +68,7 @@ export class HeroListComponent implements OnInit {
   getHeroesByBookId(bookId) {
     this.databaseService
       .connection
-      .then(() => Hero.find({ where: {book: {id: bookId}},  relations: ['book', 'imagePreview'] }))
+      .then(() => Hero.find({ where: {book: {id: bookId}},  relations: ['book'] }))
       .then(heroes => {
         this.book.heroes = heroes;
       });
@@ -84,20 +84,23 @@ export class HeroListComponent implements OnInit {
       hero.created = moment().format('YYYY-MM-DD H:mm:ss');
       hero.book = this.book;
 
-      if (this.fileToUpload) {
-        const {filename, fileType, fileSize} = this.fileToUpload;
+      if (this.fileToUploadGallery) {
+        this.fileToUploadGallery.forEach((item, index) => {
+          const {filename, fileType, fileSize} = item;
 
-        const imageHeroPreview = new ImageHeroPreview();
-        imageHeroPreview.name = filename;
+          const imageHero = new ImageHero();
+          imageHero.name = filename;
+          imageHero.data = this.fileBase64ToUploadGallery[index];
+          imageHero.mimeType = fileType;
+          imageHero.size = fileSize;
+          imageHero.hero = hero;
 
-        // img to base64: https://www.base64-image.de/
-        // base64 to img: https://codebeautify.org/base64-to-image-converter
-        imageHeroPreview.data = this.fileBase64ToUpload;
+          this.databaseService
+            .connection
+            .then(() => imageHero.save());
 
-        imageHeroPreview.mimeType = fileType;
-        imageHeroPreview.size = fileSize;
-
-        hero.imagePreview = imageHeroPreview;
+          hero.images.push(imageHero);
+        });
       }
 
       this.databaseService
@@ -110,7 +113,7 @@ export class HeroListComponent implements OnInit {
           name = '';
           description = '';
 
-          this.fileToUpload = undefined;
+          this.fileToUploadGallery = undefined;
         });
     }
 
