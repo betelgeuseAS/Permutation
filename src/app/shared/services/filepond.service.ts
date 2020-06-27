@@ -41,6 +41,10 @@ export class FilepondService {
   //   pond.appendTo(document.body);
   // }
 
+  // Base64:
+  // img to base64 - https://www.base64-image.de/
+  // base64 to img - https://codebeautify.org/base64-to-image-converter
+
   getOptions({
      name = 'filepond',
      className = null,

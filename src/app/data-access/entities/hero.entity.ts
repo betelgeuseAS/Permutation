@@ -1,7 +1,6 @@
 import {Entity, PrimaryGeneratedColumn, Column, BaseEntity, ManyToOne, OneToOne, JoinColumn, OneToMany} from 'typeorm';
 
 import { Book } from './book.entity';
-import { ImageHeroPreview } from './image-hero-preview.entity';
 import { ImageHero } from './image-hero.entity';
 
 @Entity({name: 'hero'})
@@ -32,9 +31,9 @@ export class Hero extends BaseEntity {
   @ManyToOne('Book', 'heroes', { nullable: false, eager: true, onDelete: 'CASCADE' })
   book: Book;
 
-  @OneToOne(type => ImageHeroPreview, { nullable: true, cascade: true, onDelete: 'CASCADE' })
-  @JoinColumn()
-  imagePreview: ImageHeroPreview;
+  // @OneToOne(type => ImageHeroPreview, { nullable: true, cascade: true, onDelete: 'CASCADE' })
+  // @JoinColumn()
+  // imagePreview: ImageHeroPreview;
 
   @OneToMany('ImageHero', 'hero')
   images: ImageHero[];

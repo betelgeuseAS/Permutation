@@ -4,7 +4,6 @@ import { Settings } from './repositories/settings';
 
 import { Book } from './entities/book.entity';
 import { Hero } from './entities/hero.entity';
-import { ImageHeroPreview } from './entities/image-hero-preview.entity';
 import { ImageHero } from './entities/image-hero.entity';
 
 @Injectable({
@@ -17,13 +16,15 @@ export class DatabaseService {
 
   constructor() {
     Settings.initialize();
+
     this.options = {
       type: 'sqlite',
       database: Settings.dbPath,
-      entities: [Book, Hero, ImageHeroPreview, ImageHero],
+      entities: [Book, Hero, ImageHero],
       synchronize: true,
       // logging: 'all',
     };
+
     this.connection = createConnection(this.options);
   }
 }
