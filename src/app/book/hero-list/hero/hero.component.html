@@ -4,7 +4,7 @@
     <mat-card-subtitle>{{hero.name}}</mat-card-subtitle>
   </mat-card-header>
 
-  <mat-card-content>
+  <mat-card-content class="main-card-content-hero">
     <form [formGroup]="form">
       <mat-form-field>
         <mat-label>{{ 'COMMON.FIELDS.NAME' | translate }}</mat-label>
@@ -22,7 +22,7 @@
   </mat-card-content>
 
   <mat-card-actions>
-    <button mat-button [disabled]="form.invalid" (click)="updateHeroHandler()">{{ 'BUTTONS.HERO.UPDATE_HERO' | translate }}</button>
+    <button mat-raised-button color="accent" [disabled]="form.invalid" (click)="updateHeroHandler()">{{ 'BUTTONS.HERO.UPDATE_HERO' | translate }}</button>
   </mat-card-actions>
 </mat-card>
 
@@ -108,7 +108,7 @@
       </mat-card-content>
 
       <mat-card-actions>
-        <p>Record</p>
+        Record
       </mat-card-actions>
     </mat-card>
   </div>

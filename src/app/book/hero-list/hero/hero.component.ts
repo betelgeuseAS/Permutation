@@ -13,6 +13,11 @@ import { AudioPlayerService } from '../../../shared/services/audio-player.servic
 import { QuillService } from '../../../shared/services/quill/quill.service';
 import { QuillEditorComponent } from 'ngx-quill';
 import { FilepondService } from '../../../shared/services/filepond.service';
+import {
+  MatSnackBar,
+  MatSnackBarHorizontalPosition,
+  MatSnackBarVerticalPosition,
+} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-hero',
@@ -48,13 +53,17 @@ export class HeroComponent implements OnInit {
   quillModules: object;
   QuillContent: string | null;
 
+  horizontalPosition: MatSnackBarHorizontalPosition = 'start';
+  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
+
   constructor(
     private databaseService: DatabaseService,
     private activateRoute: ActivatedRoute,
     private filepondService: FilepondService,
     public ksGalleryService: KsGalleryService,
     public audioPlayerService: AudioPlayerService,
-    public quillService: QuillService
+    public quillService: QuillService,
+    private snackBar: MatSnackBar
   ) {
     this.subscription = activateRoute.params.subscribe(params => this.id = params.id);
 
@@ -93,12 +102,12 @@ export class HeroComponent implements OnInit {
         //   });
         // }
 
-        this.playlist = [
-          {
-            title: 'Title',
-            link: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3'
-          }
-        ];
+        // this.playlist = [
+        //   {
+        //     title: 'Title',
+        //     link: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3'
+        //   }
+        // ];
 
         this.QuillContent = this.hero.content;
       });
@@ -106,7 +115,7 @@ export class HeroComponent implements OnInit {
 
   updateHeroHandler() {
     if (this.form.valid) {
-      let {name, description} = this.form.value;
+      const {name} = this.form.value;
       const hero = this.hero;
 
       hero.name = name;
@@ -137,15 +146,16 @@ export class HeroComponent implements OnInit {
           this.getHeroById(this.id);
         })
         .then(() => {
-          name = '';
-          description = '';
-
           this.fileToUploadGallery = [];
           this.fileBase64ToUploadGallery = [];
-        });
+          // this.form.reset();
 
-      this.fileToUploadGallery = [];
-      this.form.reset();
+          this.snackBar.open('Hero Updated', 'Close', {
+            duration: 3000,
+            horizontalPosition: this.horizontalPosition,
+            verticalPosition: this.verticalPosition,
+          });
+        });
     }
   }
 
