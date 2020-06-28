@@ -8,12 +8,11 @@ import { Image } from '@ks89/angular-modal-gallery';
 import { ImageHero } from '../../../data-access/entities/image-hero.entity';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import * as Filepond from 'filepond';
-import { MatDialog } from '@angular/material/dialog';
-import { UpdateHeroDialogComponent } from './dialog/update-hero-dialog/update-hero-dialog.component';
 import { Track } from 'ngx-audio-player';
 import { AudioPlayerService } from '../../../shared/services/audio-player.service';
 import { QuillService } from '../../../shared/services/quill/quill.service';
 import { QuillEditorComponent } from 'ngx-quill';
+import { FilepondService } from '../../../shared/services/filepond.service';
 
 @Component({
   selector: 'app-hero',
@@ -30,6 +29,15 @@ export class HeroComponent implements OnInit {
   fileBase64ToUploadGallery: Array<string> = [];
   private subscription: Subscription;
 
+  pondOptionsGallery: Filepond.FilePondOptionProps = this.filepondService.getOptions({
+    allowMultiple: true,
+    maxFiles: 10,
+    allowImagePreview: true,
+    imageCropAspectRatio: '16:10',
+    acceptedFileTypes: ['image/jpg', 'image/jpeg', 'image/png']
+  });
+  pondFilesGallery = this.filepondService.getFiles();
+
   playlist: Track[] = [];
   displayTitle = this.audioPlayerService.getOptions().displayTitle;
   displayPlayList = this.audioPlayerService.getOptions().displayPlayList;
@@ -43,9 +51,9 @@ export class HeroComponent implements OnInit {
   constructor(
     private databaseService: DatabaseService,
     private activateRoute: ActivatedRoute,
+    private filepondService: FilepondService,
     public ksGalleryService: KsGalleryService,
     public audioPlayerService: AudioPlayerService,
-    public dialog: MatDialog,
     public quillService: QuillService
   ) {
     this.subscription = activateRoute.params.subscribe(params => this.id = params.id);
@@ -55,8 +63,7 @@ export class HeroComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = new FormGroup({
-      name: new FormControl('', Validators.required),
-      description: new FormControl('', Validators.required)
+      name: new FormControl('', Validators.required)
     });
 
     this.quillModules = this.quillService.getModule({
@@ -70,6 +77,8 @@ export class HeroComponent implements OnInit {
       .then(() => Hero.findOne({ where: {id: heroId},  relations: ['images'] }))
       .then(hero => {
         this.hero = hero;
+
+        this.form.controls.name.setValue(this.hero.name);
 
         const img: Array<KsOwnImage> = [...this.hero.images];
         this.images = this.ksGalleryService.getImages(img);
@@ -85,23 +94,22 @@ export class HeroComponent implements OnInit {
         // }
 
         this.playlist = [
-          // {
-          //   title: 'Title',
-          //   link: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3'
-          // }
+          {
+            title: 'Title',
+            link: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3'
+          }
         ];
 
         this.QuillContent = this.hero.content;
       });
   }
 
-  updateHero() {
+  updateHeroHandler() {
     if (this.form.valid) {
       let {name, description} = this.form.value;
       const hero = this.hero;
 
       hero.name = name;
-      hero.description = description;
 
       if (this.fileToUploadGallery) {
         this.fileToUploadGallery.forEach((item, index) => {
@@ -136,34 +144,26 @@ export class HeroComponent implements OnInit {
           this.fileBase64ToUploadGallery = [];
         });
 
-      this.dialog.closeAll();
+      this.fileToUploadGallery = [];
+      this.form.reset();
     }
   }
 
-  openUpdateHeroDialog() {
-    const {name, description} = this.hero;
-    this.form.controls.name.setValue(name);
-    this.form.controls.description.setValue(description);
+  pondHandleAddFileGallery(event: any) {
+    this.fileToUploadGallery.push(event.file);
+    const base64StringDataURL = event.file.getFileEncodeDataURL();
+    this.fileBase64ToUploadGallery.push(base64StringDataURL);
+  }
 
-    const dialogRef = this.dialog.open(UpdateHeroDialogComponent, {
-      data: {
-        form: this.form
-      },
-      disableClose: true,
-      width: '80vw'
+  poundHandleRemoveFileGallery(event: any) {
+    const index = this.fileToUploadGallery.findIndex((item) => {
+      return item.id === event.file.id;
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.fileToUploadGallery = result.fileToUploadGallery;
-        this.fileBase64ToUploadGallery = result.fileBase64ToUploadGallery;
-
-        this.updateHero();
-      }
-
-      this.fileToUploadGallery = [];
-      this.form.reset();
-    });
+    if (index > -1) {
+      this.fileToUploadGallery.splice(index, 1);
+      this.fileBase64ToUploadGallery.splice(index, 1);
+    }
   }
 
   handelPlayerEnded($event) {

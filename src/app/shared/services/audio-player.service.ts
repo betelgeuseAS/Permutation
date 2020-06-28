@@ -53,7 +53,7 @@ export class AudioPlayerService {
 
   getOptions(): Options {
     return {
-      displayTitle: true,
+      displayTitle: false,
       displayPlayList: true,
       pageSizeOptions: [2, 4, 6, 8],
       displayVolumeControls: true,

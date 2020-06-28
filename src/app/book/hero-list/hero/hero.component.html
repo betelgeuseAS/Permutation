@@ -1,88 +1,96 @@
 <mat-card *ngIf="hero">
   <mat-card-header>
-    <mat-card-title>{{hero.name}}</mat-card-title>
-    <mat-card-subtitle>Hero</mat-card-subtitle>
+    <mat-card-title>Hero</mat-card-title>
+    <mat-card-subtitle>{{hero.name}}</mat-card-subtitle>
   </mat-card-header>
 
   <mat-card-content>
-    <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between none" fxLayoutGap=".75rem">
-      <div fxFlex="40%">
-        <div class="alert alert-dismissible alert-primary">
-          <h4>Gallery</h4>
+    <form [formGroup]="form">
+      <mat-form-field>
+        <mat-label>{{ 'COMMON.FIELDS.NAME' | translate }}</mat-label>
 
-          <div class="plain-container-row" *ngIf="images.length">
-            <ng-container *ngFor="let img of images; let i = index">
-              <div *ngIf="i <= 2">
-                <img *ngIf="img.plain && img.plain.img; else noThumb"
-                     class="my-app-custom-image-row"
-                     [src]="img.plain.img"
-                     (click)="ksGalleryService.openImageModalRow(img, images)"
-                     [alt]="img.modal.description"/>
+        <input matInput type="text" formControlName="name" placeholder="{{ 'COMMON.FIELDS.NAME_PLACEHOLDER' | translate }}">
+        <button mat-button *ngIf="form.get('name')" matSuffix mat-icon-button aria-label="Clear" (click)="form.controls.name.setValue('')">
+          <mat-icon>close</mat-icon>
+        </button>
 
-                <a class="more" *ngIf="i==2 && i>0" (click)="ksGalleryService.openImageModalRow(img, images)"> +{{images.length - 3}} more </a>
+        <mat-error class="form-text text-danger" *ngIf="form.get('name').invalid && form.get('name').touched">
+          <span *ngIf="form.get('name').errors.required">{{ 'ERRORS.FIELDS.REQUIRED' | translate }}</span>
+        </mat-error>
+      </mat-form-field>
+    </form>
+  </mat-card-content>
 
-                <ng-template #noThumb>
+  <mat-card-actions>
+    <button mat-button [disabled]="form.invalid" (click)="updateHeroHandler()">{{ 'BUTTONS.HERO.UPDATE_HERO' | translate }}</button>
+  </mat-card-actions>
+</mat-card>
+
+<div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between none" fxLayoutGap=".75rem">
+  <div fxFlex="50%">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Gallery</mat-card-title>
+        <mat-card-subtitle>Representing images</mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+        <div class="plain-container-row" *ngIf="images.length">
+          <ng-container *ngFor="let img of images; let i = index">
+            <div *ngIf="i <= 2">
+              <img *ngIf="img.plain && img.plain.img; else noThumb"
+                   class="my-app-custom-image-row"
+                   [src]="img.plain.img"
+                   (click)="ksGalleryService.openImageModalRow(img, images)"
+                   [alt]="img.modal.description"/>
+
+              <a class="more" *ngIf="i==2 && i>0" (click)="ksGalleryService.openImageModalRow(img, images)"> +{{images.length - 3}} more </a>
+
+              <ng-template #noThumb>
                   <span class="cover-custom-image-row">
                     <img class="custom-image-row"
                          [src]="img.modal.img"
                          (click)="ksGalleryService.openImageModalRow(img, images)"
                          [alt]="img.modal.description"/>
                   </span>
-                </ng-template>
-              </div>
-            </ng-container>
-          </div>
-          <ks-modal-gallery
-            [id]="0"
-            [modalImages]="images"
-            [buttonsConfig]="ksGalleryService.buttonsConfigFull"
-            [enableCloseOutside]="false"
-            [plainGalleryConfig]="ksGalleryService.customPlainGalleryRowConfig"
-            [previewConfig]="{visible: true, number: 5}"
-            [slideConfig]="{infinite: true}"
-            [currentImageConfig]="{loadingConfig: {enable: true, type: 4}}">
-          </ks-modal-gallery>
-
-          <div class="text-center font-weight-normal text-danger" *ngIf="!images.length">{{ 'COMMON.CONTENT.EMPTY_GALLERY' | translate }}</div>
+              </ng-template>
+            </div>
+          </ng-container>
         </div>
-      </div>
 
-      <div fxFlex="60%">
-        <p class="hero-description">{{hero.description}}</p>
-      </div>
-    </div>
-  </mat-card-content>
+        <ks-modal-gallery
+          [id]="0"
+          [modalImages]="images"
+          [buttonsConfig]="ksGalleryService.buttonsConfigFull"
+          [enableCloseOutside]="false"
+          [plainGalleryConfig]="ksGalleryService.customPlainGalleryRowConfig"
+          [previewConfig]="{visible: true, number: 5}"
+          [slideConfig]="{infinite: true}"
+          [currentImageConfig]="{loadingConfig: {enable: true, type: 4}}">
+        </ks-modal-gallery>
 
-  <mat-card-actions>
-    <button mat-button (click)="openUpdateHeroDialog()">{{ 'BUTTONS.HERO.UPDATE_HERO' | translate }}</button>
-  </mat-card-actions>
-</mat-card>
+        <div class="empty-list" *ngIf="!images.length">{{ 'COMMON.CONTENT.EMPTY_GALLERY' | translate }}</div>
+      </mat-card-content>
 
-<mat-card>
-  <mat-card-header>
-    <mat-card-title>Content</mat-card-title>
-    <mat-card-subtitle>Write down your thoughts or create a voice recording.</mat-card-subtitle>
-  </mat-card-header>
+      <mat-card-actions>
+        <file-pond
+          [options]="pondOptionsGallery"
+          [files]="pondFilesGallery"
+          (onaddfile)="pondHandleAddFileGallery($event)"
+          (onremovefile)="poundHandleRemoveFileGallery($event)">
+        </file-pond>
+      </mat-card-actions>
+    </mat-card>
+  </div>
 
-  <mat-card-content>
-    <mat-tab-group animationDuration="0ms">
-      <mat-tab label="Text">
-        <quill-editor
-          [styles]="{height: '80vh'}"
-          [(ngModel)]="QuillContent"
-          [modules]="quillModules"
-          trackChanges="all"
-          customToolbarPosition="top"
-        >
-<!--          <div quill-editor-toolbar>-->
-<!--            <span class="ql-formats">-->
-<!--              <div id="counter"></div>-->
-<!--            </span>-->
-<!--          </div>-->
-        </quill-editor>
-      </mat-tab>
+  <div fxFlex="50%">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Audio</mat-card-title>
+        <mat-card-subtitle>Representing audio</mat-card-subtitle>
+      </mat-card-header>
 
-      <mat-tab label="Voice">
+      <mat-card-content>
         <mat-advanced-audio-player
           *ngIf="playlist.length"
           [playlist]="playlist"
@@ -93,13 +101,40 @@
           [pageSizeOptions]="pageSizeOptions"
           (ended)="handelPlayerEnded($event)"
           [displayVolumeControls]="displayVolumeControls"
-          [expanded]="true"
+          [expanded]="false"
         ></mat-advanced-audio-player>
-      </mat-tab>
-    </mat-tab-group>
+
+        <div class="empty-list" *ngIf="!playlist.length">Empty Audio</div>
+      </mat-card-content>
+
+      <mat-card-actions>
+        <p>Record</p>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>
+
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Text</mat-card-title>
+    <mat-card-subtitle>Representing text</mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+    <quill-editor
+      [styles]="{height: '80vh'}"
+      [(ngModel)]="QuillContent"
+      [modules]="quillModules"
+      trackChanges="all"
+      customToolbarPosition="top"
+    >
+      <!--<div quill-editor-toolbar>-->
+      <!-- <span class="ql-formats">-->
+      <!--  <div id="counter"></div>-->
+      <!-- </span>-->
+      <!--</div>-->
+    </quill-editor>
   </mat-card-content>
 
-  <mat-card-actions>
-    <button mat-button>{{'Save' | uppercase}}</button>
-  </mat-card-actions>
+  <mat-card-actions></mat-card-actions>
 </mat-card>
