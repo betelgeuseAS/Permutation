@@ -30,6 +30,7 @@ import { MaterialModule } from '../material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { NgxAudioPlayerModule } from 'ngx-audio-player';
 import { QuillModule } from 'ngx-quill';
+import { NgAudioRecorderModule } from 'ng-audio-recorder';
 import Counter from './services/quill/counter';
 
 @NgModule({
@@ -54,7 +55,8 @@ import Counter from './services/quill/counter';
         import: 'formats/font',
         whitelist: ['mirza', 'roboto', 'aref', 'serif', 'sansserif', 'monospace']
       }]
-    })
+    }),
+    NgAudioRecorderModule
   ],
   exports: [
     TranslateModule,

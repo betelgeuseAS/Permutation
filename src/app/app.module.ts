@@ -14,7 +14,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { DashboardModule } from './dashboard/dashboard.module';
 
 import { AppComponent } from './app.component';
-import { MenuComponent } from './shared/components/menu/menu.component';
+import { MenuComponent } from './shared/components';
 import { ToolbarComponent } from './shared/components/toolbar/toolbar.component';
 import { BookModule } from './book/book.module';
 

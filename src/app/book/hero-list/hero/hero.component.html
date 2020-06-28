@@ -72,7 +72,7 @@
         <div class="empty-list" *ngIf="!images.length">{{ 'COMMON.CONTENT.EMPTY_GALLERY' | translate }}</div>
       </mat-card-content>
 
-      <mat-card-actions>
+      <mat-card-actions class="mat-card-action-gallery">
         <file-pond
           [options]="pondOptionsGallery"
           [files]="pondFilesGallery"
@@ -108,7 +108,7 @@
       </mat-card-content>
 
       <mat-card-actions>
-        Record
+        <app-audio-recorder></app-audio-recorder>
       </mat-card-actions>
     </mat-card>
   </div>
@@ -135,6 +135,4 @@
       <!--</div>-->
     </quill-editor>
   </mat-card-content>
-
-  <mat-card-actions></mat-card-actions>
 </mat-card>
