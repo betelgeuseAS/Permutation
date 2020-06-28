@@ -36,7 +36,6 @@ export class HeroListComponent implements OnInit {
   ngOnInit(): void {
     this.form = new FormGroup({
       name: new FormControl('', Validators.required),
-      description: new FormControl('', Validators.required),
       file: new FormControl('', MyValidators.imageType)
     });
 
@@ -76,11 +75,10 @@ export class HeroListComponent implements OnInit {
 
   createHero() {
     if (this.form.valid) {
-      let {name, description} = this.form.value;
+      let {name} = this.form.value;
       const hero = new Hero();
 
       hero.name = name;
-      hero.description = description;
       hero.created = moment().format('YYYY-MM-DD H:mm:ss');
       hero.book = this.book;
 
@@ -111,7 +109,6 @@ export class HeroListComponent implements OnInit {
         })
         .then(() => {
           name = '';
-          description = '';
 
           this.fileToUploadGallery = undefined;
         });
