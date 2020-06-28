@@ -12,9 +12,6 @@ export class Hero extends BaseEntity {
   @Column()
   name: string;
 
-  @Column()
-  description: string;
-
   @Column({default: 0})
   position: number;
 
