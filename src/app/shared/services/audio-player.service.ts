@@ -1,9 +1,14 @@
 import { Injectable } from '@angular/core';
 
-interface Options {
+interface OptionsAdvanced {
   displayTitle: boolean;
   displayPlayList: boolean;
   pageSizeOptions: Array<number>;
+  displayVolumeControls: boolean;
+}
+
+interface OptionsBasic {
+  displayTitle: boolean;
   displayVolumeControls: boolean;
 }
 
@@ -51,12 +56,19 @@ export class AudioPlayerService {
   // @Input() displayVolumeControls = true;	false - if the volume controls needs to be hidden; Defaulst:	true
   // @Output() ended: Subject;	Callback method thats triggers once the track ends; Defaulst:	- N.A -
 
-  getOptions(): Options {
+  getOptionsAdvanced(): OptionsAdvanced {
     return {
       displayTitle: false,
       displayPlayList: true,
       pageSizeOptions: [2, 4, 6, 8],
-      displayVolumeControls: true,
+      displayVolumeControls: true
+    };
+  }
+
+  getOptionsBasic(): OptionsBasic {
+    return {
+      displayTitle: false,
+      displayVolumeControls: true
     };
   }
 }
