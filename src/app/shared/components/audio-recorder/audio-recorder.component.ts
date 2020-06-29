@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { NgAudioRecorderService, OutputFormat } from 'ng-audio-recorder';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { NgAudioRecorderService, OutputFormat, RecorderState } from 'ng-audio-recorder';
+import { AudioPlayerService } from '../../services/audio-player.service';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 // ng-audio-recorder - https://www.npmjs.com/package/ng-audio-recorder
 
@@ -32,6 +34,8 @@ import { NgAudioRecorderService, OutputFormat } from 'ng-audio-recorder';
 // Event	        OutputData	Description
 // recorderError	ErrorCase	  Emits Event in case of error
 
+// Convert Base64 to file: https://base64.guru/converter/decode/file
+
 @Component({
   selector: 'app-audio-recorder',
   templateUrl: './audio-recorder.component.html',
@@ -39,8 +43,19 @@ import { NgAudioRecorderService, OutputFormat } from 'ng-audio-recorder';
 })
 export class AudioRecorderComponent implements OnInit {
 
+  // @Output() dataAudio: EventEmitter<Blob> = new EventEmitter<Blob>();
+  @Output() dataAudio: EventEmitter<SafeUrl> = new EventEmitter<SafeUrl>();
+
+  playlistBasic: Array<object> = []; // Track[] import { Track } from 'ngx-audio-player';
+  displayTitleBasic = this.audioPlayerService.getOptionsBasic().displayTitle;
+  displayVolumeControlsBasic = this.audioPlayerService.getOptionsBasic().displayVolumeControls;
+
+  titleBtn = 'Pause';
+
   constructor(
-    private audioRecorderService: NgAudioRecorderService
+    private audioRecorderService: NgAudioRecorderService,
+    public audioPlayerService: AudioPlayerService,
+    private domSanitizer: DomSanitizer
   ) {
     this.audioRecorderService.recorderError.subscribe(recorderErrorCase => {
       // Handle Error
@@ -54,11 +69,39 @@ export class AudioRecorderComponent implements OnInit {
   }
 
   stopRecording() {
-    this.audioRecorderService.stopRecording(OutputFormat.WEBM_BLOB).then((output) => {
-      // do post output steps
-      console.log(output);
+    this.audioRecorderService.stopRecording(OutputFormat.WEBM_BLOB).then((output: Blob) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(output);
+      reader.onloadend = (e) => {
+        const base64Audio = typeof(reader.result) === 'string' ? reader.result : '';
+        const safeBase64Audio: SafeUrl = this.domSanitizer.bypassSecurityTrustUrl(base64Audio);
+
+        // console.log(safeBase64Audio.changingThisBreaksApplicationSecurity);
+
+        this.playlistBasic.push({
+          title: '',
+          link: safeBase64Audio
+        });
+
+        this.dataAudio.emit(safeBase64Audio);
+      };
     }).catch(errrorCase => {
       // Handle Error
     });
+  }
+
+  pauseResumeRecording() {
+    const recordingState = this.audioRecorderService.getRecorderState();
+
+    switch (recordingState) {
+      case RecorderState.RECORDING:
+        this.audioRecorderService.pause();
+        this.titleBtn = 'Resume';
+        break;
+      case RecorderState.PAUSED:
+        this.audioRecorderService.resume();
+        this.titleBtn = 'Pause';
+        break;
+    }
   }
 }
