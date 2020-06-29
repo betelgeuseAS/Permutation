@@ -92,23 +92,25 @@
 
       <mat-card-content>
         <mat-advanced-audio-player
-          *ngIf="playlist.length"
-          [playlist]="playlist"
-          [displayTitle]="displayTitle"
+          *ngIf="playlistAdvanced.length"
+          [playlist]="playlistAdvanced"
+          [displayTitle]="displayTitleAdvanced"
           [autoPlay]="false"
           muted="muted"
-          [displayPlaylist]="displayPlayList"
-          [pageSizeOptions]="pageSizeOptions"
+          [displayPlaylist]="displayPlayListAdvanced"
+          [pageSizeOptions]="pageSizeOptionsAdvanced"
           (ended)="handelPlayerEnded($event)"
-          [displayVolumeControls]="displayVolumeControls"
+          [displayVolumeControls]="displayVolumeControlsAdvanced"
           [expanded]="false"
         ></mat-advanced-audio-player>
 
-        <div class="empty-list" *ngIf="!playlist.length">Empty Audio</div>
+        <div class="empty-list" *ngIf="!playlistAdvanced.length">Empty Audio</div>
       </mat-card-content>
 
       <mat-card-actions>
-        <app-audio-recorder></app-audio-recorder>
+        <app-audio-recorder
+          (dataAudio)="addAudioHandler($event)"
+        ></app-audio-recorder>
       </mat-card-actions>
     </mat-card>
   </div>

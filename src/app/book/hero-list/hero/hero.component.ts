@@ -18,6 +18,7 @@ import {
   MatSnackBarHorizontalPosition,
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
+import { SafeUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-hero',
@@ -26,14 +27,14 @@ import {
 })
 export class HeroComponent implements OnInit {
 
-  form: FormGroup;
   id: number;
   hero: Hero;
+
+  form: FormGroup;
   images: Image[] = [];
+
   fileToUploadGallery: Filepond.File[] = [];
   fileBase64ToUploadGallery: Array<string> = [];
-  private subscription: Subscription;
-
   pondOptionsGallery: Filepond.FilePondOptionProps = this.filepondService.getOptions({
     allowMultiple: true,
     maxFiles: 10,
@@ -43,11 +44,13 @@ export class HeroComponent implements OnInit {
   });
   pondFilesGallery = this.filepondService.getFiles();
 
-  playlist: Track[] = [];
-  displayTitle = this.audioPlayerService.getOptions().displayTitle;
-  displayPlayList = this.audioPlayerService.getOptions().displayPlayList;
-  pageSizeOptions = this.audioPlayerService.getOptions().pageSizeOptions;
-  displayVolumeControls = this.audioPlayerService.getOptions().displayVolumeControls;
+  playlistAdvanced: Track[] = [];
+  displayTitleAdvanced = this.audioPlayerService.getOptionsAdvanced().displayTitle;
+  displayPlayListAdvanced = this.audioPlayerService.getOptionsAdvanced().displayPlayList;
+  pageSizeOptionsAdvanced = this.audioPlayerService.getOptionsAdvanced().pageSizeOptions;
+  displayVolumeControlsAdvanced = this.audioPlayerService.getOptionsAdvanced().displayVolumeControls;
+
+  fileBase64ToUploadAudio: Array<SafeUrl> = [];
 
   @ViewChild(QuillEditorComponent, { static: true }) quillEditor: QuillEditorComponent;
   quillModules: object;
@@ -55,6 +58,8 @@ export class HeroComponent implements OnInit {
 
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
+
+  private subscription: Subscription;
 
   constructor(
     private databaseService: DatabaseService,
@@ -102,7 +107,7 @@ export class HeroComponent implements OnInit {
         //   });
         // }
 
-        // this.playlist = [
+        // this.playlistAdvanced = [
         //   {
         //     title: 'Title',
         //     link: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3'
@@ -178,5 +183,9 @@ export class HeroComponent implements OnInit {
 
   handelPlayerEnded($event) {
     // console.log($event);
+  }
+
+  addAudioHandler(safeBase64Audio: SafeUrl) {
+    this.fileBase64ToUploadAudio.push(safeBase64Audio);
   }
 }
