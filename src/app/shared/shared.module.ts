@@ -30,7 +30,8 @@ import { MaterialModule } from '../material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { NgxAudioPlayerModule } from 'ngx-audio-player';
 import { QuillModule } from 'ngx-quill';
-import { NgAudioRecorderModule } from 'ng-audio-recorder';
+import { NgAudioRecorderModule } from 'ng-audio-recorder'; // https://github.com/killroywashere/ng-audio-recorder#readme
+import { NgxTimerModule } from 'ngx-timer'; // https://github.com/Y4SHVINE/ngx-timer-lib
 import Counter from './services/quill/counter';
 
 @NgModule({
@@ -56,7 +57,8 @@ import Counter from './services/quill/counter';
         whitelist: ['mirza', 'roboto', 'aref', 'serif', 'sansserif', 'monospace']
       }]
     }),
-    NgAudioRecorderModule
+    NgAudioRecorderModule,
+    NgxTimerModule
   ],
   exports: [
     TranslateModule,
@@ -70,7 +72,8 @@ import Counter from './services/quill/counter';
     MaterialModule,
     FlexLayoutModule,
     NgxAudioPlayerModule,
-    QuillModule
+    QuillModule,
+    NgxTimerModule
   ],
   providers: [],
   schemas: [NO_ERRORS_SCHEMA]
