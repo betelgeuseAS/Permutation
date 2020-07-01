@@ -2,6 +2,8 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { NgAudioRecorderService, OutputFormat, RecorderState } from 'ng-audio-recorder';
 import { AudioPlayerService } from '../../services/audio-player.service';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { CountupTimerService } from 'ngx-timer';
+import { TimerService } from '../../services/timer.service';
 
 // ng-audio-recorder - https://www.npmjs.com/package/ng-audio-recorder
 
@@ -50,12 +52,21 @@ export class AudioRecorderComponent implements OnInit {
   displayTitleBasic = this.audioPlayerService.getOptionsBasic().displayTitle;
   displayVolumeControlsBasic = this.audioPlayerService.getOptionsBasic().displayVolumeControls;
 
-  titleBtn = 'Pause';
+  titlePauseResumeBtn = 'Pause';
+
+  timerConfig = this.timerService.getOptionsCountUp({
+    timerClass: 'audio-timer-class',
+    hourText: 'h',
+    minuteText: 'm',
+    secondsText: 's'
+  });
 
   constructor(
     private audioRecorderService: NgAudioRecorderService,
     public audioPlayerService: AudioPlayerService,
-    private domSanitizer: DomSanitizer
+    private domSanitizer: DomSanitizer,
+    private countUpTimerService: CountupTimerService,
+    private timerService: TimerService
   ) {
     this.audioRecorderService.recorderError.subscribe(recorderErrorCase => {
       // Handle Error
@@ -66,6 +77,8 @@ export class AudioRecorderComponent implements OnInit {
 
   startRecording() {
     this.audioRecorderService.startRecording();
+
+    this.countUpTimerService.startTimer();
   }
 
   stopRecording() {
@@ -76,14 +89,14 @@ export class AudioRecorderComponent implements OnInit {
         const base64Audio = typeof(reader.result) === 'string' ? reader.result : '';
         const safeBase64Audio: SafeUrl = this.domSanitizer.bypassSecurityTrustUrl(base64Audio);
 
-        // console.log(safeBase64Audio.changingThisBreaksApplicationSecurity);
-
         this.playlistBasic.push({
           title: '',
           link: safeBase64Audio
         });
 
-        this.dataAudio.emit(safeBase64Audio);
+        this.countUpTimerService.stopTimer();
+
+        this.dataAudio.emit(safeBase64Audio); // safeBase64Audio.changingThisBreaksApplicationSecurity
       };
     }).catch(errrorCase => {
       // Handle Error
@@ -96,12 +109,41 @@ export class AudioRecorderComponent implements OnInit {
     switch (recordingState) {
       case RecorderState.RECORDING:
         this.audioRecorderService.pause();
-        this.titleBtn = 'Resume';
+
+        this.countUpTimerService.pauseTimer();
+
+        this.titlePauseResumeBtn = 'Resume';
         break;
       case RecorderState.PAUSED:
         this.audioRecorderService.resume();
-        this.titleBtn = 'Pause';
+
+        const timerValue = this.countUpTimerService.getTimerValue();
+        this.countUpTimerService.setTimervalue(timerValue);
+        this.countUpTimerService.startTimer();
+
+        this.titlePauseResumeBtn = 'Pause';
         break;
     }
+  }
+
+  startDisabled() {
+    const recordingState = this.audioRecorderService.getRecorderState();
+    const disabledState = [RecorderState.RECORDING, RecorderState.PAUSED];
+
+    return disabledState.includes(recordingState);
+  }
+
+  pauseDisabled() {
+    const recordingState = this.audioRecorderService.getRecorderState();
+    const disabledState = [RecorderState.INITIALIZING, RecorderState.STOPPED];
+
+    return disabledState.includes(recordingState);
+  }
+
+  stopDisabled() {
+    const recordingState = this.audioRecorderService.getRecorderState();
+    const disabledState = [RecorderState.INITIALIZING, RecorderState.STOPPED];
+
+    return disabledState.includes(recordingState);
   }
 }
