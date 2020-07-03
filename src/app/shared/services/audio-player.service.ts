@@ -18,6 +18,7 @@ interface OptionsBasic {
 export class AudioPlayerService {
 
   // Audio Player: https://github.com/vmudigal/ngx-audio-player#readme
+  // Home: https://vmudigal.github.io/ngx-audio-player/
 
   // HTML:
   // <mat-basic-audio-player
@@ -35,6 +36,8 @@ export class AudioPlayerService {
   // @Input() displayTitle = false;	true - if the audio title needs to be displayed; Default:	false
   // @Output() ended: Subject;	Callback method thats triggers once the track ends; Default:	- N.A -
   // @Input() displayVolumeControls = true;	false - if the volume controls needs to be hidden; Default:	true
+  // @Input() startOffset = 0;	offset from start of audio file in seconds	optional Default: 0
+  // @Input() endOffset = 0;	offset from end of audio file in seconds	optional Default: 0
 
   // <mat-advanced-audio-player
   //   [playlist]="msaapPlaylist"
@@ -54,6 +57,8 @@ export class AudioPlayerService {
   // @Input() pageSizeOptions = [10, 20, 30];	number of items to be displayed in the playlist; Defaulst:	[10,20,30]
   // @Input() expanded = true;	false - if the playlist needs to be minimized; Defaulst:	true
   // @Input() displayVolumeControls = true;	false - if the volume controls needs to be hidden; Defaulst:	true
+  // @Input() startOffset = 0;	offset from start of audio file in seconds	optional Default: 0
+  // @Input() endOffset = 0;	offset from end of audio file in seconds	optional Default: 0
   // @Output() ended: Subject;	Callback method thats triggers once the track ends; Defaulst:	- N.A -
 
   getOptionsAdvanced(): OptionsAdvanced {

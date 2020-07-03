@@ -82,25 +82,26 @@ export class AudioRecorderComponent implements OnInit {
   }
 
   stopRecording() {
-    this.audioRecorderService.stopRecording(OutputFormat.WEBM_BLOB).then((output: Blob) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(output);
-      reader.onloadend = (e) => {
-        const base64Audio = typeof(reader.result) === 'string' ? reader.result : '';
-        const safeBase64Audio: SafeUrl = this.domSanitizer.bypassSecurityTrustUrl(base64Audio);
+    this.countUpTimerService.stopTimer();
 
-        this.playlistBasic.push({
-          title: '',
-          link: safeBase64Audio
-        });
+    this.audioRecorderService.stopRecording(OutputFormat.WEBM_BLOB)
+      .then((output: Blob) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(output);
+        reader.onloadend = (e) => {
+          const base64Audio = typeof(reader.result) === 'string' ? reader.result : '';
+          const safeBase64Audio: SafeUrl = this.domSanitizer.bypassSecurityTrustUrl(base64Audio);
 
-        this.countUpTimerService.stopTimer();
+          this.playlistBasic.push({
+            title: '',
+            link: safeBase64Audio
+          });
 
-        this.dataAudio.emit(safeBase64Audio); // safeBase64Audio.changingThisBreaksApplicationSecurity
-      };
-    }).catch(errrorCase => {
-      // Handle Error
-    });
+          this.dataAudio.emit(safeBase64Audio); // safeBase64Audio.changingThisBreaksApplicationSecurity
+        };
+      }).catch(errrorCase => {
+        // Handle Error
+      });
   }
 
   pauseResumeRecording() {
