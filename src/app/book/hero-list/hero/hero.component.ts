@@ -18,7 +18,6 @@ import {
   MatSnackBarHorizontalPosition,
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
-import { SafeUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-hero',
@@ -50,7 +49,7 @@ export class HeroComponent implements OnInit {
   pageSizeOptionsAdvanced = this.audioPlayerService.getOptionsAdvanced().pageSizeOptions;
   displayVolumeControlsAdvanced = this.audioPlayerService.getOptionsAdvanced().displayVolumeControls;
 
-  fileBase64ToUploadAudio: Array<SafeUrl> = [];
+  fileBase64ToUploadAudio: Array<string> = [];
 
   @ViewChild(QuillEditorComponent, { static: true }) quillEditor: QuillEditorComponent;
   quillModules: object;
@@ -185,7 +184,7 @@ export class HeroComponent implements OnInit {
     // console.log($event);
   }
 
-  addAudioHandler(safeBase64Audio: SafeUrl) {
-    this.fileBase64ToUploadAudio.push(safeBase64Audio);
+  addAudioHandler(base64Audio: string) {
+    this.fileBase64ToUploadAudio.push(base64Audio);
   }
 }

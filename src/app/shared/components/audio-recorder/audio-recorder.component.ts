@@ -90,14 +90,14 @@ export class AudioRecorderComponent implements OnInit {
         reader.readAsDataURL(output);
         reader.onloadend = (e) => {
           const base64Audio = typeof(reader.result) === 'string' ? reader.result : '';
-          const safeBase64Audio: SafeUrl = this.domSanitizer.bypassSecurityTrustUrl(base64Audio);
+          const safeBase64Audio: SafeUrl = this.sanitize(base64Audio); // safeBase64Audio.changingThisBreaksApplicationSecurity
 
           this.playlistBasic.push({
             title: '',
             link: safeBase64Audio
           });
 
-          this.dataAudio.emit(safeBase64Audio); // safeBase64Audio.changingThisBreaksApplicationSecurity
+          this.dataAudio.emit(base64Audio);
         };
       }).catch(errrorCase => {
         // Handle Error
@@ -146,5 +146,9 @@ export class AudioRecorderComponent implements OnInit {
     const disabledState = [RecorderState.INITIALIZING, RecorderState.STOPPED];
 
     return disabledState.includes(recordingState);
+  }
+
+  sanitize(url: string) {
+    return this.domSanitizer.bypassSecurityTrustUrl(url);
   }
 }
