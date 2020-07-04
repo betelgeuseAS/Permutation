@@ -20,6 +20,7 @@ import {
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
 import * as moment from 'moment';
+import { AudioRecorderComponent } from '../../../shared/components/audio-recorder/audio-recorder.component';
 
 @Component({
   selector: 'app-hero',
@@ -60,6 +61,8 @@ export class HeroComponent implements OnInit {
 
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
+
+  @ViewChild(AudioRecorderComponent, { static: true }) audioRecorder: AudioRecorderComponent;
 
   private subscription: Subscription;
 
@@ -169,6 +172,7 @@ export class HeroComponent implements OnInit {
           this.fileToUploadGallery = [];
           this.fileBase64ToUploadGallery = [];
 
+          this.audioRecorder.playlistBasic = [];
           this.fileToUploadAudio = [];
           this.fileBase64ToUploadAudio = [];
 
