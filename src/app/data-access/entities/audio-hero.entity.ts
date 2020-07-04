@@ -1,7 +1,7 @@
 import {Entity, Column, PrimaryGeneratedColumn, BaseEntity, ManyToOne} from 'typeorm';
 import {Hero} from './hero.entity';
 
-@Entity({name: 'image_hero'})
+@Entity({name: 'audio_hero'})
 export class AudioHero extends BaseEntity {
 
   @PrimaryGeneratedColumn()

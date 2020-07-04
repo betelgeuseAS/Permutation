@@ -73,6 +73,8 @@
       </mat-card-content>
 
       <mat-card-actions class="mat-card-action-gallery">
+        <mat-card-subtitle>Add Images</mat-card-subtitle>
+
         <file-pond
           [options]="pondOptionsGallery"
           [files]="pondFilesGallery"
@@ -108,6 +110,8 @@
       </mat-card-content>
 
       <mat-card-actions>
+        <mat-card-subtitle>Add Images</mat-card-subtitle>
+
         <app-audio-recorder
           (dataAudio)="addAudioHandler($event)"
         ></app-audio-recorder>

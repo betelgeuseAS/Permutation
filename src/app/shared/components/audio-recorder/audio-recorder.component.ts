@@ -4,6 +4,7 @@ import { AudioPlayerService } from '../../services/audio-player.service';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { CountupTimerService } from 'ngx-timer';
 import { TimerService } from '../../services/timer.service';
+// import { Track } from 'ngx-audio-player';
 
 // ng-audio-recorder - https://www.npmjs.com/package/ng-audio-recorder
 
@@ -48,7 +49,7 @@ export class AudioRecorderComponent implements OnInit {
   // @Output() dataAudio: EventEmitter<Blob> = new EventEmitter<Blob>();
   @Output() dataAudio: EventEmitter<{blob: Blob; base64: string}> = new EventEmitter<{blob: Blob; base64: string}>();
 
-  playlistBasic: Array<object> = []; // Track[] import { Track } from 'ngx-audio-player';
+  playlistBasic: Array<object> = []; // Track[]
   displayTitleBasic = this.audioPlayerService.getOptionsBasic().displayTitle;
   displayVolumeControlsBasic = this.audioPlayerService.getOptionsBasic().displayVolumeControls;
 

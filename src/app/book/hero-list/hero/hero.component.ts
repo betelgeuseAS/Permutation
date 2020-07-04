@@ -109,7 +109,7 @@ export class HeroComponent implements OnInit {
         //   });
         // }
 
-        this.playlistAdvanced = this.audioPlayerService.getAudios(this.hero.images);
+        this.playlistAdvanced = this.audioPlayerService.getAudios(this.hero.audios);
 
         this.quillContent = this.hero.content;
       });
@@ -148,7 +148,7 @@ export class HeroComponent implements OnInit {
 
           const audioHero = new AudioHero();
           audioHero.name = moment().format('ll');
-          audioHero.data = this.fileBase64ToUploadGallery[index];
+          audioHero.data = this.fileBase64ToUploadAudio[index];
           audioHero.mimeType = type; // 'audio/wav'
           audioHero.size = size;
           audioHero.hero = hero;

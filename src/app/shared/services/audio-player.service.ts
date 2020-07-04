@@ -54,6 +54,7 @@ export class AudioPlayerService {
   //   [displayPlaylist]="msaapDisplayPlayList"
   //   [pageSizeOptions]="pageSizeOptions"
   //   (ended)="onEnded($event)"
+  //   (trackEnded)="onEnded($event)
   //   [displayVolumeControls]="msaapDisplayVolumeControls"
   //   [expanded]="true"
   // ></mat-advanced-audio-player>
@@ -66,7 +67,7 @@ export class AudioPlayerService {
   // @Input() displayVolumeControls = true;	false - if the volume controls needs to be hidden; Defaulst:	true
   // @Input() startOffset = 0;	offset from start of audio file in seconds	optional Default: 0
   // @Input() endOffset = 0;	offset from end of audio file in seconds	optional Default: 0
-  // @Output() ended: Subject;	Callback method thats triggers once the track ends; Defaulst:	- N.A -
+  // @Output() trackEnded: Subject;	Callback method thats triggers once the track ends; Defaulst:	- N.A -
 
   constructor(
     private domSanitizer: DomSanitizer
