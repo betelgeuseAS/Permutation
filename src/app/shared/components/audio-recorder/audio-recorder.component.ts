@@ -97,7 +97,10 @@ export class AudioRecorderComponent implements OnInit {
             link: safeBase64Audio
           });
 
-          this.dataAudio.emit(base64Audio);
+          this.dataAudio.emit({
+            blob: output,
+            base64: base64Audio
+          });
         };
       }).catch(errrorCase => {
         // Handle Error

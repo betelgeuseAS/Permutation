@@ -1,4 +1,11 @@
 import { Injectable } from '@angular/core';
+import { AudioHero } from '../../data-access/entities/audio-hero.entity';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+
+export interface PlayerOwnAudio {
+  title: string;
+  link: SafeUrl;
+}
 
 interface OptionsAdvanced {
   displayTitle: boolean;
@@ -61,6 +68,10 @@ export class AudioPlayerService {
   // @Input() endOffset = 0;	offset from end of audio file in seconds	optional Default: 0
   // @Output() ended: Subject;	Callback method thats triggers once the track ends; Defaulst:	- N.A -
 
+  constructor(
+    private domSanitizer: DomSanitizer
+  ) {}
+
   getOptionsAdvanced(): OptionsAdvanced {
     return {
       displayTitle: false,
@@ -75,5 +86,20 @@ export class AudioPlayerService {
       displayTitle: false,
       displayVolumeControls: true
     };
+  }
+
+  getAudios(entities?: Array<AudioHero>): Array<PlayerOwnAudio> {
+    return entities.map((item) => {
+      if (item && item.data) {
+        return {
+          title: item.name,
+          link: this.sanitize(item.data) // URL.createObjectURL(blob)
+        };
+      }
+    });
+  }
+
+  sanitize(url: string) {
+    return this.domSanitizer.bypassSecurityTrustUrl(url);
   }
 }
