@@ -46,7 +46,7 @@ import { TimerService } from '../../services/timer.service';
 export class AudioRecorderComponent implements OnInit {
 
   // @Output() dataAudio: EventEmitter<Blob> = new EventEmitter<Blob>();
-  @Output() dataAudio: EventEmitter<SafeUrl> = new EventEmitter<SafeUrl>();
+  @Output() dataAudio: EventEmitter<{blob: Blob; base64: string}> = new EventEmitter<{blob: Blob; base64: string}>();
 
   playlistBasic: Array<object> = []; // Track[] import { Track } from 'ngx-audio-player';
   displayTitleBasic = this.audioPlayerService.getOptionsBasic().displayTitle;
