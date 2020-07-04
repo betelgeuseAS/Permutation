@@ -34,4 +34,7 @@ export class Hero extends BaseEntity {
 
   @OneToMany('ImageHero', 'hero')
   images: ImageHero[];
+
+  @OneToMany('AudioHero', 'hero')
+  audios: ImageHero[];
 }

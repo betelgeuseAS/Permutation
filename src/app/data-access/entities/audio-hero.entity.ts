@@ -2,7 +2,7 @@ import {Entity, Column, PrimaryGeneratedColumn, BaseEntity, ManyToOne} from 'typ
 import {Hero} from './hero.entity';
 
 @Entity({name: 'image_hero'})
-export class ImageHero extends BaseEntity {
+export class AudioHero extends BaseEntity {
 
   @PrimaryGeneratedColumn()
   id: number;
@@ -19,6 +19,6 @@ export class ImageHero extends BaseEntity {
   @Column()
   size: number;
 
-  @ManyToOne('Hero', 'images', { nullable: true, eager: true, onDelete: 'CASCADE' })
+  @ManyToOne('Hero', 'audios', { nullable: true, eager: true, onDelete: 'CASCADE' })
   hero: Hero;
 }

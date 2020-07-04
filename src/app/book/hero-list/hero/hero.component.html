@@ -77,7 +77,7 @@
           [options]="pondOptionsGallery"
           [files]="pondFilesGallery"
           (onaddfile)="pondHandleAddFileGallery($event)"
-          (onremovefile)="poundHandleRemoveFileGallery($event)">
+          (onremovefile)="pondHandleRemoveFileGallery($event)">
         </file-pond>
       </mat-card-actions>
     </mat-card>
@@ -125,7 +125,7 @@
   <mat-card-content>
     <quill-editor
       [styles]="{height: '80vh'}"
-      [(ngModel)]="QuillContent"
+      [(ngModel)]="quillContent"
       [modules]="quillModules"
       trackChanges="all"
       customToolbarPosition="top"

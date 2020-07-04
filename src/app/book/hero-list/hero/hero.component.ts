@@ -6,10 +6,11 @@ import { Hero } from '../../../data-access/entities/hero.entity';
 import { KsGalleryService, KsOwnImage } from '../../../shared/services/ks-modal-gallery/ks-gallery.service';
 import { Image } from '@ks89/angular-modal-gallery';
 import { ImageHero } from '../../../data-access/entities/image-hero.entity';
+import { AudioHero } from '../../../data-access/entities/audio-hero.entity';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import * as Filepond from 'filepond';
-import { Track } from 'ngx-audio-player';
-import { AudioPlayerService } from '../../../shared/services/audio-player.service';
+// import { Track } from 'ngx-audio-player';
+import { AudioPlayerService, PlayerOwnAudio } from '../../../shared/services/audio-player.service';
 import { QuillService } from '../../../shared/services/quill/quill.service';
 import { QuillEditorComponent } from 'ngx-quill';
 import { FilepondService } from '../../../shared/services/filepond.service';
@@ -18,6 +19,7 @@ import {
   MatSnackBarHorizontalPosition,
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-hero',
@@ -43,17 +45,18 @@ export class HeroComponent implements OnInit {
   });
   pondFilesGallery = this.filepondService.getFiles();
 
-  playlistAdvanced: Track[] = [];
+  playlistAdvanced: PlayerOwnAudio[] = []; // Track[]
   displayTitleAdvanced = this.audioPlayerService.getOptionsAdvanced().displayTitle;
   displayPlayListAdvanced = this.audioPlayerService.getOptionsAdvanced().displayPlayList;
   pageSizeOptionsAdvanced = this.audioPlayerService.getOptionsAdvanced().pageSizeOptions;
   displayVolumeControlsAdvanced = this.audioPlayerService.getOptionsAdvanced().displayVolumeControls;
 
+  fileToUploadAudio: Array<Blob> = [];
   fileBase64ToUploadAudio: Array<string> = [];
 
   @ViewChild(QuillEditorComponent, { static: true }) quillEditor: QuillEditorComponent;
   quillModules: object;
-  QuillContent: string | null;
+  quillContent: string | null;
 
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
@@ -87,7 +90,7 @@ export class HeroComponent implements OnInit {
   getHeroById(heroId) {
     this.databaseService
       .connection
-      .then(() => Hero.findOne({ where: {id: heroId},  relations: ['images'] }))
+      .then(() => Hero.findOne({ where: {id: heroId},  relations: ['images', 'audios'] }))
       .then(hero => {
         this.hero = hero;
 
@@ -106,14 +109,9 @@ export class HeroComponent implements OnInit {
         //   });
         // }
 
-        // this.playlistAdvanced = [
-        //   {
-        //     title: 'Title',
-        //     link: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3'
-        //   }
-        // ];
+        this.playlistAdvanced = this.audioPlayerService.getAudios(this.hero.images);
 
-        this.QuillContent = this.hero.content;
+        this.quillContent = this.hero.content;
       });
   }
 
@@ -123,6 +121,7 @@ export class HeroComponent implements OnInit {
       const hero = this.hero;
 
       hero.name = name;
+      hero.content = this.quillContent;
 
       if (this.fileToUploadGallery) {
         this.fileToUploadGallery.forEach((item, index) => {
@@ -143,15 +142,36 @@ export class HeroComponent implements OnInit {
         });
       }
 
+      if (this.fileToUploadAudio) {
+        this.fileToUploadAudio.forEach((item, index) => {
+          const {type, size} = item;
+
+          const audioHero = new AudioHero();
+          audioHero.name = moment().format('ll');
+          audioHero.data = this.fileBase64ToUploadGallery[index];
+          audioHero.mimeType = type; // 'audio/wav'
+          audioHero.size = size;
+          audioHero.hero = hero;
+
+          this.databaseService
+            .connection
+            .then(() => audioHero.save());
+
+          hero.images.push(audioHero);
+        });
+      }
+
       this.databaseService
         .connection
         .then(() => hero.save())
         .then(() => {
-          this.getHeroById(this.id);
-        })
-        .then(() => {
+          this.pondFilesGallery = [];
           this.fileToUploadGallery = [];
           this.fileBase64ToUploadGallery = [];
+
+          this.fileToUploadAudio = [];
+          this.fileBase64ToUploadAudio = [];
+
           // this.form.reset();
 
           this.snackBar.open('Hero Updated', 'Close', {
@@ -159,6 +179,8 @@ export class HeroComponent implements OnInit {
             horizontalPosition: this.horizontalPosition,
             verticalPosition: this.verticalPosition,
           });
+
+          this.getHeroById(this.id);
         });
     }
   }
@@ -169,7 +191,7 @@ export class HeroComponent implements OnInit {
     this.fileBase64ToUploadGallery.push(base64StringDataURL);
   }
 
-  poundHandleRemoveFileGallery(event: any) {
+  pondHandleRemoveFileGallery(event: any) {
     const index = this.fileToUploadGallery.findIndex((item) => {
       return item.id === event.file.id;
     });
@@ -184,7 +206,8 @@ export class HeroComponent implements OnInit {
     // console.log($event);
   }
 
-  addAudioHandler(base64Audio: string) {
-    this.fileBase64ToUploadAudio.push(base64Audio);
+  addAudioHandler(data: {blob: Blob; base64: string}) {
+    this.fileToUploadAudio.push(data.blob);
+    this.fileBase64ToUploadAudio.push(data.base64);
   }
 }
