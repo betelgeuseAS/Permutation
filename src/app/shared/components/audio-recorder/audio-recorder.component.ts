@@ -46,8 +46,8 @@ import { TimerService } from '../../services/timer.service';
 })
 export class AudioRecorderComponent implements OnInit {
 
-  // @Output() dataAudio: EventEmitter<Blob> = new EventEmitter<Blob>();
-  @Output() dataAudio: EventEmitter<{blob: Blob; base64: string}> = new EventEmitter<{blob: Blob; base64: string}>();
+  fileToUploadAudio: Array<Blob> = [];
+  fileBase64ToUploadAudio: Array<string> = [];
 
   playlistBasic: Array<object> = []; // Track[]
   displayTitleBasic = this.audioPlayerService.getOptionsBasic().displayTitle;
@@ -93,14 +93,12 @@ export class AudioRecorderComponent implements OnInit {
           const base64Audio = typeof(reader.result) === 'string' ? reader.result : '';
           const safeBase64Audio: SafeUrl = this.sanitize(base64Audio); // safeBase64Audio.changingThisBreaksApplicationSecurity
 
+          this.fileToUploadAudio.push(output);
+          this.fileBase64ToUploadAudio.push(base64Audio);
+
           this.playlistBasic.push({
             title: '',
             link: safeBase64Audio
-          });
-
-          this.dataAudio.emit({
-            blob: output,
-            base64: base64Audio
           });
         };
       }).catch(errrorCase => {

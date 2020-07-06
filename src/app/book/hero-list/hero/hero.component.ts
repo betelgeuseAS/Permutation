@@ -52,9 +52,6 @@ export class HeroComponent implements OnInit {
   pageSizeOptionsAdvanced = this.audioPlayerService.getOptionsAdvanced().pageSizeOptions;
   displayVolumeControlsAdvanced = this.audioPlayerService.getOptionsAdvanced().displayVolumeControls;
 
-  fileToUploadAudio: Array<Blob> = [];
-  fileBase64ToUploadAudio: Array<string> = [];
-
   @ViewChild(QuillEditorComponent, { static: true }) quillEditor: QuillEditorComponent;
   quillModules: object;
   quillContent: string | null;
@@ -145,13 +142,13 @@ export class HeroComponent implements OnInit {
         });
       }
 
-      if (this.fileToUploadAudio) {
-        this.fileToUploadAudio.forEach((item, index) => {
+      if (this.audioRecorder.fileToUploadAudio) {
+        this.audioRecorder.fileToUploadAudio.forEach((item, index) => {
           const {type, size} = item;
 
           const audioHero = new AudioHero();
           audioHero.name = moment().format('ll');
-          audioHero.data = this.fileBase64ToUploadAudio[index];
+          audioHero.data = this.audioRecorder.fileBase64ToUploadAudio[index];
           audioHero.mimeType = type; // 'audio/wav'
           audioHero.size = size;
           audioHero.hero = hero;
@@ -173,8 +170,8 @@ export class HeroComponent implements OnInit {
           this.fileBase64ToUploadGallery = [];
 
           this.audioRecorder.playlistBasic = [];
-          this.fileToUploadAudio = [];
-          this.fileBase64ToUploadAudio = [];
+          this.audioRecorder.fileToUploadAudio = [];
+          this.audioRecorder.fileBase64ToUploadAudio = [];
 
           // this.form.reset();
 
@@ -208,10 +205,5 @@ export class HeroComponent implements OnInit {
 
   handelPlayerEnded($event) {
     // console.log($event);
-  }
-
-  addAudioHandler(data: {blob: Blob; base64: string}) {
-    this.fileToUploadAudio.push(data.blob);
-    this.fileBase64ToUploadAudio.push(data.base64);
   }
 }
