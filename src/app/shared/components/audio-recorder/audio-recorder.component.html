@@ -9,13 +9,19 @@
 </div>
 
 <div class="audio-recorder-player" *ngIf="playlistBasic.length">
-  <mat-basic-audio-player
-    *ngFor="let playBasic of playlistBasic"
-    [audioUrl]="playBasic.link"
-    [title]="playBasic.title"
-    [autoPlay]="false"
-    muted="muted"
-    [displayTitle]="displayTitleBasic"
-    [displayVolumeControls]="displayVolumeControlsBasic"
-  ></mat-basic-audio-player>
+  <div
+    *ngFor="let playBasic of playlistBasic, let i = index"
+    fxLayout="row"
+    fxLayoutAlign="space-between center"
+  >
+    <mat-basic-audio-player
+      [audioUrl]="playBasic.link"
+      [title]="playBasic.title"
+      [autoPlay]="false"
+      muted="muted"
+      [displayTitle]="!displayTitleBasic"
+      [displayVolumeControls]="displayVolumeControlsBasic"
+    ></mat-basic-audio-player>
+    <button mat-button color="warn" (click)="removeRecord(i)">Remove</button>
+  </div>
 </div>

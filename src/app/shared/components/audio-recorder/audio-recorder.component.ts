@@ -129,6 +129,12 @@ export class AudioRecorderComponent implements OnInit {
     }
   }
 
+  removeRecord(index: number) {
+    this.fileToUploadAudio.splice(index, 1);
+    this.fileBase64ToUploadAudio.splice(index, 1);
+    this.playlistBasic.splice(index, 1);
+  }
+
   startDisabled() {
     const recordingState = this.audioRecorderService.getRecorderState();
     const disabledState = [RecorderState.RECORDING, RecorderState.PAUSED];
