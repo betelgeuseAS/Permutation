@@ -157,7 +157,7 @@ export class HeroComponent implements OnInit {
             .connection
             .then(() => audioHero.save());
 
-          hero.images.push(audioHero);
+          hero.audios.push(audioHero);
         });
       }
 
