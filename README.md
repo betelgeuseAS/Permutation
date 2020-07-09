@@ -105,9 +105,14 @@ Maybe you want to execute the application in the browser with hot reload ? Just 
 Make sure every node modules that you need to run on production build added into dependencies in package.json. E.g: npm install <module_name> --save  
 Module dependencies were listed in "devDependencies" in package.json Moving them to "dependencies" and running npm install again solved the problem.  
 
-- Electron application SQLITE package has not been found installed  
+- Electron application SQLITE package has not been found installed 
+electron 5.0.4 AND sqlite3 4.1.1  
 Execute command `npm run postinstall`.  
 SQLite3 is a native Node.js module so it can't be used directly with Electron without rebuilding it to target Electron.The electron-builder will build the native module for our platform and we can then require it in code as normal.
+electron 7.2.4 AND sqlite3 5.0.0  
+Powershell run as administrator and run `npm install -g node-gyp` `npm install node-pre-gyp -g` `npm install --global --production windows-build-tools`  
+`sqlite3` is a native module, so it either needs to be built from source or installed via binary download. If you have Visual Studio installed, you ca try `npm install sqlite3 --build-from-source`, which is also a safer option.
+
 
 - Circular Dependencies  
 I'm set `"showCircularDependencies": false` in angular.json and you don't see messages about circular dependencies, but command `npx madge --circular --extensions ts ./` show you all circular. And if you see a warning about circular dependencies related with TypeORM entities - just ignore them, but only them.
