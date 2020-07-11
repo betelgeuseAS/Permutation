@@ -93,20 +93,24 @@
       </mat-card-header>
 
       <mat-card-content>
-        <mat-advanced-audio-player
-          *ngIf="playlistAdvanced.length"
-          [playlist]="playlistAdvanced"
-          [displayTitle]="displayTitleAdvanced"
-          [autoPlay]="false"
-          muted="muted"
-          [displayPlaylist]="displayPlayListAdvanced"
-          [pageSizeOptions]="pageSizeOptionsAdvanced"
-          (ended)="handelPlayerEnded($event)"
-          [displayVolumeControls]="displayVolumeControlsAdvanced"
-          [expanded]="false"
-        ></mat-advanced-audio-player>
+        <div class="audio-player" *ngIf="playlistBasic.length">
+          <div *ngFor="let playBasic of playlistBasic">
+            <div class="audio-player-title">
+              <span>{{playBasic.title}}</span>
+              <button mat-button color="warn" (click)="removeRecord(playBasic.id)">Remove</button>
+            </div>
 
-        <div class="empty-list" *ngIf="!playlistAdvanced.length">Empty Audio</div>
+            <mat-basic-audio-player
+              [audioUrl]="playBasic.link"
+              [title]="playBasic.title"
+              [autoPlay]="false"
+              [displayTitle]="displayTitleBasic"
+              [displayVolumeControls]="displayVolumeControlsBasic"
+            ></mat-basic-audio-player>
+          </div>
+        </div>
+
+        <div class="empty-list" *ngIf="!playlistBasic.length">Empty Audio</div>
       </mat-card-content>
 
       <mat-card-actions>
