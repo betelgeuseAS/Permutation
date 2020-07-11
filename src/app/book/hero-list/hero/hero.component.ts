@@ -7,6 +7,7 @@ import { KsGalleryService, KsOwnImage } from '../../../shared/services/ks-modal-
 import { Image } from '@ks89/angular-modal-gallery';
 import { ImageHero } from '../../../data-access/entities/image-hero.entity';
 import { AudioHero } from '../../../data-access/entities/audio-hero.entity';
+import { getRepository } from 'typeorm';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import * as Filepond from 'filepond';
 // import { Track } from 'ngx-audio-player';
@@ -20,6 +21,7 @@ import {
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
 import * as moment from 'moment';
+import * as _ from 'lodash'; // or import 'lodash'; declare var _:any; // or import * as _isEmpty from 'lodash/isEmpty';
 import { AudioRecorderComponent } from '../../../shared/components/audio-recorder/audio-recorder.component';
 
 @Component({
@@ -46,11 +48,9 @@ export class HeroComponent implements OnInit {
   });
   pondFilesGallery = this.filepondService.getFiles();
 
-  playlistAdvanced: PlayerOwnAudio[] = []; // Track[]
-  displayTitleAdvanced = this.audioPlayerService.getOptionsAdvanced().displayTitle;
-  displayPlayListAdvanced = this.audioPlayerService.getOptionsAdvanced().displayPlayList;
-  pageSizeOptionsAdvanced = this.audioPlayerService.getOptionsAdvanced().pageSizeOptions;
-  displayVolumeControlsAdvanced = this.audioPlayerService.getOptionsAdvanced().displayVolumeControls;
+  playlistBasic: PlayerOwnAudio[] = [];
+  displayTitleBasic = this.audioPlayerService.getOptionsBasic().displayTitle;
+  displayVolumeControlsBasic = this.audioPlayerService.getOptionsBasic().displayVolumeControls;
 
   @ViewChild(QuillEditorComponent, { static: true }) quillEditor: QuillEditorComponent;
   quillModules: object;
@@ -109,7 +109,7 @@ export class HeroComponent implements OnInit {
         //   });
         // }
 
-        this.playlistAdvanced = this.audioPlayerService.getAudios(this.hero.audios);
+        this.playlistBasic = this.audioPlayerService.getAudios(this.hero.audios);
 
         this.quillContent = this.hero.content;
       });
@@ -203,7 +203,15 @@ export class HeroComponent implements OnInit {
     }
   }
 
-  handelPlayerEnded($event) {
-    // console.log($event);
+  removeRecord(id) {
+    const audioHero = _.find(this.hero.audios, o => o.id = id);
+
+    if (audioHero) {
+      const audioHeroRepository = getRepository(AudioHero);
+      audioHeroRepository.delete(id) // .remove(audioHero)
+        .then(() => {
+          this.getHeroById(this.hero.id);
+        });
+    }
   }
 }

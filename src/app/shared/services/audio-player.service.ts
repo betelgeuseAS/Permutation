@@ -3,6 +3,7 @@ import { AudioHero } from '../../data-access/entities/audio-hero.entity';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 export interface PlayerOwnAudio {
+  id?: number;
   title: string;
   link: SafeUrl;
 }
@@ -93,6 +94,7 @@ export class AudioPlayerService {
     return entities.map((item) => {
       if (item && item.data) {
         return {
+          id: item.id,
           title: item.name,
           link: this.sanitize(item.data) // URL.createObjectURL(blob)
         };
