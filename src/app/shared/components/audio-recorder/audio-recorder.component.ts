@@ -1,9 +1,10 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgAudioRecorderService, OutputFormat, RecorderState } from 'ng-audio-recorder';
 import { AudioPlayerService } from '../../services/audio-player.service';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { CountupTimerService } from 'ngx-timer';
 import { TimerService } from '../../services/timer.service';
+import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 // import { Track } from 'ngx-audio-player';
 
 // ng-audio-recorder - https://www.npmjs.com/package/ng-audio-recorder
@@ -46,6 +47,8 @@ import { TimerService } from '../../services/timer.service';
 })
 export class AudioRecorderComponent implements OnInit {
 
+  form: FormGroup;
+
   fileToUploadAudio: Array<Blob> = [];
   fileBase64ToUploadAudio: Array<string> = [];
 
@@ -67,14 +70,23 @@ export class AudioRecorderComponent implements OnInit {
     public audioPlayerService: AudioPlayerService,
     private domSanitizer: DomSanitizer,
     private countUpTimerService: CountupTimerService,
-    private timerService: TimerService
+    private timerService: TimerService,
+    private formBuilder: FormBuilder
   ) {
     this.audioRecorderService.recorderError.subscribe(recorderErrorCase => {
       // Handle Error
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.form = this.formBuilder.group({
+      audioFields: new FormArray([])
+    });
+  }
+
+  // convenience getters for easy access to form fields
+  get f() { return this.form.controls; }
+  get t() { return this.f.audioFields as FormArray; }
 
   startRecording() {
     this.audioRecorderService.startRecording();
@@ -100,6 +112,10 @@ export class AudioRecorderComponent implements OnInit {
             title: '',
             link: safeBase64Audio
           });
+
+          this.t.push(this.formBuilder.group({
+            title: ['Blank', Validators.required]
+          }));
         };
       }).catch(errrorCase => {
         // Handle Error
@@ -130,6 +146,10 @@ export class AudioRecorderComponent implements OnInit {
   }
 
   removeRecord(index: number) {
+    // this.t.clear();
+    // this.t.reset();
+    this.t.removeAt(index);
+
     this.fileToUploadAudio.splice(index, 1);
     this.fileBase64ToUploadAudio.splice(index, 1);
     this.playlistBasic.splice(index, 1);

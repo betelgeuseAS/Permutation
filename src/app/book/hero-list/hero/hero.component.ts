@@ -8,8 +8,9 @@ import { Image } from '@ks89/angular-modal-gallery';
 import { ImageHero } from '../../../data-access/entities/image-hero.entity';
 import { AudioHero } from '../../../data-access/entities/audio-hero.entity';
 import { getRepository } from 'typeorm';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import * as Filepond from 'filepond';
+// import * as moment from 'moment';
 // import { Track } from 'ngx-audio-player';
 import { AudioPlayerService, PlayerOwnAudio } from '../../../shared/services/audio-player.service';
 import { QuillService } from '../../../shared/services/quill/quill.service';
@@ -20,7 +21,6 @@ import {
   MatSnackBarHorizontalPosition,
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
-import * as moment from 'moment';
 import * as _ from 'lodash'; // or import 'lodash'; declare var _:any; // or import * as _isEmpty from 'lodash/isEmpty';
 import { AudioRecorderComponent } from '../../../shared/components/audio-recorder/audio-recorder.component';
 
@@ -147,7 +147,7 @@ export class HeroComponent implements OnInit {
           const {type, size} = item;
 
           const audioHero = new AudioHero();
-          audioHero.name = moment().format('ll');
+          audioHero.name = this.audioRecorder.form.value.audioFields[index].title;
           audioHero.data = this.audioRecorder.fileBase64ToUploadAudio[index];
           audioHero.mimeType = type; // 'audio/wav'
           audioHero.size = size;
@@ -169,6 +169,8 @@ export class HeroComponent implements OnInit {
           this.fileToUploadGallery = [];
           this.fileBase64ToUploadGallery = [];
 
+          this.audioRecorder.form.reset();
+          (this.audioRecorder.form.controls.audioFields as FormArray).clear();
           this.audioRecorder.playlistBasic = [];
           this.audioRecorder.fileToUploadAudio = [];
           this.audioRecorder.fileBase64ToUploadAudio = [];

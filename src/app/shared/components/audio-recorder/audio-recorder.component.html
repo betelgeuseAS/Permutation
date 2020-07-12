@@ -9,19 +9,27 @@
 </div>
 
 <div class="audio-recorder-player" *ngIf="playlistBasic.length">
-  <div
-    *ngFor="let playBasic of playlistBasic, let i = index"
-    fxLayout="row"
-    fxLayoutAlign="space-between center"
-  >
-    <mat-basic-audio-player
-      [audioUrl]="playBasic.link"
-      [title]="playBasic.title"
-      [autoPlay]="false"
-      muted="muted"
-      [displayTitle]="displayTitleBasic"
-      [displayVolumeControls]="displayVolumeControlsBasic"
-    ></mat-basic-audio-player>
-    <button mat-button color="warn" (click)="removeRecord(i)">Remove</button>
-  </div>
+  <form class="audio-recorder-form" [formGroup]="form">
+    <div *ngFor="let control of t.controls; let i = index"><!--<div *ngFor="let playBasic of playlistBasic, let i = index">-->
+      <div [formGroup]="control" class="audio-recorder-item">
+        <mat-form-field>
+          <mat-label>Title</mat-label>
+          <input matInput #message maxlength="256" formControlName="title" placeholder="Enter Title">
+          <!--<mat-hint align="start"><strong>Length</strong> </mat-hint>-->
+          <mat-hint align="end">{{message.value.length}} / 256</mat-hint>
+        </mat-form-field>
+
+        <button mat-button color="warn" type="button" (click)="removeRecord(i)">Remove</button>
+
+        <mat-basic-audio-player
+          [audioUrl]="playlistBasic[i].link"
+          [title]="playlistBasic[i].title"
+          [autoPlay]="false"
+          muted="muted"
+          [displayTitle]="displayTitleBasic"
+          [displayVolumeControls]="displayVolumeControlsBasic"
+        ></mat-basic-audio-player>
+      </div>
+    </div>
+  </form>
 </div>
