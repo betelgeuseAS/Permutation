@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgAudioRecorderService, OutputFormat, RecorderState } from 'ng-audio-recorder';
-import { AudioPlayerService } from '../../services/audio-player.service';
+import { AudioPlayerService, PlayerOwnAudio } from '../../services/audio-player.service';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { CountupTimerService } from 'ngx-timer';
 import { TimerService } from '../../services/timer.service';
@@ -52,7 +52,7 @@ export class AudioRecorderComponent implements OnInit {
   fileToUploadAudio: Array<Blob> = [];
   fileBase64ToUploadAudio: Array<string> = [];
 
-  playlistBasic: Array<object> = []; // Track[]
+  playlistBasic: Array<PlayerOwnAudio> = []; // Track[]
   displayTitleBasic = this.audioPlayerService.getOptionsBasic().displayTitle;
   displayVolumeControlsBasic = this.audioPlayerService.getOptionsBasic().displayVolumeControls;
 
