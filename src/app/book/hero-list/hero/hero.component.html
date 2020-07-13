@@ -44,7 +44,7 @@
                    (click)="ksGalleryService.openImageModalRow(img, images)"
                    [alt]="img.modal.description"/>
 
-              <a class="more" *ngIf="i==2 && i>0" (click)="ksGalleryService.openImageModalRow(img, images)"> +{{images.length - 3}} more </a>
+              <a class="more" *ngIf="i==2 && images.length>3" (click)="ksGalleryService.openImageModalRow(img, images)"> +{{images.length - 3}} more </a>
 
               <ng-template #noThumb>
                   <span class="cover-custom-image-row">

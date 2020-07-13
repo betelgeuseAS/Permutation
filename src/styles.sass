@@ -147,17 +147,28 @@ img[alt="drag"]
       height: 60px
       margin: 5px
 
-//.close-image
-  //background-image: url(./assets/icons/close.png) !important
-.left-arrow-image
-  background-image: url(./assets/icons/left.png) !important
-  opacity: .8
-  transition: .5s
-.right-arrow-image
-  background-image: url(./assets/icons/right.png) !important
-  opacity: .8
-  transition: .5s
-
+// icons: https://www.flaticon.com/packs/basic-ui-2
+// icons: https://www.flaticon.com/authors/pixel-perfect/tritone
+#modal-gallery-container
+  .fullscreen-image
+    background-image: url(./assets/icons/enlarge.svg)
+  .delete-image
+    background-image: url(./assets/icons/trash.svg)
+  .ext-url-image
+    background-image: url(./assets/icons/share-square.svg)
+  .download-image
+    background-image: url(./assets/icons/download-square.svg)
+  .close-image
+    background-image: url(./assets/icons/close.svg)
+  .left-arrow-image
+    background-image: url(./assets/icons/chevron.svg)
+    transform: scale(-1, 1) // horizontal; transform: scale(1, -1) - vertical; transform: scale(-1, -1) - both
+    opacity: .8
+    transition: .5s
+  .right-arrow-image
+    background-image: url(./assets/icons/chevron.svg)
+    opacity: .8
+    transition: .5s
 
 //----------------------------------------------------------------------------------------------------------------------
 // Material (styles which works only root style file)
