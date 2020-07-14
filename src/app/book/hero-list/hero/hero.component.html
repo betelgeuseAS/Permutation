@@ -61,11 +61,12 @@
         <ks-modal-gallery
           [id]="0"
           [modalImages]="images"
-          [buttonsConfig]="ksGalleryService.buttonsConfigFull"
+          [buttonsConfig]="ksGalleryService.buttonsConfigCustom"
           [enableCloseOutside]="false"
           [plainGalleryConfig]="ksGalleryService.customPlainGalleryRowConfig"
           [previewConfig]="{visible: true, number: 5}"
           [slideConfig]="{infinite: true}"
+          (buttonBeforeHook)="removeImage($event)"
           [currentImageConfig]="{loadingConfig: {enable: true, type: 4}}">
         </ks-modal-gallery>
 

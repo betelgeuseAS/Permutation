@@ -3,8 +3,8 @@ import { Subscription } from 'rxjs';
 import { DatabaseService } from '../../../data-access/database.service';
 import { ActivatedRoute } from '@angular/router';
 import { Hero } from '../../../data-access/entities/hero.entity';
-import { KsGalleryService, KsOwnImage } from '../../../shared/services/ks-modal-gallery/ks-gallery.service';
-import { Image } from '@ks89/angular-modal-gallery';
+import { KsGalleryService } from '../../../shared/services/ks-modal-gallery/ks-gallery.service';
+import { ButtonEvent, Image } from '@ks89/angular-modal-gallery';
 import { ImageHero } from '../../../data-access/entities/image-hero.entity';
 import { AudioHero } from '../../../data-access/entities/audio-hero.entity';
 import { getRepository } from 'typeorm';
@@ -96,7 +96,7 @@ export class HeroComponent implements OnInit {
 
         this.form.controls.name.setValue(this.hero.name);
 
-        const img: Array<KsOwnImage> = [...this.hero.images];
+        const img: ImageHero[] = [...this.hero.images];
         this.images = this.ksGalleryService.getImages(img);
 
         // if (this.hero.imagePreview) {
@@ -202,6 +202,16 @@ export class HeroComponent implements OnInit {
     if (index > -1) {
       this.fileToUploadGallery.splice(index, 1);
       this.fileBase64ToUploadGallery.splice(index, 1);
+    }
+  }
+
+  removeImage(event: ButtonEvent) {
+    if (event.button.type === 1) { // click on remove button
+      const imageHeroRepository = getRepository(ImageHero);
+      imageHeroRepository.delete(event.image.id) // .remove(imageHero)
+        .then(() => {
+          this.getHeroById(this.hero.id);
+        });
     }
   }
 
