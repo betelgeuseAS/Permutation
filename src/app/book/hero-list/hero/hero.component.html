@@ -67,7 +67,7 @@
           [previewConfig]="{visible: true, number: 5}"
           [slideConfig]="{infinite: true}"
           (buttonBeforeHook)="removeImage($event)"
-          [currentImageConfig]="{loadingConfig: {enable: true, type: 4}}">
+          [currentImageConfig]="{description: ksGalleryService.customFullDescription, loadingConfig: {enable: true, type: 4}}">
         </ks-modal-gallery>
 
         <div class="empty-list" *ngIf="!images.length">{{ 'COMMON.CONTENT.EMPTY_GALLERY' | translate }}</div>

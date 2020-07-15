@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import {
-  AdvancedLayout, ButtonsConfig, ButtonsStrategy,
+  AdvancedLayout, ButtonsConfig, ButtonsStrategy, Description, DescriptionStrategy,
   Image,
   KS_DEFAULT_BTN_CLOSE, KS_DEFAULT_BTN_DELETE, KS_DEFAULT_BTN_DOWNLOAD, KS_DEFAULT_BTN_EXTURL, KS_DEFAULT_BTN_FULL_SCREEN,
   PlainGalleryConfig,
@@ -35,6 +35,25 @@ export class KsGalleryService {
       // KS_DEFAULT_BTN_DOWNLOAD,
       KS_DEFAULT_BTN_CLOSE
     ]
+  };
+
+  customFullDescription: Description = {
+    strategy: DescriptionStrategy.ALWAYS_VISIBLE,
+    // customFullDescription: '',
+    imageText: '', // default is 'Image'
+    // numberSeparator: '/', // default is '/'
+    // beforeTextDescription: '', // default is ' - '
+    style: {
+      bgColor: 'transparent',
+      textColor: 'white',
+      // marginTop: '1px',
+      // marginBottom: '1px',
+      // marginLeft: '1px',
+      // marginRight: '1px',
+      position: 'absolute',
+      bottom: '-40px',
+      // height: '125px'
+    }
   };
 
   private static getCurrentIndexCustomLayout(image: Image, images: Image[]): number {
