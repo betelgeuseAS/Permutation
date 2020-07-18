@@ -25,4 +25,5 @@ import { AudioRecorderComponent } from '../shared/components/audio-recorder/audi
     BookRoutingModule
   ]
 })
+
 export class BookModule {}

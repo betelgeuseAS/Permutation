@@ -25,6 +25,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
 
 // import { MaterialModule } from './material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DialogsModule } from './dialogs/dialogs.module';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     SharedModule,
     DashboardModule,
     BookModule,
+    DialogsModule,
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
@@ -53,4 +55,5 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
   providers: [],
   bootstrap: [AppComponent]
 })
+
 export class AppModule {}

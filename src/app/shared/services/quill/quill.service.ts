@@ -20,12 +20,14 @@ import ImageResize from 'quill-image-resize-module';
 Quill.register('modules/imageResize', ImageResize);
 
 import { DatabaseService } from '../../../data-access/database.service';
-import { getRepository, getConnection, createQueryBuilder } from "typeorm";
 import { Hero } from '../../../data-access/entities/hero.entity';
-import {Book} from '../../../data-access/entities/book.entity';
+
+import { MatDialog } from '@angular/material/dialog';
+import { InfoQuillDialogComponent } from '../../../dialogs/info-quill-dialog/info-quill-dialog.component';
 
 interface Options {
   quillEditor: any;
+  matModal: MatDialog;
 }
 
 @Injectable({
@@ -94,13 +96,21 @@ export class QuillService {
   constructor(
     private databaseService: DatabaseService,
   ) {
+    this.manageQuillIcons();
+    this.manageDataMention();
+  }
+
+  protected manageQuillIcons() {
     // Set new icons in exits buttons
     // Quill icons: https://github.com/quilljs/quill/tree/develop/assets/icons
     const icons = Quill.import('ui/icons');
     // icons['bold'] = '<i class="fa fa-bold" aria-hidden="true"></i>';
     icons.undo = '<svg viewbox="0 0 18 18"><polygon class="ql-fill ql-stroke" points="6 10 4 12 2 10 6 10"></polygon><path class="ql-stroke" d="M8.09,13.91A4.6,4.6,0,0,0,9,14,5,5,0,1,0,4,9"></path></svg>';
     icons.redo = '<svg viewbox="0 0 18 18"><polygon class="ql-fill ql-stroke" points="12 10 14 12 16 10 12 10"></polygon><path class="ql-stroke" d="M9.91,13.91A4.6,4.6,0,0,1,9,14a5,5,0,1,1,5-5"></path></svg>';
+    icons.info = '<svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve"><g><g><path d="M256,0C114.497,0,0,114.507,0,256c0,141.503,114.507,256,256,256c141.503,0,256-114.507,256-256C512,114.497,397.492,0,256,0z M256,472c-119.393,0-216-96.615-216-216c0-119.393,96.615-216,216-216c119.393,0,216,96.615,216,216C472,375.393,375.384,472,256,472z"/></g></g><g><g><path d="M266,128.878h-70c-11.046,0-20,8.954-20,20c0,11.046,8.954,20,20,20h70c16.542,0,30,13.458,30,30s-13.458,30-30,30h-20c-11.046,0-20,8.954-20,20v28.792c0,11.046,8.954,20,20,20s20-8.954,20-20v-8.792c38.598,0,70-31.402,70-70C336,160.28,304.598,128.878,266,128.878z"/></g></g><g><g><circle cx="246" cy="349.16" r="27"/></g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg>\n';
+  }
 
+  protected manageDataMention() {
     this.databaseService
       .connection
       .then(() => Hero.find({ select: ["id", "name"] }))
@@ -112,8 +122,9 @@ export class QuillService {
   }
 
   getModule({
-     quillEditor = null
-   }: Options): object {
+    quillEditor = null,
+    matModal = null
+  }: Options): object {
     return { // https://quilljs.com/docs/modules/
       // Emoji plugin:
       // https://www.npmjs.com/package/quill-emoji
@@ -221,6 +232,8 @@ export class QuillService {
           ['undo', 'redo'],
 
           ['counter'], // custom counter
+
+          ['info'], // custom info
         ],
         handlers: {
           // link(value) {
@@ -245,6 +258,13 @@ export class QuillService {
               const suffix = Number(wordsCount) > 1 ? 's' : '';
               editor.insertText(editor.getLength(), `${wordsCount} word${suffix}`, {color: '#17A2B8', italic: true});
             }
+          },
+          info() {
+            matModal.open(InfoQuillDialogComponent, {
+              data: {},
+              disableClose: true,
+              width: '50vw'
+            });
           }
         }
       },

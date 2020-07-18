@@ -23,6 +23,7 @@ import {
 } from '@angular/material/snack-bar';
 import * as _ from 'lodash'; // or import 'lodash'; declare var _:any; // or import * as _isEmpty from 'lodash/isEmpty';
 import { AudioRecorderComponent } from '../../../shared/components/audio-recorder/audio-recorder.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-hero',
@@ -70,7 +71,8 @@ export class HeroComponent implements OnInit {
     public ksGalleryService: KsGalleryService,
     public audioPlayerService: AudioPlayerService,
     public quillService: QuillService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    public dialog: MatDialog
   ) {
     this.subscription = activateRoute.params.subscribe(params => this.id = params.id);
 
@@ -83,7 +85,8 @@ export class HeroComponent implements OnInit {
     });
 
     this.quillModules = this.quillService.getModule({
-      quillEditor: this.quillEditor
+      quillEditor: this.quillEditor,
+      matModal: this.dialog
     });
   }
 
