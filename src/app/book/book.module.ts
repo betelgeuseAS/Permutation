@@ -6,8 +6,6 @@ import { SharedModule } from '../shared/shared.module';
 import { BookComponent } from './book.component';
 import { HeroListComponent } from './hero-list/hero-list.component';
 import { HeroComponent } from './hero-list/hero/hero.component';
-import { UpdateBookDialogComponent } from './dialog/update-book-dialog/update-book-dialog.component';
-import { CreateHeroDialogComponent } from './hero-list/dialog/create-hero-dialog/create-hero-dialog.component';
 import { AudioRecorderComponent } from '../shared/components/audio-recorder/audio-recorder.component';
 
 @NgModule({
@@ -15,8 +13,6 @@ import { AudioRecorderComponent } from '../shared/components/audio-recorder/audi
     BookComponent,
     HeroListComponent,
     HeroComponent,
-    UpdateBookDialogComponent,
-    CreateHeroDialogComponent,
     AudioRecorderComponent
   ],
   imports: [

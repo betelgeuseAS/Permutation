@@ -6,7 +6,7 @@ import { DatabaseService } from '../../data-access/database.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { MatDialog } from '@angular/material/dialog';
-import { CreateBookDialogComponent } from './dialog/create-book-dialog/create-book-dialog.component';
+import { CreateBookDialogComponent } from '../../dialogs/create-book-dialog/create-book-dialog.component';
 
 import * as moment from 'moment';
 

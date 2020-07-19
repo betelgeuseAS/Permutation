@@ -9,7 +9,7 @@ import { DatabaseService } from '../../data-access/database.service';
 import { MyValidators } from '../../shared/validators/my.validators';
 
 import { MatDialog } from '@angular/material/dialog';
-import { CreateHeroDialogComponent } from './dialog/create-hero-dialog/create-hero-dialog.component';
+import { CreateHeroDialogComponent } from '../../dialogs/create-hero-dialog/create-hero-dialog.component';
 
 import * as moment from 'moment';
 import * as Filepond from 'filepond';

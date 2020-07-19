@@ -6,7 +6,7 @@ import { Book } from '../data-access/entities/book.entity';
 import { DatabaseService } from '../data-access/database.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { UpdateBookDialogComponent } from './dialog/update-book-dialog/update-book-dialog.component';
+import { UpdateBookDialogComponent } from '../dialogs/update-book-dialog/update-book-dialog.component';
 
 @Component({
   selector: 'app-book',
