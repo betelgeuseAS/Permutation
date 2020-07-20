@@ -10,9 +10,9 @@
         <span class="hero-list-name">{{hero.name}}</span>
 
         <div class="hero-list-buttons">
-          <button mat-raised-button routerLink="/book/hero/{{hero.id}}" routerLinkActive="active">View</button>
-          <button mat-raised-button routerLink="/book/hero/{{hero.id}}" routerLinkActive="active">Edit</button>
-          <button mat-raised-button routerLink="/book/hero/{{hero.id}}" routerLinkActive="active">Remove</button>
+          <button mat-stroked-button color="primary" routerLink="/book/hero/{{hero.id}}" routerLinkActive="active">View</button>
+          <button mat-stroked-button color="accent" routerLink="/book/hero/{{hero.id}}" routerLinkActive="active">Edit</button>
+          <button mat-stroked-button color="warn" (click)="removeHero(hero.id)">Remove</button>
         </div>
 
         <mat-divider></mat-divider>

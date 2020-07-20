@@ -13,6 +13,7 @@ import { CreateHeroDialogComponent } from '../../dialogs/create-hero-dialog/crea
 
 import * as moment from 'moment';
 import * as Filepond from 'filepond';
+import { getRepository } from 'typeorm';
 
 @Component({
   selector: 'app-hero-list',
@@ -115,5 +116,13 @@ export class HeroListComponent implements OnInit {
     }
 
     this.dialog.closeAll();
+  }
+
+  removeHero(heroId) {
+    const heroRepository = getRepository(Hero);
+    heroRepository.delete(heroId)
+      .then(() => {
+        this.getHeroesByBookId(this.book.id);
+      });
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { DatabaseService } from '../../../data-access/database.service';
 import { ActivatedRoute } from '@angular/router';
@@ -24,6 +24,7 @@ import {
 import * as _ from 'lodash'; // or import 'lodash'; declare var _:any; // or import * as _isEmpty from 'lodash/isEmpty';
 import { AudioRecorderComponent } from '../../../shared/components/audio-recorder/audio-recorder.component';
 import { MatDialog } from '@angular/material/dialog';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'app-hero',
@@ -72,7 +73,8 @@ export class HeroComponent implements OnInit {
     public audioPlayerService: AudioPlayerService,
     public quillService: QuillService,
     private snackBar: MatSnackBar,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    @Inject(DOCUMENT) private document: Document
   ) {
     this.subscription = activateRoute.params.subscribe(params => this.id = params.id);
 
@@ -189,6 +191,14 @@ export class HeroComponent implements OnInit {
           this.getHeroById(this.id);
         });
     }
+  }
+
+  removeHeroHandler() {
+    const heroRepository = getRepository(Hero);
+    heroRepository.delete(this.hero.id)
+      .then(() => {
+        this.document.location.href = `http://localhost:4200/#/book/${this.hero.book.id}`;
+      });
   }
 
   pondHandleAddFileGallery(event: any) {

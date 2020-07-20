@@ -23,6 +23,7 @@
 
   <mat-card-actions>
     <button mat-raised-button color="accent" [disabled]="form.invalid" (click)="updateHeroHandler()">{{ 'BUTTONS.HERO.UPDATE_HERO' | translate }}</button>
+    <button mat-raised-button color="warn" (click)="removeHeroHandler()">{{ 'BUTTONS.COMMON.REMOVE' | translate }}</button>
   </mat-card-actions>
 </mat-card>
 

@@ -32,7 +32,8 @@
   "BUTTONS": {
     "COMMON": {
       "SAVE": "Save",
-      "UPDATE": "Update"
+      "UPDATE": "Update",
+      "REMOVE": "Remove"
     },
     "BOOK": {
       "CREATE_BOOK": "Create Book",
