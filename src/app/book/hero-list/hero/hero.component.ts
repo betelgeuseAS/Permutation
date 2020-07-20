@@ -197,7 +197,7 @@ export class HeroComponent implements OnInit {
     const heroRepository = getRepository(Hero);
     heroRepository.delete(this.hero.id)
       .then(() => {
-        this.document.location.href = `http://localhost:4200/#/book/${this.hero.book.id}`;
+        this.goToBookFromHeroUrl();
       });
   }
 
@@ -238,5 +238,13 @@ export class HeroComponent implements OnInit {
           this.getHeroById(this.hero.id);
         });
     }
+  }
+
+  backHandler() {
+    this.goToBookFromHeroUrl();
+  }
+
+  goToBookFromHeroUrl() {
+    this.document.location.href = `http://localhost:4200/#/book/${this.hero.book.id}`;
   }
 }

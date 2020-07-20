@@ -21,7 +21,8 @@
     </form>
   </mat-card-content>
 
-  <mat-card-actions>
+  <mat-card-actions class="mat-card-action-main">
+    <button mat-raised-button (click)="backHandler()">{{ 'BUTTONS.COMMON.BACK' | translate }}</button>
     <button mat-raised-button color="accent" [disabled]="form.invalid" (click)="updateHeroHandler()">{{ 'BUTTONS.HERO.UPDATE_HERO' | translate }}</button>
     <button mat-raised-button color="warn" (click)="removeHeroHandler()">{{ 'BUTTONS.COMMON.REMOVE' | translate }}</button>
   </mat-card-actions>

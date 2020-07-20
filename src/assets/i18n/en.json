@@ -33,7 +33,8 @@
     "COMMON": {
       "SAVE": "Save",
       "UPDATE": "Update",
-      "REMOVE": "Remove"
+      "REMOVE": "Remove",
+      "BACK": "Back"
     },
     "BOOK": {
       "CREATE_BOOK": "Create Book",
