@@ -7,6 +7,7 @@ import { DatabaseService } from '../data-access/database.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { UpdateBookDialogComponent } from '../dialogs/update-book-dialog/update-book-dialog.component';
+import { NgDynamicBreadcrumbService } from 'ng-dynamic-breadcrumb';
 
 @Component({
   selector: 'app-book',
@@ -24,9 +25,10 @@ export class BookComponent implements OnInit {
   constructor(
     private databaseService: DatabaseService,
     private activateRoute: ActivatedRoute,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private ngDynamicBreadcrumbService: NgDynamicBreadcrumbService
   ) {
-    this.subscription = activateRoute.params.subscribe(params => this.id = params.id);
+    this.subscription = activateRoute.params.subscribe(params => this.id = params.bookId);
 
     this.getBookById(this.id);
   }
@@ -44,6 +46,10 @@ export class BookComponent implements OnInit {
       .then(() => Book.findOne({ where: {id: bookId},  relations: ['heroes'/*, 'heroes.imagePreview'*/] }))
       .then(book => {
         this.book = book;
+
+        this.ngDynamicBreadcrumbService.updateBreadcrumbLabels({
+          bookBreadcrumb: this.book.name
+        });
       });
 
     // let book = await repository.createQueryBuilder('book')

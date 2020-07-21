@@ -25,6 +25,7 @@ import * as _ from 'lodash'; // or import 'lodash'; declare var _:any; // or imp
 import { AudioRecorderComponent } from '../../../shared/components/audio-recorder/audio-recorder.component';
 import { MatDialog } from '@angular/material/dialog';
 import { DOCUMENT } from '@angular/common';
+import { NgDynamicBreadcrumbService } from 'ng-dynamic-breadcrumb';
 
 @Component({
   selector: 'app-hero',
@@ -74,9 +75,10 @@ export class HeroComponent implements OnInit {
     public quillService: QuillService,
     private snackBar: MatSnackBar,
     public dialog: MatDialog,
-    @Inject(DOCUMENT) private document: Document
+    @Inject(DOCUMENT) private document: Document,
+    private ngDynamicBreadcrumbService: NgDynamicBreadcrumbService
   ) {
-    this.subscription = activateRoute.params.subscribe(params => this.id = params.id);
+    this.subscription = activateRoute.params.subscribe(params => this.id = params.heroId);
 
     this.getHeroById(this.id);
   }
@@ -98,6 +100,11 @@ export class HeroComponent implements OnInit {
       .then(() => Hero.findOne({ where: {id: heroId},  relations: ['images', 'audios'] }))
       .then(hero => {
         this.hero = hero;
+
+        this.ngDynamicBreadcrumbService.updateBreadcrumbLabels({
+          bookBreadcrumb: this.hero.book.name,
+          heroBreadcrumb: this.hero.name
+        });
 
         this.form.controls.name.setValue(this.hero.name);
 
@@ -197,7 +204,7 @@ export class HeroComponent implements OnInit {
     const heroRepository = getRepository(Hero);
     heroRepository.delete(this.hero.id)
       .then(() => {
-        this.goToBookFromHeroUrl();
+        this.document.location.href = `http://localhost:4200/#/book/${this.hero.book.id}`;
       });
   }
 
@@ -238,13 +245,5 @@ export class HeroComponent implements OnInit {
           this.getHeroById(this.hero.id);
         });
     }
-  }
-
-  backHandler() {
-    this.goToBookFromHeroUrl();
-  }
-
-  goToBookFromHeroUrl() {
-    this.document.location.href = `http://localhost:4200/#/book/${this.hero.book.id}`;
   }
 }

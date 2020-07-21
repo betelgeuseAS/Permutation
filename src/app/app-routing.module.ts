@@ -10,12 +10,34 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: 'book/:id',
-    component: BookComponent
+    path: 'book/:bookId',
+    component: BookComponent,
+    data: {
+      title: 'book',
+      breadcrumb: [
+        {
+          label: 'Dashboard',
+          url: 'dashboard'
+        },
+        {
+          label: '{{bookBreadcrumb}}',
+          url: ''
+        }
+      ]
+    }
   },
   {
     path: '**',
-    component: PageNotFoundComponent
+    component: PageNotFoundComponent,
+    data: {
+      title: 'dashboard',
+      breadcrumb: [
+        {
+          label: 'Dashboard',
+          url: 'dashboard'
+        }
+      ]
+    }
   }
 ];
 

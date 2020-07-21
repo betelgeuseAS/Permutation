@@ -33,6 +33,7 @@ import { QuillModule } from 'ngx-quill';
 import { NgAudioRecorderModule } from 'ng-audio-recorder'; // https://github.com/killroywashere/ng-audio-recorder#readme
 import { NgxTimerModule } from 'ngx-timer'; // https://github.com/Y4SHVINE/ngx-timer-lib
 import Counter from './services/quill/counter';
+import { NgDynamicBreadcrumbModule } from "ng-dynamic-breadcrumb";
 
 @NgModule({
   declarations: [
@@ -58,7 +59,8 @@ import Counter from './services/quill/counter';
       }]
     }),
     NgAudioRecorderModule,
-    NgxTimerModule
+    NgxTimerModule,
+    NgDynamicBreadcrumbModule
   ],
   exports: [
     TranslateModule,
@@ -73,7 +75,8 @@ import Counter from './services/quill/counter';
     FlexLayoutModule,
     NgxAudioPlayerModule,
     QuillModule,
-    NgxTimerModule
+    NgxTimerModule,
+    NgDynamicBreadcrumbModule
   ],
   providers: [],
   schemas: [NO_ERRORS_SCHEMA]

@@ -8,6 +8,14 @@
 
     <app-toolbar [drawer]="drawer"></app-toolbar>
 
+    <app-ng-dynamic-breadcrumb
+      [bgColor]="breadcrumbConfig['bgColor']"
+      [fontSize]="breadcrumbConfig['fontSize']"
+      [fontColor]="breadcrumbConfig['fontColor']"
+      [lastLinkColor]="breadcrumbConfig['lastLinkColor']"
+      [symbol]="breadcrumbConfig['symbol']"
+    ></app-ng-dynamic-breadcrumb>
+
     <div class="wrapper-router-outlet">
       <router-outlet></router-outlet>
     </div>

@@ -72,6 +72,7 @@
     "moment": "^2.24.0",
     "mousetrap": "^1.6.5",
     "ng-audio-recorder": "0.0.5",
+    "ng-dynamic-breadcrumb": "^3.0.1",
     "ngx-audio-player": "^9.0.7",
     "ngx-filepond": "^5.0.1",
     "ngx-quill": "^11.0.0",
