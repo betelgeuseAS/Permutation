@@ -47,9 +47,7 @@ export class BookComponent implements OnInit {
       .then(book => {
         this.book = book;
 
-        this.ngDynamicBreadcrumbService.updateBreadcrumbLabels({
-          bookBreadcrumb: this.book.name
-        });
+        this.updateBookBreadcrumb();
       });
 
     // let book = await repository.createQueryBuilder('book')
@@ -79,6 +77,23 @@ export class BookComponent implements OnInit {
 
       this.dialog.closeAll();
     }
+  }
+
+  updateBookBreadcrumb() {
+    // this.ngDynamicBreadcrumbService.updateBreadcrumbLabels({
+    //   bookBreadcrumb: this.book.name
+    // });
+
+    this.ngDynamicBreadcrumbService.updateBreadcrumb([
+      {
+        label: 'Dashboard',
+        url: 'dashboard'
+      },
+      {
+        label: this.book.name,
+        url: ''
+      }
+    ]);
   }
 
   openUpdateBookDialog() {

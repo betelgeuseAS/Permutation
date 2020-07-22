@@ -14,10 +14,10 @@ import { TranslateService } from '@ngx-translate/core';
 export class AppComponent {
 
   breadcrumbConfig = {
-    bgColor: '#eee',
+    bgColor: '#fff',
     fontSize: '18px',
-    fontColor: '#0275d8',
-    lastLinkColor: '#000',
+    fontColor: '#17A2B8',
+    lastLinkColor: '#333333',
     symbol: ' / ',
   };
 

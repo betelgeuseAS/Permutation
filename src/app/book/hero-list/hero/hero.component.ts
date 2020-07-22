@@ -101,10 +101,7 @@ export class HeroComponent implements OnInit {
       .then(hero => {
         this.hero = hero;
 
-        this.ngDynamicBreadcrumbService.updateBreadcrumbLabels({
-          bookBreadcrumb: this.hero.book.name,
-          heroBreadcrumb: this.hero.name
-        });
+        this.updateHeroBreadcrumb();
 
         this.form.controls.name.setValue(this.hero.name);
 
@@ -198,6 +195,28 @@ export class HeroComponent implements OnInit {
           this.getHeroById(this.id);
         });
     }
+  }
+
+  updateHeroBreadcrumb() {
+    // this.ngDynamicBreadcrumbService.updateBreadcrumbLabels({
+    //   bookBreadcrumb: this.hero.book.name,
+    //   heroBreadcrumb: this.hero.name
+    // });
+
+    this.ngDynamicBreadcrumbService.updateBreadcrumb([
+      {
+        label: 'Dashboard',
+        url: 'dashboard'
+      },
+      {
+        label: this.hero.book.name,
+        url: 'book/:bookId'
+      },
+      {
+        label: this.hero.name,
+        url: ''
+      }
+    ]);
   }
 
   removeHeroHandler() {
