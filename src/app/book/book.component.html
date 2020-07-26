@@ -14,16 +14,16 @@
   </mat-expansion-panel>
 </mat-accordion>
 
-<div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between none" fxLayoutGap=".75rem">
-  <div fxFlex="33%">
-    Notes
+<div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between none" fxLayoutGap=".75rem" appMatchHeight="card-height-book">
+  <div fxFlex="33%" class="card-height-book">
+    <mat-card>Notes</mat-card>
   </div>
 
-  <div fxFlex="33%">
+  <div fxFlex="33%" class="card-height-book">
     <app-hero-list [book]="book"></app-hero-list>
   </div>
 
-  <div fxFlex="33%">
-    Plot
+  <div fxFlex="33%" class="card-height-book">
+    <mat-card>Plot</mat-card>
   </div>
 </div>

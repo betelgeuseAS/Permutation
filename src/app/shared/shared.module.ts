@@ -34,11 +34,13 @@ import { NgAudioRecorderModule } from 'ng-audio-recorder'; // https://github.com
 import { NgxTimerModule } from 'ngx-timer'; // https://github.com/Y4SHVINE/ngx-timer-lib
 import Counter from './services/quill/counter';
 import { NgDynamicBreadcrumbModule } from "ng-dynamic-breadcrumb";
+import { MatchHeightDirective } from './directives/match-height.directive';
 
 @NgModule({
   declarations: [
     PageNotFoundComponent,
     WebviewDirective,
+    MatchHeightDirective,
     MomentPipe
   ],
   imports: [
@@ -65,6 +67,7 @@ import { NgDynamicBreadcrumbModule } from "ng-dynamic-breadcrumb";
   exports: [
     TranslateModule,
     WebviewDirective,
+    MatchHeightDirective,
     FormsModule,
     ReactiveFormsModule,
     DragDropModule,
