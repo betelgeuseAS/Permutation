@@ -61,7 +61,6 @@ export class MatchHeightDirective implements AfterViewChecked {
       return curr > prev ? curr : prev;
     }, 0);
 
-    console.log(maxHeight);
     // apply max height
     Array.from(children)
       .forEach((x: HTMLElement) => x.style.height = `${maxHeight}px`);
