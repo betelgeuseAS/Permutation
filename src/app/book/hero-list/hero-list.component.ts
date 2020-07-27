@@ -3,7 +3,6 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { Book } from '../../data-access/entities/book.entity';
 import { Hero } from '../../data-access/entities/hero.entity';
-import { ImageHero } from '../../data-access/entities/image-hero.entity';
 import { DatabaseService } from '../../data-access/database.service';
 
 import { MyValidators } from '../../shared/validators/my.validators';
@@ -12,7 +11,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { CreateHeroDialogComponent } from '../../dialogs/create-hero-dialog/create-hero-dialog.component';
 
 import * as moment from 'moment';
-import * as Filepond from 'filepond';
 import { getRepository } from 'typeorm';
 
 @Component({
@@ -25,8 +23,6 @@ export class HeroListComponent implements OnInit {
 
   @Input() book: Book;
   form: FormGroup;
-  fileToUploadGallery: Filepond.File[] = [];
-  fileBase64ToUploadGallery: Array<string> = [];
   heroes: Hero[] = [];
 
   constructor(
@@ -55,9 +51,6 @@ export class HeroListComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.fileToUploadGallery = result.fileToUploadGallery;
-        this.fileBase64ToUploadGallery = result.fileBase64ToUploadGallery;
-
         this.createHero();
       }
 
@@ -83,25 +76,6 @@ export class HeroListComponent implements OnInit {
       hero.created = moment().format('YYYY-MM-DD H:mm:ss');
       hero.book = this.book;
 
-      if (this.fileToUploadGallery) {
-        this.fileToUploadGallery.forEach((item, index) => {
-          const {filename, fileType, fileSize} = item;
-
-          const imageHero = new ImageHero();
-          imageHero.name = filename;
-          imageHero.data = this.fileBase64ToUploadGallery[index];
-          imageHero.mimeType = fileType;
-          imageHero.size = fileSize;
-          imageHero.hero = hero;
-
-          this.databaseService
-            .connection
-            .then(() => imageHero.save());
-
-          hero.images.push(imageHero);
-        });
-      }
-
       this.databaseService
         .connection
         .then(() => hero.save())
@@ -110,8 +84,6 @@ export class HeroListComponent implements OnInit {
         })
         .then(() => {
           name = '';
-
-          this.fileToUploadGallery = undefined;
         });
     }
 

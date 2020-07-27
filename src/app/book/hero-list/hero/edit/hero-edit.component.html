@@ -77,6 +77,12 @@
       <mat-card-actions class="mat-card-action-gallery">
         <mat-card-subtitle>Add Images</mat-card-subtitle>
 
+        <!--<input type="file" id="image-preview" formControlName="file" (change)="handleFileInput($event.target.files)">-->
+        <!--<small class="form-text text-danger" *ngIf="form.get('file').invalid && form.get('file').touched">-->
+        <!--  <span *ngIf="form.get('file').errors.notSupportImageType"></span>-->
+        <!--  <span *ngIf="form.get('file').errors.notSupportImageType" [translate]="'ERRORS.FIELDS.FILE_TYPE'" [translateParams]="{allowType: 'jpg, png, jpeg'}"></span>-->
+        <!--</small>-->
+
         <file-pond
           [options]="pondOptionsGallery"
           [files]="pondFilesGallery"

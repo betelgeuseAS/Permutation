@@ -12,23 +12,6 @@
           <span *ngIf="form.get('name').errors.required">{{ 'ERRORS.FIELDS.REQUIRED' | translate }}</span>
         </mat-error>
       </mat-form-field>
-
-      <div>
-        <label for="image-gallery">Gallery</label>
-        <!--<input type="file" id="image-preview" formControlName="file" (change)="handleFileInput($event.target.files)">-->
-        <!--<small class="form-text text-danger" *ngIf="form.get('file').invalid && form.get('file').touched">-->
-        <!--  <span *ngIf="form.get('file').errors.notSupportImageType"></span>-->
-        <!--  <span *ngIf="form.get('file').errors.notSupportImageType" [translate]="'ERRORS.FIELDS.FILE_TYPE'" [translateParams]="{allowType: 'jpg, png, jpeg'}"></span>-->
-        <!--</small>-->
-
-        <file-pond
-          id="image-gallery"
-          [options]="pondOptionsGallery"
-          [files]="pondFilesGallery"
-          (onaddfile)="pondHandleAddFileGallery($event)"
-          (onremovefile)="poundHandleRemoveFileGallery($event)">
-        </file-pond>
-      </div>
     </form>
   </div>
 </mat-dialog-content>
