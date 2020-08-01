@@ -1,38 +1,38 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { DatabaseService } from '../../../../data-access/database.service';
+import { DatabaseService } from '../../../data-access/database.service';
 import { ActivatedRoute } from '@angular/router';
-import { Hero } from '../../../../data-access/entities/hero.entity';
-import { KsGalleryService } from '../../../../shared/services/ks-modal-gallery/ks-gallery.service';
+import { Hero } from '../../../data-access/entities/hero.entity';
+import { KsGalleryService } from '../../../shared/services/ks-modal-gallery/ks-gallery.service';
 import { ButtonEvent, Image } from '@ks89/angular-modal-gallery';
-import { ImageHero } from '../../../../data-access/entities/image-hero.entity';
-import { AudioHero } from '../../../../data-access/entities/audio-hero.entity';
+import { ImageHero } from '../../../data-access/entities/image-hero.entity';
+import { AudioHero } from '../../../data-access/entities/audio-hero.entity';
 import { getRepository } from 'typeorm';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import * as Filepond from 'filepond';
 // import * as moment from 'moment';
 // import { Track } from 'ngx-audio-player';
-import { AudioPlayerService, PlayerOwnAudio } from '../../../../shared/services/audio-player.service';
-import { QuillService } from '../../../../shared/services/quill/quill.service';
+import { AudioPlayerService, PlayerOwnAudio } from '../../../shared/services/audio-player.service';
+import { QuillService } from '../../../shared/services/quill/quill.service';
 import { QuillEditorComponent } from 'ngx-quill';
-import { FilepondService } from '../../../../shared/services/filepond.service';
+import { FilepondService } from '../../../shared/services/filepond.service';
 import {
   MatSnackBar,
   MatSnackBarHorizontalPosition,
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
 import * as _ from 'lodash'; // or import 'lodash'; declare var _:any; // or import * as _isEmpty from 'lodash/isEmpty';
-import { AudioRecorderComponent } from '../../../../shared/components/audio-recorder/audio-recorder.component';
+import { AudioRecorderComponent } from '../../../shared/components/audio-recorder/audio-recorder.component';
 import { MatDialog } from '@angular/material/dialog';
 import { DOCUMENT } from '@angular/common';
 import { NgDynamicBreadcrumbService } from 'ng-dynamic-breadcrumb';
 
 @Component({
   selector: 'app-hero',
-  templateUrl: './hero-edit.component.html',
-  styleUrls: ['./hero-edit.component.sass']
+  templateUrl: './hero.component.html',
+  styleUrls: ['./hero.component.sass']
 })
-export class HeroEditComponent implements OnInit {
+export class HeroComponent implements OnInit {
 
   id: number;
   hero: Hero;

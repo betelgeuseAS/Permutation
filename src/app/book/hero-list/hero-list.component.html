@@ -10,8 +10,8 @@
         <span class="hero-list-name">{{hero.name}}</span>
 
         <div class="hero-list-buttons">
-          <button mat-stroked-button color="primary" routerLink="/book/{{hero.book.id}}/hero/{{hero.id}}/view" routerLinkActive="active">View</button>
-          <button mat-stroked-button color="accent" routerLink="/book/{{hero.book.id}}/hero/{{hero.id}}/edit" routerLinkActive="active">Edit</button>
+          <button mat-stroked-button color="primary" routerLink="/book/{{hero.book.id}}/hero/{{hero.id}}" routerLinkActive="active">Blank</button>
+          <button mat-stroked-button color="accent" routerLink="/book/{{hero.book.id}}/hero/{{hero.id}}" routerLinkActive="active">Edit</button>
           <button mat-stroked-button color="warn" (click)="removeHero(hero.id)">Remove</button>
         </div>
 
