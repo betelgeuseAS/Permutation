@@ -11,8 +11,8 @@ export class Book extends BaseEntity {
   @Column()
   name: string;
 
-  @Column()
-  description: string;
+  @Column({nullable: true})
+  content: string;
 
   @Column({default: 0})
   position: number;

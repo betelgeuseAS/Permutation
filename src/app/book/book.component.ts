@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Inject, OnInit, ViewChild} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 
@@ -6,8 +6,11 @@ import { Book } from '../data-access/entities/book.entity';
 import { DatabaseService } from '../data-access/database.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { UpdateBookDialogComponent } from '../dialogs/update-book-dialog/update-book-dialog.component';
 import { NgDynamicBreadcrumbService } from 'ng-dynamic-breadcrumb';
+import { getRepository } from 'typeorm';
+import { DOCUMENT } from '@angular/common';
+import { QuillEditorComponent } from 'ngx-quill';
+import { QuillService } from '../shared/services/quill/quill.service';
 
 @Component({
   selector: 'app-book',
@@ -16,27 +19,36 @@ import { NgDynamicBreadcrumbService } from 'ng-dynamic-breadcrumb';
 })
 export class BookComponent implements OnInit {
 
-  id: number;
+  bookId: number;
   form: FormGroup;
   book: Book;
   private subscription: Subscription;
-  panelOpenState = false;
+
+  @ViewChild(QuillEditorComponent, { static: true }) quillEditor: QuillEditorComponent;
+  quillModules: object;
+  quillContent: string | null;
 
   constructor(
     private databaseService: DatabaseService,
     private activateRoute: ActivatedRoute,
     public dialog: MatDialog,
-    private ngDynamicBreadcrumbService: NgDynamicBreadcrumbService
+    private ngDynamicBreadcrumbService: NgDynamicBreadcrumbService,
+    @Inject(DOCUMENT) private document: Document,
+    public quillService: QuillService
   ) {
-    this.subscription = activateRoute.params.subscribe(params => this.id = params.bookId);
+    this.subscription = activateRoute.params.subscribe(params => this.bookId = params.bookId);
 
-    this.getBookById(this.id);
+    this.getBookById(this.bookId);
   }
 
   ngOnInit(): void {
     this.form = new FormGroup({
       name: new FormControl('', Validators.required),
-      description: new FormControl('', Validators.required)
+    });
+
+    this.quillModules = this.quillService.getModule({
+      quillEditor: this.quillEditor,
+      matModal: this.dialog
     });
   }
 
@@ -47,6 +59,10 @@ export class BookComponent implements OnInit {
       .then(book => {
         this.book = book;
 
+        this.form.controls.name.setValue(this.book.name);
+
+        this.quillContent = this.book.content;
+
         this.updateBookBreadcrumb();
       });
 
@@ -56,27 +72,34 @@ export class BookComponent implements OnInit {
     //   .getMany();
   }
 
-  updateBook() {
+  updateBookHandler() {
     if (this.form.valid) {
-      let {name, description} = this.form.value;
+      const {name} = this.form.value;
       const book = this.book;
 
       book.name = name;
-      book.description = description;
+      book.content = this.quillContent;
 
       this.databaseService
         .connection
         .then(() => book.save())
         .then(() => {
-          this.getBookById(this.id);
+          this.getBookById(this.bookId);
         })
         .then(() => {
-          name = '';
-          description = '';
+          // name = '';
         });
 
       this.dialog.closeAll();
     }
+  }
+
+  removeBookHandler() {
+    const heroRepository = getRepository(Book);
+    heroRepository.delete(this.book.id)
+      .then(() => {
+        this.document.location.href = `http://localhost:4200/#/dashboard`;
+      });
   }
 
   updateBookBreadcrumb() {
@@ -94,27 +117,5 @@ export class BookComponent implements OnInit {
         url: ''
       }
     ]);
-  }
-
-  openUpdateBookDialog() {
-    const {name, description} = this.book;
-    this.form.controls.name.setValue(name);
-    this.form.controls.description.setValue(description);
-
-    const dialogRef = this.dialog.open(UpdateBookDialogComponent, {
-      data: {
-        form: this.form
-      },
-      disableClose: true,
-      width: '80vw'
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.updateBook();
-      }
-
-      this.form.reset();
-    });
   }
 }

@@ -59,7 +59,7 @@ export class CarouselComponent {
   //   (firstImage)="this.onFirstImage($event)"
   //   (lastImage)="this.onLastImage($event)"></ks-carousel>
   // >
-  //   <div class="projected">This is my projected content!</div>
+  //   <div class="projected">This is my projected book-content!</div>
   // </ks-carousel>
 
   imageIndex = 1;
@@ -129,11 +129,11 @@ export class CarouselComponent {
     backgroundAriaLabel: 'CUSTOM Modal gallery full screen background',
     backgroundTitle: 'CUSTOM background title',
 
-    plainGalleryContentAriaLabel: 'CUSTOM Plain gallery content',
-    plainGalleryContentTitle: 'CUSTOM plain gallery content title',
+    plainGalleryContentAriaLabel: 'CUSTOM Plain gallery book-content',
+    plainGalleryContentTitle: 'CUSTOM plain gallery book-content title',
 
-    modalGalleryContentAriaLabel: 'CUSTOM Modal gallery content',
-    modalGalleryContentTitle: 'CUSTOM modal gallery content title',
+    modalGalleryContentAriaLabel: 'CUSTOM Modal gallery book-content',
+    modalGalleryContentTitle: 'CUSTOM modal gallery book-content title',
 
     loadingSpinnerAriaLabel: 'CUSTOM The current image is loading. Please be patient.',
     loadingSpinnerTitle: 'CUSTOM The current image is loading. Please be patient.',

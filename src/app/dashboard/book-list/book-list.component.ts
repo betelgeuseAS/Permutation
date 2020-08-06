@@ -31,7 +31,7 @@ export class BookListComponent implements OnInit {
   ngOnInit(): void {
     this.form = new FormGroup({
       name: new FormControl('', [Validators.required, Validators.minLength(3)]),
-      description: new FormControl('', Validators.required)
+      // description: new FormControl('', Validators.required)
     });
   }
 
@@ -64,11 +64,10 @@ export class BookListComponent implements OnInit {
 
   createBook() {
     if (this.form.valid) {
-      let {name, description} = this.form.value;
+      let {name} = this.form.value;
       const book = new Book();
 
       book.name = name;
-      book.description = description;
       book.created = moment().format('YYYY-MM-DD H:mm:ss');
 
       this.databaseService
@@ -79,7 +78,6 @@ export class BookListComponent implements OnInit {
         })
         .then(() => {
           name = '';
-          description = '';
 
           this.dialog.closeAll();
         });
