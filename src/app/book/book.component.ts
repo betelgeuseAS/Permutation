@@ -112,13 +112,10 @@ export class BookComponent implements OnInit {
   }
 
   removeBookSheet(): void {
-    const {id, name} = this.book;
-
     this.bottomSheet.open(RemoveSheetComponent, {
       data: {
         entity: Book,
-        id,
-        name
+        item: this.book
       }
     });
   }

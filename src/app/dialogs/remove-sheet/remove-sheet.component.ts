@@ -6,8 +6,7 @@ import { DOCUMENT } from '@angular/common';
 
 interface SheetData {
   entity: any;
-  id: number;
-  name?: string;
+  item: any;
 }
 
 @Component({
@@ -26,12 +25,23 @@ export class RemoveSheetComponent implements OnInit {
   ngOnInit(): void {}
 
   removeHandler() {
-    const {entity, id} = this.data;
+    const {entity, item} = this.data;
+
+    if (!item) {
+      return;
+    }
 
     const heroRepository = getRepository(entity);
-    heroRepository.delete(id)
+    heroRepository.delete(item.id)
       .then(() => {
-        this.document.location.href = `http://localhost:4200/#/dashboard`;
+        switch (entity.name) {
+          case 'Book':
+            this.document.location.href = `http://localhost:4200/#/dashboard`;
+            break;
+          case 'Hero':
+            this.document.location.href = `http://localhost:4200/#/book/${item.book.id}`;
+            break;
+        }
       });
   }
 
