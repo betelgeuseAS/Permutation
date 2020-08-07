@@ -26,6 +26,8 @@ import { AudioRecorderComponent } from '../../../shared/components/audio-recorde
 import { MatDialog } from '@angular/material/dialog';
 import { DOCUMENT } from '@angular/common';
 import { NgDynamicBreadcrumbService } from 'ng-dynamic-breadcrumb';
+import { RemoveSheetComponent } from '../../../dialogs/remove-sheet/remove-sheet.component';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
 
 @Component({
   selector: 'app-hero',
@@ -76,7 +78,8 @@ export class HeroComponent implements OnInit {
     private snackBar: MatSnackBar,
     public dialog: MatDialog,
     @Inject(DOCUMENT) private document: Document,
-    private ngDynamicBreadcrumbService: NgDynamicBreadcrumbService
+    private ngDynamicBreadcrumbService: NgDynamicBreadcrumbService,
+    private bottomSheet: MatBottomSheet
   ) {
     this.subscription = activateRoute.params.subscribe(params => this.id = params.heroId);
 
@@ -219,12 +222,13 @@ export class HeroComponent implements OnInit {
     ]);
   }
 
-  removeHeroHandler() {
-    const heroRepository = getRepository(Hero);
-    heroRepository.delete(this.hero.id)
-      .then(() => {
-        this.document.location.href = `http://localhost:4200/#/book/${this.hero.book.id}`;
-      });
+  removeHeroSheet(): void {
+    this.bottomSheet.open(RemoveSheetComponent, {
+      data: {
+        entity: Hero,
+        item: this.hero
+      }
+    });
   }
 
   pondHandleAddFileGallery(event: any) {
