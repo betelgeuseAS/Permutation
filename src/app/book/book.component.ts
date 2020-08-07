@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit, ViewChild} from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 
@@ -7,10 +7,10 @@ import { DatabaseService } from '../data-access/database.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { NgDynamicBreadcrumbService } from 'ng-dynamic-breadcrumb';
-import { getRepository } from 'typeorm';
-import { DOCUMENT } from '@angular/common';
 import { QuillEditorComponent } from 'ngx-quill';
 import { QuillService } from '../shared/services/quill/quill.service';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { RemoveSheetComponent } from '../dialogs/remove-sheet/remove-sheet.component';
 
 @Component({
   selector: 'app-book',
@@ -33,8 +33,8 @@ export class BookComponent implements OnInit {
     private activateRoute: ActivatedRoute,
     public dialog: MatDialog,
     private ngDynamicBreadcrumbService: NgDynamicBreadcrumbService,
-    @Inject(DOCUMENT) private document: Document,
-    public quillService: QuillService
+    public quillService: QuillService,
+    private bottomSheet: MatBottomSheet
   ) {
     this.subscription = activateRoute.params.subscribe(params => this.bookId = params.bookId);
 
@@ -94,14 +94,6 @@ export class BookComponent implements OnInit {
     }
   }
 
-  removeBookHandler() {
-    const heroRepository = getRepository(Book);
-    heroRepository.delete(this.book.id)
-      .then(() => {
-        this.document.location.href = `http://localhost:4200/#/dashboard`;
-      });
-  }
-
   updateBookBreadcrumb() {
     // this.ngDynamicBreadcrumbService.updateBreadcrumbLabels({
     //   bookBreadcrumb: this.book.name
@@ -117,5 +109,17 @@ export class BookComponent implements OnInit {
         url: ''
       }
     ]);
+  }
+
+  removeBookSheet(): void {
+    const {id, name} = this.book;
+
+    this.bottomSheet.open(RemoveSheetComponent, {
+      data: {
+        entity: Book,
+        id,
+        name
+      }
+    });
   }
 }
