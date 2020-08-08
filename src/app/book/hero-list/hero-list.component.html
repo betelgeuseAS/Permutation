@@ -12,7 +12,7 @@
         <div class="hero-list-buttons">
           <button mat-stroked-button color="primary" routerLink="/book/{{hero.book.id}}/hero/{{hero.id}}" routerLinkActive="active">Blank</button>
           <button mat-stroked-button color="accent" routerLink="/book/{{hero.book.id}}/hero/{{hero.id}}" routerLinkActive="active">Edit</button>
-          <button mat-stroked-button color="warn" (click)="removeHero(hero.id)">Remove</button>
+          <button mat-stroked-button color="warn" (click)="removeHeroSheet(hero)">Remove</button>
         </div>
 
         <mat-divider></mat-divider>

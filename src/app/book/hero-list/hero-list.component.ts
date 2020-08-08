@@ -11,7 +11,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { CreateHeroDialogComponent } from '../../dialogs/create-hero-dialog/create-hero-dialog.component';
 
 import * as moment from 'moment';
-import { getRepository } from 'typeorm';
+import { RemoveSheetComponent } from '../../dialogs/remove-sheet/remove-sheet.component';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
 
 @Component({
   selector: 'app-hero-list',
@@ -27,7 +28,8 @@ export class HeroListComponent implements OnInit {
 
   constructor(
     private databaseService: DatabaseService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private bottomSheet: MatBottomSheet
   ) {}
 
   ngOnInit(): void {
@@ -90,11 +92,16 @@ export class HeroListComponent implements OnInit {
     this.dialog.closeAll();
   }
 
-  removeHero(heroId) {
-    const heroRepository = getRepository(Hero);
-    heroRepository.delete(heroId)
-      .then(() => {
-        this.getHeroesByBookId(this.book.id);
-      });
+  removeHeroSheet(hero: Hero): void {
+    const bottomSheetRef = this.bottomSheet.open(RemoveSheetComponent, {
+      data: {
+        entity: Hero,
+        item: hero
+      }
+    });
+
+    bottomSheetRef.afterDismissed().subscribe(() => {
+      this.getHeroesByBookId(this.book.id);
+    });
   }
 }
