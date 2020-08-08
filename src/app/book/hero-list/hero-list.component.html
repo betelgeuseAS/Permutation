@@ -10,7 +10,6 @@
         <span class="hero-list-name">{{hero.name}}</span>
 
         <div class="hero-list-buttons">
-          <button mat-stroked-button color="primary" routerLink="/book/{{hero.book.id}}/hero/{{hero.id}}" routerLinkActive="active">Blank</button>
           <button mat-stroked-button color="accent" routerLink="/book/{{hero.book.id}}/hero/{{hero.id}}" routerLinkActive="active">Edit</button>
           <button mat-stroked-button color="warn" (click)="removeHeroSheet(hero)">Remove</button>
         </div>
