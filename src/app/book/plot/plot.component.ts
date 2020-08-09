@@ -48,10 +48,10 @@ export class PlotComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit() {
     this.zone.runOutsideAngular(() => {
-      const chart = am4core.create("chart", am4plugins_forceDirected.ForceDirectedTree);
-      const networkSeries = chart.series.push(new am4plugins_forceDirected.ForceDirectedSeries());
+      this.chart = am4core.create("chart", am4plugins_forceDirected.ForceDirectedTree);
+      const networkSeries = this.chart.series.push(new am4plugins_forceDirected.ForceDirectedSeries());
 
-      chart.data = [
+      this.chart.data = [
         {
           name: "Core",
           children: [
@@ -163,8 +163,6 @@ export class PlotComponent implements OnInit, AfterViewInit, OnDestroy {
         // console.log(event.target.label.dataItem.dataContext);
         console.log(event.target.dataItem.dataContext);
       });
-
-      this.chart = chart;
     });
   }
 
