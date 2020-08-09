@@ -2,9 +2,13 @@
   <mat-card-header>
     <mat-card-title>Plot</mat-card-title>
     <mat-card-subtitle>Plot of Book</mat-card-subtitle>
+
+    <div>
+      <button mat-stroked-button (click)="openAddItemPlotDialog()">Add Item</button>
+    </div>
   </mat-card-header>
 
   <mat-card-content>
-    <div id="chart" style="width: 100%; height: 50vh"></div>
+    <div id="chart"></div>
   </mat-card-content>
 </mat-card>

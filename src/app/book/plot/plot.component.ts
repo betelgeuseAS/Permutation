@@ -3,7 +3,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { Book } from '../../data-access/entities/book.entity';
 import { DatabaseService } from '../../data-access/database.service';
-import { MyValidators } from '../../shared/validators/my.validators';
+import { MatDialog } from '@angular/material/dialog';
+import { AddItemPlotComponent } from '../../dialogs/add-item-plot/add-item-plot.component';
 
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4plugins_forceDirected from "@amcharts/amcharts4/plugins/forceDirected";
@@ -33,13 +34,15 @@ export class PlotComponent implements OnInit, AfterViewInit, OnDestroy {
 
   constructor(
     private databaseService: DatabaseService,
-    private zone: NgZone
+    private zone: NgZone,
+    public dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
     this.form = new FormGroup({
       name: new FormControl('', Validators.required),
-      file: new FormControl('', MyValidators.imageType)
+      description: new FormControl('', Validators.required),
+      value: new FormControl('', [Validators.required, Validators.pattern('^[0-9]*$')]),
     });
   }
 
@@ -152,8 +155,13 @@ export class PlotComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       });
 
-      networkSeries.nodes.template.events.on("hit", (event) => { // click
-        console.log(event.target);
+      // networkSeries.nodes.template.events.on("hit", (event) => { // click
+      //   console.log(event.target);
+      // });
+
+      networkSeries.nodes.template.events.on("doublehit", (event) => { // double click
+        // console.log(event.target.label.dataItem.dataContext);
+        console.log(event.target.dataItem.dataContext);
       });
 
       this.chart = chart;
@@ -166,5 +174,37 @@ export class PlotComponent implements OnInit, AfterViewInit, OnDestroy {
         this.chart.dispose();
       }
     });
+  }
+
+  openAddItemPlotDialog() {
+    const dialogRef = this.dialog.open(AddItemPlotComponent, {
+      data: {
+        form: this.form
+      },
+      disableClose: true,
+      width: '60vw'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.addItemPlot();
+      }
+
+      this.form.reset();
+    });
+  }
+
+  addItemPlot() {
+    const {name, value, description} = this.form.value;
+
+    this.chart.addData({
+      name,
+      value,
+      description,
+      id: 0
+    }, 0);
+
+    this.form.reset();
+    this.dialog.closeAll();
   }
 }
