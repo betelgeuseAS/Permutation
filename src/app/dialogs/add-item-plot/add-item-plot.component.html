@@ -1,0 +1,22 @@
+<h2 mat-dialog-title>{{ 'PAGES.BOOK.HERO_LIST.MODAL.TITLE' | translate }}</h2>
+
+<mat-dialog-content class="mat-typography">
+  <div class="modal-body">
+    <form [formGroup]="form">
+      <mat-form-field>
+        <mat-label>{{ 'COMMON.FIELDS.NAME' | translate }}</mat-label>
+
+        <input matInput formControlName="name" placeholder="{{ 'COMMON.FIELDS.NAME_PLACEHOLDER' | translate }}">
+
+        <mat-error class="form-text text-danger" *ngIf="form.get('name').invalid && form.get('name').touched">
+          <span *ngIf="form.get('name').errors.required">{{ 'ERRORS.FIELDS.REQUIRED' | translate }}</span>
+        </mat-error>
+      </mat-form-field>
+    </form>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close cdkFocusInitial>Cancel</button>
+  <button mat-button [mat-dialog-close]="getResult()" [disabled]="form.invalid">{{ 'BUTTONS.COMMON.SAVE' | translate }}</button>
+</mat-dialog-actions>
