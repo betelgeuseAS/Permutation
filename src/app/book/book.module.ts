@@ -7,13 +7,15 @@ import { BookComponent } from './book.component';
 import { HeroListComponent } from './hero-list/hero-list.component';
 import { HeroComponent } from './hero-list/hero/hero.component';
 import { AudioRecorderComponent } from '../shared/components/audio-recorder/audio-recorder.component';
+import { PlotComponent } from './plot/plot.component';
 
 @NgModule({
   declarations: [
     BookComponent,
     HeroListComponent,
     HeroComponent,
-    AudioRecorderComponent
+    AudioRecorderComponent,
+    PlotComponent
   ],
   imports: [
     CommonModule,

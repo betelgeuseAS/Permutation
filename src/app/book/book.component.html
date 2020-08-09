@@ -1,6 +1,6 @@
 <mat-card *ngIf="book">
   <mat-card-header>
-    <mat-card-title>Hero</mat-card-title>
+    <mat-card-title>Book</mat-card-title>
     <mat-card-subtitle>{{book.name}}</mat-card-subtitle>
   </mat-card-header>
 
@@ -41,8 +41,7 @@
   </div>
 </div>
 
-<br>
-<mat-card>Plot</mat-card>
+<app-plot [book]="book"></app-plot>
 
 <mat-card class="book-card-content">
   <mat-card-header>
