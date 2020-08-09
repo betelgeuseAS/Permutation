@@ -56,14 +56,17 @@
       "NAME": "Name",
       "NAME_PLACEHOLDER": "Enter Name",
       "DESCRIPTION": "Description",
-      "DESCRIPTION_PLACEHOLDER": "Enter Description"
+      "DESCRIPTION_PLACEHOLDER": "Enter Description",
+      "VALUE": "Value",
+      "VALUE_PLACEHOLDER": "Enter Value"
     }
   },
   "ERRORS": {
     "FIELDS": {
       "REQUIRED": "Required field",
       "MIN_LENGTH": "Minimum length: {{requiredLength}}, now: {{actualLength}}",
-      "FILE_TYPE": "Type not available. Allowed: {{allowType}}"
+      "FILE_TYPE": "Type not available. Allowed: {{allowType}}",
+      "PATTERN_NUMBER": "The field can only contain a number"
     }
   }
 }
