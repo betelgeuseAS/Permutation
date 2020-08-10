@@ -4,7 +4,7 @@
     <mat-card-subtitle>{{hero.name}}</mat-card-subtitle>
   </mat-card-header>
 
-  <mat-card-content class="main-card-content-hero">
+  <mat-card-content class="main-card-content-main-hero">
     <form [formGroup]="form">
       <mat-form-field>
         <mat-label>{{ 'COMMON.FIELDS.NAME' | translate }}</mat-label>
@@ -130,7 +130,7 @@
   </div>
 </div>
 
-<mat-card>
+<mat-card class="mat-card-content-hero">
   <mat-card-header>
     <mat-card-title>Content</mat-card-title>
     <mat-card-subtitle>Representing Content</mat-card-subtitle>
