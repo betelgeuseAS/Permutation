@@ -4,7 +4,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Book } from '../../data-access/entities/book.entity';
 import { DatabaseService } from '../../data-access/database.service';
 import { MatDialog } from '@angular/material/dialog';
-import { AddItemPlotComponent } from '../../dialogs/add-item-plot/add-item-plot.component';
+import { AddItemPlotDialogComponent } from '../../dialogs/add-item-plot-dialog/add-item-plot-dialog.component';
 
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4plugins_forceDirected from "@amcharts/amcharts4/plugins/forceDirected";
@@ -175,7 +175,7 @@ export class PlotComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   openAddItemPlotDialog() {
-    const dialogRef = this.dialog.open(AddItemPlotComponent, {
+    const dialogRef = this.dialog.open(AddItemPlotDialogComponent, {
       data: {
         form: this.form
       },

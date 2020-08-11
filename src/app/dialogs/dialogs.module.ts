@@ -5,14 +5,14 @@ import { InfoQuillDialogComponent } from './info-quill-dialog/info-quill-dialog.
 import { CreateHeroDialogComponent } from './create-hero-dialog/create-hero-dialog.component';
 import { CreateBookDialogComponent } from './create-book-dialog/create-book-dialog.component';
 import { RemoveSheetComponent } from './remove-sheet/remove-sheet.component';
-import { AddItemPlotComponent } from './add-item-plot/add-item-plot.component';
+import { AddItemPlotDialogComponent } from './add-item-plot-dialog/add-item-plot-dialog.component';
 
 @NgModule({
   declarations: [
     InfoQuillDialogComponent,
     CreateHeroDialogComponent,
     CreateBookDialogComponent,
-    AddItemPlotComponent,
+    AddItemPlotDialogComponent,
     RemoveSheetComponent
   ],
   imports: [
