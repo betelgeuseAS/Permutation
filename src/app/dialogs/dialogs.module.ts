@@ -6,6 +6,7 @@ import { CreateHeroDialogComponent } from './create-hero-dialog/create-hero-dial
 import { CreateBookDialogComponent } from './create-book-dialog/create-book-dialog.component';
 import { RemoveSheetComponent } from './remove-sheet/remove-sheet.component';
 import { AddItemPlotDialogComponent } from './add-item-plot-dialog/add-item-plot-dialog.component';
+import { PlotItemSheetComponent } from './plot-item-sheet/plot-item-sheet.component';
 
 @NgModule({
   declarations: [
@@ -13,7 +14,8 @@ import { AddItemPlotDialogComponent } from './add-item-plot-dialog/add-item-plot
     CreateHeroDialogComponent,
     CreateBookDialogComponent,
     AddItemPlotDialogComponent,
-    RemoveSheetComponent
+    RemoveSheetComponent,
+    PlotItemSheetComponent
   ],
   imports: [
     CommonModule,

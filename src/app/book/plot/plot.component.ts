@@ -5,6 +5,8 @@ import { Book } from '../../data-access/entities/book.entity';
 import { DatabaseService } from '../../data-access/database.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AddItemPlotDialogComponent } from '../../dialogs/add-item-plot-dialog/add-item-plot-dialog.component';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { PlotItemSheetComponent } from '../../dialogs/plot-item-sheet/plot-item-sheet.component';
 
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4plugins_forceDirected from "@amcharts/amcharts4/plugins/forceDirected";
@@ -34,8 +36,9 @@ export class PlotComponent implements OnInit, AfterViewInit, OnDestroy {
 
   constructor(
     private databaseService: DatabaseService,
-    private zone: NgZone,
-    public dialog: MatDialog
+    // private zone: NgZone,
+    public dialog: MatDialog,
+    private bottomSheet: MatBottomSheet
   ) {}
 
   ngOnInit(): void {
@@ -47,7 +50,7 @@ export class PlotComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit() {
-    this.zone.runOutsideAngular(() => {
+    // this.zone.runOutsideAngular(() => {
       this.chart = am4core.create("chart", am4plugins_forceDirected.ForceDirectedTree);
       const networkSeries = this.chart.series.push(new am4plugins_forceDirected.ForceDirectedSeries());
 
@@ -160,17 +163,33 @@ export class PlotComponent implements OnInit, AfterViewInit, OnDestroy {
       // });
 
       networkSeries.nodes.template.events.on("doublehit", (event) => { // double click
-        // console.log(event.target.label.dataItem.dataContext);
-        console.log(event.target.dataItem.dataContext);
+        // this.chart.openModal("Modal.");
+
+        // event.target.label.dataItem.dataContext
+        // event.target.dataItem.dataContext
+
+        this.editPlotItemSheet(event.target.dataItem.dataContext);
       });
-    });
+    // });
   }
 
   ngOnDestroy() {
-    this.zone.runOutsideAngular(() => {
+    // this.zone.runOutsideAngular(() => {
       if (this.chart) {
         this.chart.dispose();
       }
+    // });
+  }
+
+  editPlotItemSheet(itemContext) {
+    const bottomSheetRef = this.bottomSheet.open(PlotItemSheetComponent, {
+      data: {
+        itemContext
+      }
+    });
+
+    bottomSheetRef.afterDismissed().subscribe(() => {
+      // do something
     });
   }
 
