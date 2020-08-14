@@ -7,6 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AddItemPlotDialogComponent } from '../../dialogs/add-item-plot-dialog/add-item-plot-dialog.component';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { PlotItemSheetComponent } from '../../dialogs/plot-item-sheet/plot-item-sheet.component';
+import { ListenerService } from '../../shared/services/listener.service';
 
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4plugins_forceDirected from "@amcharts/amcharts4/plugins/forceDirected";
@@ -34,12 +35,31 @@ export class PlotComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private chart: am4plugins_forceDirected.ForceDirectedTree;
 
+  itemPlotContext;
+
   constructor(
     private databaseService: DatabaseService,
     // private zone: NgZone,
     public dialog: MatDialog,
-    private bottomSheet: MatBottomSheet
-  ) {}
+    private bottomSheet: MatBottomSheet,
+    private listenerService: ListenerService
+  ) {
+    this.listenerService.listen().subscribe((m: any) => {
+      switch (m) {
+        case 'PLOT_ADD':
+          this.openAddItemPlotDialog();
+          break;
+        case 'PLOT_EDIT':
+          this.openEditItemPlotDialog();
+          break;
+        case 'PLOT_REMOVE':
+          this.removeItemPlot();
+          break;
+        default:
+          break;
+      }
+    });
+  }
 
   ngOnInit(): void {
     this.form = new FormGroup({
@@ -168,6 +188,8 @@ export class PlotComponent implements OnInit, AfterViewInit, OnDestroy {
         // event.target.label.dataItem.dataContext
         // event.target.dataItem.dataContext
 
+        this.itemPlotContext = event.target.dataItem.dataContext;
+
         this.editPlotItemSheet(event.target.dataItem.dataContext);
       });
     // });
@@ -211,6 +233,16 @@ export class PlotComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
+  openEditItemPlotDialog() {
+    const {name, description, value} = this.itemPlotContext;
+
+    this.form.controls.name.setValue(name);
+    this.form.controls.description.setValue(description);
+    this.form.controls.value.setValue(value);
+
+    this.openAddItemPlotDialog();
+  }
+
   addItemPlot() {
     const {name, value, description} = this.form.value;
 
@@ -223,5 +255,9 @@ export class PlotComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.form.reset();
     this.dialog.closeAll();
+  }
+
+  removeItemPlot() {
+    // this.chart.removeData(1);
   }
 }
