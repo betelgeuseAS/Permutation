@@ -87,6 +87,7 @@
     "sqlite3": "^5.0.0",
     "tslib": "^1.10.0",
     "typeorm": "^0.2.24",
+    "uuidv4": "^6.2.2",
     "zone.js": "~0.10.2"
   },
   "devDependencies": {

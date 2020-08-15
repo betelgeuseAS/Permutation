@@ -8,6 +8,8 @@ import { AddItemPlotDialogComponent } from '../../dialogs/add-item-plot-dialog/a
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { PlotItemSheetComponent } from '../../dialogs/plot-item-sheet/plot-item-sheet.component';
 import { ListenerService } from '../../shared/services/listener.service';
+import { uuid } from 'uuidv4';
+import * as _ from 'lodash';
 
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4plugins_forceDirected from "@amcharts/amcharts4/plugins/forceDirected";
@@ -250,7 +252,7 @@ export class PlotComponent implements OnInit, AfterViewInit, OnDestroy {
       name,
       value,
       description,
-      id: 0
+      id: uuid()
     }, 0);
 
     this.form.reset();
