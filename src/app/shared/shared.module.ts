@@ -35,6 +35,7 @@ import { NgxTimerModule } from 'ngx-timer'; // https://github.com/Y4SHVINE/ngx-t
 import Counter from './services/quill/counter';
 import { NgDynamicBreadcrumbModule } from "ng-dynamic-breadcrumb";
 import { MatchHeightDirective } from './directives/match-height.directive';
+import { NgxGraphModule } from '@swimlane/ngx-graph';
 
 @NgModule({
   declarations: [
@@ -62,7 +63,8 @@ import { MatchHeightDirective } from './directives/match-height.directive';
     }),
     NgAudioRecorderModule,
     NgxTimerModule,
-    NgDynamicBreadcrumbModule
+    NgDynamicBreadcrumbModule,
+    NgxGraphModule
   ],
   exports: [
     TranslateModule,
@@ -79,7 +81,8 @@ import { MatchHeightDirective } from './directives/match-height.directive';
     NgxAudioPlayerModule,
     QuillModule,
     NgxTimerModule,
-    NgDynamicBreadcrumbModule
+    NgDynamicBreadcrumbModule,
+    NgxGraphModule
   ],
   providers: [],
   schemas: [NO_ERRORS_SCHEMA]

@@ -12,6 +12,12 @@ export class Book extends BaseEntity {
   name: string;
 
   @Column({nullable: true})
+  plotLinks: string;
+
+  @Column({nullable: true})
+  plotNodes: string;
+
+  @Column({nullable: true})
   content: string;
 
   @Column({default: 0})
