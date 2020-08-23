@@ -23,7 +23,7 @@
       [zoomSpeed]="0.1"
       [zoomLevel]=""
       [minZoomLevel]="0.1"
-      [maxZoomLevel]="0.4"
+      [maxZoomLevel]="2"
       [autoZoom]="true"
       [panOnZoom]="true"
       [autoCenter]="true"
@@ -56,7 +56,7 @@
 <!--      </ng-template>-->
       <ng-template #nodeTemplate let-node>
         <svg:g class="node">
-          <svg:rect
+          <svg:rect rx="4" ry="4"
             [attr.width]="node.dimension.width"
             [attr.height]="node.dimension.height"
             [attr.fill]="node.data.color"
