@@ -6,13 +6,21 @@ import { Book } from '../../data-access/entities/book.entity';
 import { DatabaseService } from '../../data-access/database.service';
 import { MatDialog } from '@angular/material/dialog';
 
-import { uuid } from 'uuidv4';
+import { uuid, isUuid } from 'uuidv4';
 import * as _ from 'lodash';
 
 import { Edge, Node, Layout, MiniMapPosition } from '@swimlane/ngx-graph';
 import { DagreNodesOnlyLayout } from '../../shared/services/ngx-graph/customDagreNodesOnly';
 import * as shape from 'd3-shape';
 import { NgGraphService } from '../../shared/services/ngx-graph/ng-graph.service';
+import { AddItemPlotDialogComponent } from '../../dialogs/add-item-plot-dialog/add-item-plot-dialog.component';
+import { PlotItemSheetComponent } from '../../dialogs/plot-item-sheet/plot-item-shet.component';
+import { ListenerService } from '../../shared/services/listener.service';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
+
+interface NodeContext {
+  node: Node;
+}
 
 @Component({
   selector: 'app-plot',
@@ -162,18 +170,37 @@ export class PlotComponent implements OnInit {
   zoomToFit$: Subject<boolean> = new Subject();
   panToNode$: Subject<boolean> = new Subject();
   miniMapPosition = MiniMapPosition;
+  nodeContext: NodeContext = {node: null};
 
   constructor(
     private databaseService: DatabaseService,
     public dialog: MatDialog,
-    private ngGraphService: NgGraphService
-  ) {}
+    private ngGraphService: NgGraphService,
+    private bottomSheet: MatBottomSheet,
+    private listenerService: ListenerService
+  ) {
+    this.listenerService.listen().subscribe((m: any) => {
+      switch (m) {
+        case 'PLOT_ADD':
+          this.openAddItemPlotDialog('add_child');
+          break;
+        case 'PLOT_EDIT':
+          this.openEditItemPlotDialog();
+          break;
+        case 'PLOT_REMOVE':
+          this.removeItemPlot();
+          break;
+        default:
+          break;
+      }
+    });
+  }
 
   ngOnInit(): void {
     this.form = new FormGroup({
       name: new FormControl('', Validators.required),
       description: new FormControl('', Validators.required),
-      value: new FormControl('', [Validators.required, Validators.pattern('^[0-9]*$')]),
+      // value: new FormControl('', [Validators.required, Validators.pattern('^[0-9]*$')]),
     });
   }
 
@@ -197,5 +224,113 @@ export class PlotComponent implements OnInit {
 
   panToNodeGraph() { // pans the graph to center on the node ID passed emited from the observable
     this.panToNode$.next(true);
+  }
+
+  openEditPlotItemSheet(node: Node) {
+    this.nodeContext.node = node;
+
+    const bottomSheetRef = this.bottomSheet.open(PlotItemSheetComponent, {
+      data: {
+        node
+      }
+    });
+
+    bottomSheetRef.afterDismissed().subscribe(() => {});
+  }
+
+  openAddItemPlotDialog(modifier: string = 'add') {
+    const dialogRef = this.dialog.open(AddItemPlotDialogComponent, {
+      data: {
+        form: this.form
+      },
+      disableClose: true,
+      width: '60vw'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.addEditItemPlot(modifier);
+      }
+
+      this.form.reset();
+    });
+  }
+
+  openEditItemPlotDialog() {
+    const {label, data} = this.nodeContext.node;
+
+    this.form.controls.name.setValue(label);
+    this.form.controls.description.setValue(data.lines.join('\n'));
+
+    this.openAddItemPlotDialog('edit');
+  }
+
+  addEditItemPlot(modifier: string = 'add') {
+    const {name, description} = this.form.value;
+    const lines = description.split('\n');
+
+    const add = (id: string = '') => {
+      // Separate by 3 charts
+      // const parts = description.match(/[\s\S]{1,3}/g) || [];
+
+      this.nodes.push({
+        id: isUuid(id) ? id : uuid(),
+        label: name,
+        data: {
+          lines
+        }
+      });
+    };
+
+    const edit = () => {
+      const index = _.findIndex(this.nodes, {id: this.nodeContext.node.id});
+
+      this.nodes[index].label = name;
+      this.nodes[index].data = {
+        lines
+      };
+    };
+
+    const addChild = () => {
+      const id = uuid();
+
+      add(id);
+
+      this.links.push({
+        // id: uuid(),
+        source: this.nodeContext.node.id,
+        target: id
+      });
+    };
+
+    switch (modifier) {
+      case 'edit':
+        edit();
+        break;
+      case 'add_child':
+        addChild();
+        break;
+      default: // 'add'
+        add();
+        break;
+    }
+
+    console.log(this.nodes);
+    console.log(this.links);
+
+    this.updateGraph();
+    this.dialog.closeAll();
+    this.bottomSheet.dismiss();
+  }
+
+  removeItemPlot() {
+    _.remove(this.nodes, {id: this.nodeContext.node.id});
+
+    this.updateGraph();
+    this.bottomSheet.dismiss();
+  }
+
+  test() {
+    console.log('kek');
   }
 }

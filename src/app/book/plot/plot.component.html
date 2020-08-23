@@ -2,6 +2,10 @@
   <mat-card-header>
     <mat-card-title>Plot</mat-card-title>
     <mat-card-subtitle>Plot of Book</mat-card-subtitle>
+
+    <div>
+      <button mat-stroked-button (click)="openAddItemPlotDialog()">Add Item</button>
+    </div>
   </mat-card-header>
 
   <mat-card-content class="mat-card-content-plot">
@@ -21,10 +25,10 @@
       [enableZoom]="true"
       [animate]="false"
       [zoomSpeed]="0.1"
-      [zoomLevel]=""
+      [zoomLevel]="0.5"
       [minZoomLevel]="0.1"
       [maxZoomLevel]="2"
-      [autoZoom]="true"
+      [autoZoom]="false"
       [panOnZoom]="true"
       [autoCenter]="true"
       [update$]="update$"
@@ -55,7 +59,7 @@
 <!--        </svg:g>-->
 <!--      </ng-template>-->
       <ng-template #nodeTemplate let-node>
-        <svg:g class="node">
+        <svg:g class="node" (dblclick)="openEditPlotItemSheet(node)" (contextmenu)="test()">
           <svg:rect rx="4" ry="4"
             [attr.width]="node.dimension.width"
             [attr.height]="node.dimension.height"
@@ -63,11 +67,9 @@
           />
           <svg:text alignment-baseline="top" >
             <svg:tspan x="10" dy="1.5em" style="font-weight: bold">{{node.label}}</svg:tspan>
-            <ng-container *ngFor="let details of node.data.details" >
-              <svg:tspan x="10" dy="1.5em" style="font-weight: bold">{{details.heading}}</svg:tspan>
-              <svg:tspan x="10" dy="1em" *ngFor="let line of details.lines">
-                {{line}}
-              </svg:tspan>
+            <ng-container>
+<!--              <svg:tspan x="10" dy="1.5em" style="font-weight: bold">{{}}</svg:tspan>-->
+              <svg:tspan x="10" dy="1em" *ngFor="let line of node.data.lines">{{line}}</svg:tspan>
             </ng-container>
           </svg:text>
         </svg:g>

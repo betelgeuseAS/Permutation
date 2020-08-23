@@ -4,14 +4,18 @@ import { SharedModule } from '../shared/shared.module';
 import { InfoQuillDialogComponent } from './info-quill-dialog/info-quill-dialog.component';
 import { CreateHeroDialogComponent } from './create-hero-dialog/create-hero-dialog.component';
 import { CreateBookDialogComponent } from './create-book-dialog/create-book-dialog.component';
+import { AddItemPlotDialogComponent } from './add-item-plot-dialog/add-item-plot-dialog.component';
 import { RemoveSheetComponent } from './remove-sheet/remove-sheet.component';
+import { PlotItemSheetComponent } from './plot-item-sheet/plot-item-shet.component';
 
 @NgModule({
   declarations: [
     InfoQuillDialogComponent,
     CreateHeroDialogComponent,
     CreateBookDialogComponent,
+    AddItemPlotDialogComponent,
     RemoveSheetComponent,
+    PlotItemSheetComponent
   ],
   imports: [
     CommonModule,
