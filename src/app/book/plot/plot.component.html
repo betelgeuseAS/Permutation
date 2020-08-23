@@ -9,6 +9,32 @@
   </mat-card-header>
 
   <mat-card-content class="mat-card-content-plot">
+    <div class="create-node-container">
+      <p>Nodes Connection Manage</p>
+
+      <div class="create-node-actions">
+        <div class="node-list">
+          <span class="node-wrap">[</span>
+          {{connectContext.fromNode}}
+          <span class="node-wrap">]</span>
+        </div>
+
+        <img src="../../../assets/icons/chevron.svg" class="node-img" alt="To">
+
+        <div class="node-list">
+          <span class="node-wrap">[</span>
+          {{connectContext.toNode}}
+          <span class="node-wrap">]</span>
+        </div>
+
+        <div class="node-btn">
+          <button mat-stroked-button color="primary" (click)="createConnectionNodes()">Create</button>
+          <button mat-stroked-button color="warn" (click)="removeConnectionNodes()">Remove</button>
+          <button mat-stroked-button color="accent" (click)="clearConnectionNodes()">Clear</button>
+        </div>
+      </div>
+    </div>
+
     <ngx-graph
       [view]="undefined"
       [nodes]="nodes"
@@ -25,8 +51,8 @@
       [enableZoom]="true"
       [animate]="false"
       [zoomSpeed]="0.1"
-      [zoomLevel]="0.5"
-      [minZoomLevel]="0.1"
+      [zoomLevel]="1"
+      [minZoomLevel]="0.5"
       [maxZoomLevel]="2"
       [autoZoom]="false"
       [panOnZoom]="true"
@@ -59,7 +85,7 @@
 <!--        </svg:g>-->
 <!--      </ng-template>-->
       <ng-template #nodeTemplate let-node>
-        <svg:g class="node" (dblclick)="openEditPlotItemSheet(node)" (contextmenu)="test()">
+        <svg:g class="node" (dblclick)="openEditPlotItemSheet(node)" (contextmenu)="connectNodesHandler(node)">
           <svg:rect rx="4" ry="4"
             [attr.width]="node.dimension.width"
             [attr.height]="node.dimension.height"

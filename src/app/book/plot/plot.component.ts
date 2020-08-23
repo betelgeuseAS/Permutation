@@ -22,6 +22,11 @@ interface NodeContext {
   node: Node;
 }
 
+interface ConnectContext {
+  fromNode: string;
+  toNode: string;
+}
+
 @Component({
   selector: 'app-plot',
   templateUrl: './plot.component.html',
@@ -171,6 +176,7 @@ export class PlotComponent implements OnInit {
   panToNode$: Subject<boolean> = new Subject();
   miniMapPosition = MiniMapPosition;
   nodeContext: NodeContext = {node: null};
+  connectContext: ConnectContext = {fromNode: '', toNode: ''};
 
   constructor(
     private databaseService: DatabaseService,
@@ -330,7 +336,37 @@ export class PlotComponent implements OnInit {
     this.bottomSheet.dismiss();
   }
 
-  test() {
-    console.log('kek');
+  connectNodesHandler(node: Node) {
+    if (!this.connectContext.fromNode) {
+      this.connectContext.fromNode = node.id;
+    } else if (this.connectContext.fromNode && !this.connectContext.toNode) {
+      this.connectContext.toNode = node.id;
+    }
+  }
+
+  createConnectionNodes() {
+    const {fromNode, toNode} = this.connectContext;
+
+    this.links.push({
+      source: fromNode,
+      target: toNode
+    });
+
+    this.updateGraph();
+    this.clearConnectionNodes();
+  }
+
+  removeConnectionNodes() {
+    const {fromNode, toNode} = this.connectContext;
+
+    _.remove(this.links, {source: fromNode, target: toNode});
+
+    this.updateGraph();
+    this.clearConnectionNodes();
+  }
+
+  clearConnectionNodes() {
+    this.connectContext.fromNode = null;
+    this.connectContext.toNode = null;
   }
 }
