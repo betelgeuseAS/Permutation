@@ -1,3 +1,5 @@
+@import "../../../sass/var"
+
 form
   width: 100%
   mat-form-field
@@ -6,3 +8,15 @@ form
     textarea
       min-height: 5rem
       overflow: auto
+
+.color-picker-wrapper
+  mat-label
+    margin-right: $margin-sm
+    color: rgba(0, 0, 0, .54)
+  .color-picker-input
+    width: 40px
+    height: 40px
+    border-radius: 50%
+    border-color: transparent
+    box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0 1px 1px 0px rgba(0, 0, 0, 0.14), 0 1px 3px 0 rgba(0, 0, 0, 0.12)
+    margin-bottom: $margin-sm

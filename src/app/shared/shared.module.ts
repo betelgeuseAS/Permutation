@@ -36,6 +36,7 @@ import Counter from './services/quill/counter';
 import { NgDynamicBreadcrumbModule } from "ng-dynamic-breadcrumb";
 import { MatchHeightDirective } from './directives/match-height.directive';
 import { NgxGraphModule } from '@swimlane/ngx-graph';
+import { ColorPickerModule } from 'ngx-color-picker';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,8 @@ import { NgxGraphModule } from '@swimlane/ngx-graph';
     NgAudioRecorderModule,
     NgxTimerModule,
     NgDynamicBreadcrumbModule,
-    NgxGraphModule
+    NgxGraphModule,
+    ColorPickerModule
   ],
   exports: [
     TranslateModule,
@@ -82,7 +84,8 @@ import { NgxGraphModule } from '@swimlane/ngx-graph';
     QuillModule,
     NgxTimerModule,
     NgDynamicBreadcrumbModule,
-    NgxGraphModule
+    NgxGraphModule,
+    ColorPickerModule
   ],
   providers: [],
   schemas: [NO_ERRORS_SCHEMA]

@@ -33,6 +33,93 @@
 <!--          <span *ngIf="form.get('value').errors.pattern">{{ 'ERRORS.FIELDS.PATTERN_NUMBER' | translate }}</span>-->
 <!--        </mat-error>-->
 <!--      </mat-form-field>-->
+
+      <div class="color-picker-wrapper">
+        <mat-label>Node Color</mat-label>
+
+        <!--[value]="form.value.color"-->
+        <input
+          class="color-picker-input"
+
+          [(colorPicker)]="form.value.color"
+
+          [cpWidth]="230"
+          [cpHeight]="'auto'"
+
+          [cpToggle]="false"
+          [cpDisabled]="false"
+
+          [cpColorMode]="cpColorMode"
+
+          [cpCmykEnabled]="false"
+
+          [cpOutputFormat]="cpOutputFormat"
+          [cpAlphaChannel]="cpAlphaChannel"
+
+          [cpFallbackColor]="'#fff'"
+
+          [cpPosition]="cpPosition"
+
+          [cpPositionOffset]="'0%'"
+          [cpPositionRelativeToArrow]="false"
+
+          [cpPresetLabel]="'Preset colors'"
+          [cpPresetColors]="['#fff', '#000', '#2889e9', '#e920e9', '#fff500', 'rgb(236,64,64)']"
+
+          [cpDisableInput]="false"
+
+          [cpDialogDisplay]="cpDialogDisplay"
+
+          [cpSaveClickOutside]="true"
+          [cpCloseClickOutside]="true"
+
+          [cpOKButton]="true"
+          [cpOKButtonText]="'Select'"
+          [cpOKButtonClass]="'color-picker-button-ok'"
+
+          [cpCancelButton]="true"
+          [cpCancelButtonText]="'Cancel'"
+          [cpCancelButtonClass]="'color-picker-button-cancel'"
+
+          [cpAddColorButton]="false"
+          [cpAddColorButtonText]="'Add color'"
+          [cpAddColorButtonClass]="'color-picker-button-add'"
+
+          [cpRemoveColorButtonClass]="'color-picker-button-remove'"
+
+          [cpPresetColorsClass]="'color-picker-present-color-container'"
+
+          [cpMaxPresetColorsLength]="null"
+
+          [cpPresetEmptyMessage]="'No colors added'"
+          [cpPresetEmptyMessageClass]="'color-picker-empty-message-container'"
+
+          [cpUseRootViewContainer]="false"
+
+          (colorPickerOpen)="colorPickerOpen($event)"
+          (colorPickerClose)="colorPickerClose($event)"
+
+          (colorPickerChange)="colorPickerChange($event)"
+          (colorPickerCancel)="colorPickerCancel()"
+          (colorPickerSelect)="colorPickerSelect($event)"
+
+          (cpToggleChange)="cpToggleChange($event)"
+
+          (cpInputChange)="cpInputChange($event)"
+
+          (cpSliderChange)="cpSliderChange($event)"
+
+          (cpSliderDragStart)="cpSliderDragStart($event)"
+
+          (cpSliderDragEnd)="cpSliderDragEnd($event)"
+
+          (cpCmykColorChange)="cpCmykColorChange($event)"
+
+          (cpPresetColorsChange)="cpPresetColorsChange($event)"
+
+          [style.background]="form.value.color"
+        />
+      </div>
     </form>
   </div>
 </mat-dialog-content>

@@ -210,6 +210,7 @@ export class PlotComponent implements OnInit {
       name: new FormControl('', Validators.required),
       description: new FormControl('', Validators.required),
       // value: new FormControl('', [Validators.required, Validators.pattern('^[0-9]*$')]),
+      color: new FormControl()
     });
   }
 
@@ -264,12 +265,13 @@ export class PlotComponent implements OnInit {
 
     this.form.controls.name.setValue(label);
     this.form.controls.description.setValue(data.lines.join('\n'));
+    this.form.controls.color.setValue(data.color);
 
     this.openAddItemPlotDialog('edit');
   }
 
   addEditItemPlot(modifier: string = 'add') {
-    const {name, description} = this.form.value;
+    const {name, description, color} = this.form.value;
     const lines = description.split('\n');
 
     const add = (id: string = '') => {
@@ -280,7 +282,8 @@ export class PlotComponent implements OnInit {
         id: isUuid(id) ? id : uuid(),
         label: name,
         data: {
-          lines
+          lines,
+          backgroundColor: color || '#ccc'
         }
       });
     };
@@ -317,9 +320,6 @@ export class PlotComponent implements OnInit {
         add();
         break;
     }
-
-    console.log(this.nodes);
-    console.log(this.links);
 
     this.updateGraph();
     this.dialog.closeAll();
@@ -372,6 +372,12 @@ export class PlotComponent implements OnInit {
   }
 
   getFillColorNode(node: Node) {
-    return node.data.backgroundColor ? node.data.backgroundColor : node.data.color;
+    const color = node.data.backgroundColor;
+
+    if (!color) {
+      return node.data.color;
+    }
+
+    return color;
   }
 }
