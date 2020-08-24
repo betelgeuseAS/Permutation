@@ -2,36 +2,36 @@
   <mat-card-header>
     <mat-card-title>Plot</mat-card-title>
     <mat-card-subtitle>Plot of Book</mat-card-subtitle>
-
-    <div>
-      <button mat-stroked-button (click)="openAddItemPlotDialog()">Add Item</button>
-    </div>
   </mat-card-header>
 
   <mat-card-content class="mat-card-content-plot">
-    <div class="create-node-container">
-      <p>Nodes Connection Manage</p>
+    <div class="nodes-manage-wrapper">
+      <mat-card-subtitle>Nodes Manage</mat-card-subtitle>
 
-      <div class="create-node-actions">
-        <div class="node-list">
-          <span class="node-wrap">[</span>
-          {{connectContext.fromNode}}
-          <span class="node-wrap">]</span>
+      <div class="nodes-manage-actions">
+        <div class="nodes-manage-connection">
+          <div class="node first">
+            <span class="node-wrapper">[</span>
+            <span *ngIf="connectContext.fromNode">Start</span>
+            <span class="node-wrapper">]</span>
+          </div>
+
+          <img src="../../../assets/icons/chevron.svg" class="node-image" alt="To">
+
+          <div class="node second">
+            <span class="node-wrapper">[</span>
+            <span *ngIf="connectContext.toNode">Finish</span>
+            <span class="node-wrapper">]</span>
+          </div>
+
+          <div class="node-buttons">
+            <button mat-stroked-button color="primary" (click)="createConnectionNodes()">Create</button>
+            <button mat-stroked-button color="warn" (click)="removeConnectionNodes()">Remove</button>
+            <button mat-stroked-button color="accent" (click)="clearConnectionNodes()">Clear</button>
+          </div>
         </div>
 
-        <img src="../../../assets/icons/chevron.svg" class="node-img" alt="To">
-
-        <div class="node-list">
-          <span class="node-wrap">[</span>
-          {{connectContext.toNode}}
-          <span class="node-wrap">]</span>
-        </div>
-
-        <div class="node-btn">
-          <button mat-stroked-button color="primary" (click)="createConnectionNodes()">Create</button>
-          <button mat-stroked-button color="warn" (click)="removeConnectionNodes()">Remove</button>
-          <button mat-stroked-button color="accent" (click)="clearConnectionNodes()">Clear</button>
-        </div>
+        <button mat-stroked-button (click)="openAddItemPlotDialog()">Add</button>
       </div>
     </div>
 
@@ -87,12 +87,14 @@
       <ng-template #nodeTemplate let-node>
         <svg:g class="node" (dblclick)="openEditPlotItemSheet(node)" (contextmenu)="connectNodesHandler(node)">
           <svg:rect rx="4" ry="4"
+            [ngClass]="{'node-selected-first': node.id == connectContext.fromNode, 'node-selected-second': node.id == connectContext.toNode}"
             [attr.width]="node.dimension.width"
             [attr.height]="node.dimension.height"
-            [attr.fill]="node.data.color"
+            [attr.fill]="getFillColorNode(node)"
           />
           <svg:text alignment-baseline="top" >
             <svg:tspan x="10" dy="1.5em" style="font-weight: bold">{{node.label}}</svg:tspan>
+            <svg:tspan x="10" dy="1.5em">{{node.data.color}}</svg:tspan>
             <ng-container>
 <!--              <svg:tspan x="10" dy="1.5em" style="font-weight: bold">{{}}</svg:tspan>-->
               <svg:tspan x="10" dy="1em" *ngFor="let line of node.data.lines">{{line}}</svg:tspan>

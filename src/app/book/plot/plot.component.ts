@@ -43,7 +43,10 @@ export class PlotComponent implements OnInit {
     {
       id: "000",
       label: "Start",
-      data: {}
+      data: {
+        color: "black",
+        backgroundColor: "orange"
+      }
     },
     {
       id: "010",
@@ -210,12 +213,6 @@ export class PlotComponent implements OnInit {
     });
   }
 
-  public getStyles(node: Node): any {
-    return {
-      'background-color': node.data.backgroundColor,
-    };
-  }
-
   updateGraph() { // update the graph
     this.update$.next(true);
   }
@@ -347,26 +344,34 @@ export class PlotComponent implements OnInit {
   createConnectionNodes() {
     const {fromNode, toNode} = this.connectContext;
 
-    this.links.push({
-      source: fromNode,
-      target: toNode
-    });
+    if (fromNode && toNode) {
+      this.links.push({
+        source: fromNode,
+        target: toNode
+      });
 
-    this.updateGraph();
-    this.clearConnectionNodes();
+      this.updateGraph();
+      this.clearConnectionNodes();
+    }
   }
 
   removeConnectionNodes() {
     const {fromNode, toNode} = this.connectContext;
 
-    _.remove(this.links, {source: fromNode, target: toNode});
+    if (fromNode && toNode) {
+      _.remove(this.links, {source: fromNode, target: toNode});
 
-    this.updateGraph();
-    this.clearConnectionNodes();
+      this.updateGraph();
+      this.clearConnectionNodes();
+    }
   }
 
   clearConnectionNodes() {
     this.connectContext.fromNode = null;
     this.connectContext.toNode = null;
+  }
+
+  getFillColorNode(node: Node) {
+    return node.data.backgroundColor ? node.data.backgroundColor : node.data.color;
   }
 }
