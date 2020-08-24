@@ -9,6 +9,8 @@
 
 // Angular Material
 @import '~@angular/material/theming'
+@import "~@angular/material/button/button-theme"
+@import "~@angular/material/button/button-base"
 
 // Quill Editor
 //@import '~quill-emoji/dist/quill-emoji.css'
@@ -266,6 +268,29 @@ app-ng-dynamic-breadcrumb
 .card-height-book
   max-height: 80vh
   overflow-y: auto
+
+//----------------------------------------------------------------------------------------------------------------------
+// Color Picker
+//----------------------------------------------------------------------------------------------------------------------
+.color-picker
+  .button-area
+    .color-picker-button-ok,
+    .color-picker-button-cancel
+      +mat-raised-button
+      //+mat-button-theme(("primary": 400, "accent": 500, "warn": 700, "background": transparent, "foreground": ""))
+
+      border: 1px solid rgba(0,0,0,.12)
+      line-height: 34px
+      padding: 0 15px
+      background-color: transparent
+      //font-family: Roboto, "Helvetica Neue", sans-serif
+      font-size: 14px
+      font-weight: 600
+    .color-picker-button-ok
+      color: #673ab7
+    .color-picker-button-cancel
+      color: #f44336
+      margin-right: $margin-xs
 
 //----------------------------------------------------------------------------------------------------------------------
 // End
