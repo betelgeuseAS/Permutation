@@ -207,7 +207,7 @@ export class PlotComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = new FormGroup({
-      name: new FormControl('', Validators.required),
+      name: new FormControl('', /*Validators.required*/),
       description: new FormControl('', Validators.required),
       // value: new FormControl('', [Validators.required, Validators.pattern('^[0-9]*$')]),
       color: new FormControl()
@@ -265,7 +265,7 @@ export class PlotComponent implements OnInit {
 
     this.form.controls.name.setValue(label);
     this.form.controls.description.setValue(data.lines.join('\n'));
-    this.form.controls.color.setValue(data.color);
+    this.form.controls.color.setValue(data.backgroundColor);
 
     this.openAddItemPlotDialog('edit');
   }
@@ -283,7 +283,7 @@ export class PlotComponent implements OnInit {
         label: name,
         data: {
           lines,
-          backgroundColor: color || '#ccc'
+          backgroundColor: color
         }
       });
     };
@@ -293,7 +293,8 @@ export class PlotComponent implements OnInit {
 
       this.nodes[index].label = name;
       this.nodes[index].data = {
-        lines
+        lines,
+        backgroundColor: color
       };
     };
 

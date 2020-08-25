@@ -8,9 +8,9 @@
 
         <input matInput formControlName="name" placeholder="{{ 'COMMON.FIELDS.NAME_PLACEHOLDER' | translate }}">
 
-        <mat-error class="form-text text-danger" *ngIf="form.get('name').invalid && form.get('name').touched">
-          <span *ngIf="form.get('name').errors.required">{{ 'ERRORS.FIELDS.REQUIRED' | translate }}</span>
-        </mat-error>
+<!--        <mat-error class="form-text text-danger" *ngIf="form.get('name').invalid && form.get('name').touched">-->
+<!--          <span *ngIf="form.get('name').errors.required">{{ 'ERRORS.FIELDS.REQUIRED' | translate }}</span>-->
+<!--        </mat-error>-->
       </mat-form-field>
 
       <mat-form-field>
@@ -56,7 +56,7 @@
           [cpOutputFormat]="cpOutputFormat"
           [cpAlphaChannel]="cpAlphaChannel"
 
-          [cpFallbackColor]="'#fff'"
+          [cpFallbackColor]="'#ADCDED'"
 
           [cpPosition]="cpPosition"
 
@@ -64,7 +64,7 @@
           [cpPositionRelativeToArrow]="false"
 
           [cpPresetLabel]="'Preset colors'"
-          [cpPresetColors]="['#fff', '#000', '#2889e9', '#e920e9', '#fff500', 'rgb(236,64,64)']"
+          [cpPresetColors]="['#FFFFFF', '#555555', '#28A745', '#fff500', '#17A2B8', '#DC3545']"
 
           [cpDisableInput]="false"
 

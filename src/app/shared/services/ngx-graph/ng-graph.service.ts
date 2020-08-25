@@ -1,12 +1,5 @@
 import { Injectable } from '@angular/core';
 
-interface Options {
-  name?: string;
-  className?: string;
-  required?: boolean;
-  disabled?: boolean;
-}
-
 @Injectable({
   providedIn: 'root'
 })

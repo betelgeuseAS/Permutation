@@ -32,7 +32,11 @@ export class AddItemPlotDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if (!this.form.value.color) {
+      this.form.controls.color.setValue('#ADCDED');
+    }
+  }
 
   getResult(): object {
     return {};
