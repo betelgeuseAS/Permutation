@@ -63,7 +63,8 @@ export class PlotComponent implements OnInit {
       id: "015",
       label: "MessageNodeSpec",
       data: {
-        details: [{ heading: "Play Message", lines: ["action = MSG", "messagegaxlist = Message_Account_Managers_Welcome", "nextaction = 020"] }]
+        details: [{ heading: "Play Message", lines: ["action = MSG", "messagegaxlist = Message_Account_Managers_Welcome", "nextaction = 020"] }],
+        lines: ["action = MSG", "messagegaxlist = Message_Account_Managers_Welcome", "nextactiong = 020"]
       }
     },
     {

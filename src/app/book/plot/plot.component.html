@@ -51,7 +51,7 @@
       [enableZoom]="true"
       [animate]="false"
       [zoomSpeed]="0.1"
-      [zoomLevel]="1"
+      [zoomLevel]="0.5"
       [minZoomLevel]="0.5"
       [maxZoomLevel]="2"
       [autoZoom]="false"
@@ -93,7 +93,7 @@
             [attr.fill]="getFillColorNode(node)"
           />
           <svg:text alignment-baseline="top" >
-            <svg:tspan x="10" dy="1.5em" style="font-weight: bold">{{node.label}}</svg:tspan>
+            <svg:tspan x="10" dy="1.4em" style="font-weight: 500">{{node.label}}</svg:tspan>
             <ng-container>
 <!--              <svg:tspan x="10" dy="1.5em" style="font-weight: bold">{{}}</svg:tspan>-->
               <svg:tspan x="10" dy="1em" *ngFor="let line of node.data.lines">{{line}}</svg:tspan>
