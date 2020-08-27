@@ -20,11 +20,6 @@
       </mat-form-field>
     </form>
   </mat-card-content>
-
-  <mat-card-actions class="mat-card-action-main">
-    <button mat-raised-button color="accent" [disabled]="form.invalid" (click)="updateBookHandler()">{{ 'BUTTONS.BOOK.UPDATE_BOOK' | translate }}</button>
-    <button mat-raised-button color="warn" (click)="removeBookSheet()">{{ 'BUTTONS.COMMON.REMOVE' | translate }}</button>
-  </mat-card-actions>
 </mat-card>
 
 <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between none" fxLayoutGap=".75rem" appMatchHeight="card-height-book">
@@ -58,5 +53,12 @@
       customToolbarPosition="top"
     >
     </quill-editor>
+  </mat-card-content>
+</mat-card>
+
+<mat-card class="main-control-handler">
+  <mat-card-content>
+    <button mat-raised-button color="accent" [disabled]="form.invalid" (click)="updateBookHandler()">{{ 'BUTTONS.BOOK.UPDATE_BOOK' | translate }}</button>
+    <button mat-raised-button color="warn" (click)="removeBookSheet()">{{ 'BUTTONS.COMMON.REMOVE' | translate }}</button>
   </mat-card-content>
 </mat-card>
