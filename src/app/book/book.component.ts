@@ -12,6 +12,9 @@ import { QuillService } from '../shared/services/quill/quill.service';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { RemoveSheetComponent } from '../dialogs/remove-sheet/remove-sheet.component';
 import { ToastService } from 'angular-toastify';
+import { GraphComponent } from '@swimlane/ngx-graph';
+import { PlotComponent } from './plot/plot.component';
+
 
 @Component({
   selector: 'app-book',
@@ -28,6 +31,8 @@ export class BookComponent implements OnInit {
   @ViewChild(QuillEditorComponent, { static: true }) quillEditor: QuillEditorComponent;
   quillModules: object;
   quillContent: string | null;
+
+  @ViewChild(PlotComponent, { static: true }) appPlot: PlotComponent;
 
   constructor(
     private databaseService: DatabaseService,
@@ -79,7 +84,12 @@ export class BookComponent implements OnInit {
       const {name} = this.form.value;
       const book = this.book;
 
+      const ngxGraph: GraphComponent = this.appPlot.ngxGraph;
+
       book.name = name;
+      book.plotNodes = JSON.stringify(ngxGraph.graph.nodes);
+      book.plotLinks = JSON.stringify(ngxGraph.graph.edges);
+      // book.plotClusters = JSON.stringify(this.appPlot.ngxGraph.graph.clusters);
       book.content = this.quillContent;
 
       this.databaseService

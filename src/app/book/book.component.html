@@ -36,7 +36,7 @@
   </div>
 </div>
 
-<app-plot [book]="book"></app-plot>
+<app-plot *ngIf="book" [book]="book"></app-plot>
 
 <mat-card class="book-card-content">
   <mat-card-header>
