@@ -9,7 +9,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { uuid, isUuid } from 'uuidv4';
 import * as _ from 'lodash';
 
-import { Edge, Node, Layout, MiniMapPosition, GraphComponent } from '@swimlane/ngx-graph';
+import { Edge, Node, Layout, MiniMapPosition, GraphComponent, ClusterNode } from '@swimlane/ngx-graph';
 import { DagreNodesOnlyLayout } from '../../shared/services/ngx-graph/customDagreNodesOnly';
 import * as shape from 'd3-shape';
 import { NgGraphService } from '../../shared/services/ngx-graph/ng-graph.service';
@@ -43,6 +43,13 @@ export class PlotComponent implements OnInit {
 
   nodes: Node[] = [];
   links: Edge[] = [];
+  clusters: ClusterNode[] = [
+    // {
+    //   id: '',
+    //   label: '',
+    //   childNodeIds: [/*List Node ids*/]
+    // }
+  ];
   layoutSettings = this.ngGraphService.getLayoutSettings();
   curve: any = shape.curveBasis; // or shape.curveLinear, ...
   layout: Layout = new DagreNodesOnlyLayout(); // or 'dagre', 'dagreCluster', 'dagreNodesOnly', 'd3ForceDirected', 'colaForceDirected'
