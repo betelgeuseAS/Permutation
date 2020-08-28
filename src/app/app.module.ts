@@ -27,6 +27,8 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DialogsModule } from './dialogs/dialogs.module';
 
+import { ToastService, AngularToastifyModule } from 'angular-toastify';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -49,10 +51,11 @@ import { DialogsModule } from './dialogs/dialogs.module';
         deps: [HttpClient]
       }
     }),
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    AngularToastifyModule
   ],
   // exports: [MaterialModule],
-  providers: [],
+  providers: [ToastService],
   bootstrap: [AppComponent]
 })
 

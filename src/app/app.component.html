@@ -17,6 +17,18 @@
     ></app-ng-dynamic-breadcrumb>
 
     <div class="wrapper-router-outlet">
+      <lib-toastify-toast-container
+        [position]="position"
+        [transition]="transition"
+        [autoClose]="autoClose"
+        [hideProgressBar]="hideProgressBar"
+        [newestOnTop]="newestOnTop"
+        [closeOnClick]="closeOnClick"
+        [pauseOnHover]="pauseOnHover"
+        [pauseOnVisibilityChange]="pauseOnVisibilityChange"
+        [iconLibrary]="iconLibrary"
+      ></lib-toastify-toast-container>
+
       <router-outlet></router-outlet>
     </div>
   </mat-drawer-content>

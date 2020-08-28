@@ -21,6 +21,22 @@ export class AppComponent {
     symbol: ' / ',
   };
 
+  // private toastService: ToastService // In constructor
+  // this.toastService.info('message');
+  // this.toastService.success('message');
+  // this.toastService.warn('message');
+  // this.toastService.error('message');
+  // this.toastService.default('message');
+  position = 'top-right'; // 'top-left' | 'top-right' | 'bottom-right' | 'bottom-left' (default: 'top-right')
+  transition = 'bounce'; // 'bounce' | 'slide' | 'zoom' | 'flip' (default: 'bounce')
+  autoClose = 5000; // time in ms (0 = disabled) (default: 5000)
+  hideProgressBar = false; // true | false" (default: false)
+  newestOnTop = false; // true | false (default: false)
+  closeOnClick = true; // true | false (default: true)
+  pauseOnHover = true; // true | false (default: true)
+  pauseOnVisibilityChange = true; // true | false  (default:  true)
+  iconLibrary = 'none'; // 'material' | 'font-awesome' | 'none' (default: 'none')
+
   constructor(
     public electronService: ElectronService,
     private translate: TranslateService,

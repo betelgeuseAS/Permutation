@@ -11,6 +11,7 @@ import { QuillEditorComponent } from 'ngx-quill';
 import { QuillService } from '../shared/services/quill/quill.service';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { RemoveSheetComponent } from '../dialogs/remove-sheet/remove-sheet.component';
+import { ToastService } from 'angular-toastify';
 
 @Component({
   selector: 'app-book',
@@ -34,7 +35,8 @@ export class BookComponent implements OnInit {
     public dialog: MatDialog,
     private ngDynamicBreadcrumbService: NgDynamicBreadcrumbService,
     public quillService: QuillService,
-    private bottomSheet: MatBottomSheet
+    private bottomSheet: MatBottomSheet,
+    private toastService: ToastService
   ) {
     this.subscription = activateRoute.params.subscribe(params => this.bookId = params.bookId);
 
@@ -88,6 +90,11 @@ export class BookComponent implements OnInit {
         })
         .then(() => {
           // name = '';
+
+          this.toastService.success('Book successfully updated');
+        })
+        .catch((error) => {
+          this.toastService.warn('Unable to update book');
         });
 
       this.dialog.closeAll();
