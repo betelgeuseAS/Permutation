@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 
 import { Book } from '../../data-access/entities/book.entity';
 import { DatabaseService } from '../../data-access/database.service';
@@ -19,13 +19,13 @@ import * as moment from 'moment';
 export class BookListComponent implements OnInit {
 
   form: FormGroup;
-  books: Book[] = [];
+  @Input() books: Book[] = []; // books: Book[] = [];
 
   constructor(
     private databaseService: DatabaseService,
     public dialog: MatDialog
   ) {
-    this.getBooks();
+    // this.getBooks();
   }
 
   ngOnInit(): void {
@@ -56,7 +56,7 @@ export class BookListComponent implements OnInit {
   getBooks() {
     this.databaseService
       .connection
-      .then(() => Book.find({order: {position: 'ASC'}})) // { select: ['id', 'name'] } or get with relations: .find({relations: ['heroes']}) or .find({ select: ['id', 'name'], relations: ['heroes'] })
+      .then(() => Book.find({order: {position: 'ASC'}}))
       .then(books => {
         this.books = books;
       });

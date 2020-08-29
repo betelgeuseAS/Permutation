@@ -1,9 +1,13 @@
-<div  fxLayout="row" fxLayout.xs="column" fxLayoutGap=".75rem">
-  <div fxFlex="50%">
-    <app-book-list></app-book-list>
+<ng-container *ngIf="books">
+  <div  fxLayout="row" fxLayout.xs="column" fxLayoutGap=".75rem">
+    <div fxFlex="50%">
+      <app-book-list [books]="books"></app-book-list>
+    </div>
+
+    <div fxFlex="50%">
+      Calendar
+    </div>
   </div>
 
-  <div fxFlex="50%">
-    Calendar
-  </div>
-</div>
+  <app-book-statistic [books]="books"></app-book-statistic>
+</ng-container>

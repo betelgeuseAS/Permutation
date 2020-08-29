@@ -1,86 +1,165 @@
-import { Component, OnInit } from '@angular/core';
+import {AfterViewInit, Component, Input, NgZone, OnDestroy, OnInit} from '@angular/core';
 
 import { Book } from '../../data-access/entities/book.entity';
-import { DatabaseService } from '../../data-access/database.service';
 
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import * as am4core from "@amcharts/amcharts4/core";
+import * as am4plugins_forceDirected from "@amcharts/amcharts4/plugins/forceDirected";
 
-import { MatDialog } from '@angular/material/dialog';
-import { CreateBookDialogComponent } from '../../dialogs/create-book-dialog/create-book-dialog.component';
-
-import * as moment from 'moment';
+import am4themes_animated from "@amcharts/amcharts4/themes/animated";
+am4core.useTheme(am4themes_animated);
+// import am4themes_material from "@amcharts/amcharts4/themes/material";
+// am4core.useTheme(am4themes_material);
 
 @Component({
-  selector: 'app-book-list',
-  templateUrl: './book-list.component.html',
-  styleUrls: ['./book-list.component.sass'],
+  selector: 'app-book-statistic',
+  templateUrl: './book-statistic.component.html',
+  styleUrls: ['./book-statistic.component.sass'],
   providers: []
 })
-export class BookListComponent implements OnInit {
+export class BookStatisticComponent implements OnInit, AfterViewInit, OnDestroy {
 
-  form: FormGroup;
-  books: Book[] = [];
+  // https://www.amcharts.com/docs/v4/getting-started/integrations/using-angular2/
+  // https://www.amcharts.com/demos/force-directed-tree/
+  // https://www.amcharts.com/demos/collapsible-force-directed-tree/
+  // https://www.amcharts.com/docs/v4/chart-types/force-directed/#Creating_a_series
+
+  @Input() books: Book[] = [];
+
+  private chart: am4plugins_forceDirected.ForceDirectedTree;
 
   constructor(
-    private databaseService: DatabaseService,
-    public dialog: MatDialog
-  ) {
-    this.getBooks();
-  }
+    private zone: NgZone
+  ) {}
 
-  ngOnInit(): void {
-    this.form = new FormGroup({
-      name: new FormControl('', [Validators.required, Validators.minLength(3)]),
-      // description: new FormControl('', Validators.required)
-    });
-  }
+  ngOnInit(): void {}
 
-  openCreateBookDialog() {
-    const dialogRef = this.dialog.open(CreateBookDialogComponent, {
-      data: {
-        form: this.form
-      },
-      disableClose: true,
-      width: '60vw'
-    });
+  ngAfterViewInit() {
+    this.zone.runOutsideAngular(() => { // WARNING: inside this method we can't use angular methods
+      this.chart = am4core.create("chart", am4plugins_forceDirected.ForceDirectedTree);
+      const networkSeries = this.chart.series.push(new am4plugins_forceDirected.ForceDirectedSeries());
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.createBook();
-      }
+      this.chart.data = [
+        {
+          name: "Core",
+          children: [
+            {
+              name: "First",
+              children: [
+                { name: "A1", value: 100 },
+                { name: "A2", value: 60 }
+              ]
+            },
+            {
+              name: "Second",
+              children: [
+                { name: "B1", value: 135 },
+                { name: "B2", value: 98 }
+              ]
+            },
+            {
+              name: "Third",
+              children: [
+                {
+                  name: "C1",
+                  children: [
+                    { name: "EE1", value: 130 },
+                    { name: "EE2", value: 87 },
+                    { name: "EE3", value: 55 }
+                  ]
+                },
+                { name: "C2", value: 148 },
+                {
+                  name: "C3", children: [
+                    { name: "CC1", value: 53 },
+                    { name: "CC2", value: 30 }
+                  ]
+                },
+                { name: "C4", value: 26 }
+              ]
+            },
+            {
+              name: "Fourth",
+              children: [
+                { name: "D1", value: 415 },
+                { name: "D2", value: 148 },
+                { name: "D3", value: 89 }
+              ]
+            },
+            {
+              name: "Fifth",
+              children: [
+                {
+                  name: "E1",
+                  children: [
+                    { name: "EE1", value: 33 },
+                    { name: "EE2", value: 40 },
+                    { name: "EE3", value: 89 }
+                  ]
+                },
+                {
+                  name: "E2",
+                  value: 148
+                }
+              ]
+            }
 
-      this.form.reset();
-    });
-  }
+          ]
+        }
+      ];
 
-  getBooks() {
-    this.databaseService
-      .connection
-      .then(() => Book.find({order: {position: 'ASC'}})) // { select: ['id', 'name'] } or get with relations: .find({relations: ['heroes']}) or .find({ select: ['id', 'name'], relations: ['heroes'] })
-      .then(books => {
-        this.books = books;
-      });
-  }
+      networkSeries.dataFields.value = "value";
+      networkSeries.dataFields.name = "name";
+      networkSeries.dataFields.children = "children";
+      networkSeries.nodes.template.tooltipText = "{name}:{value}";
+      networkSeries.nodes.template.fillOpacity = 1;
 
-  createBook() {
-    if (this.form.valid) {
-      let {name} = this.form.value;
-      const book = new Book();
+      networkSeries.nodes.template.label.text = "{name}";
+      networkSeries.fontSize = 10;
 
-      book.name = name;
-      book.created = moment().format('YYYY-MM-DD H:mm:ss');
+      networkSeries.links.template.strokeWidth = 1;
 
-      this.databaseService
-        .connection
-        .then(() => book.save())
-        .then(() => {
-          this.getBooks();
-        })
-        .then(() => {
-          name = '';
+      const hoverState = networkSeries.links.template.states.create("hover");
+      hoverState.properties.strokeWidth = 3;
+      hoverState.properties.strokeOpacity = 1;
 
-          this.dialog.closeAll();
+      networkSeries.nodes.template.events.on("over", (event) => { // mouse over
+        event.target.dataItem.childLinks.each((link) => {
+          link.isHover = true;
         });
-    }
+
+        if (event.target.dataItem.parentLink) {
+          event.target.dataItem.parentLink.isHover = true;
+        }
+      });
+
+      networkSeries.nodes.template.events.on("out", (event) => { // mouse out
+        event.target.dataItem.childLinks.each((link) => {
+          link.isHover = false;
+        });
+
+        if (event.target.dataItem.parentLink) {
+          event.target.dataItem.parentLink.isHover = false;
+        }
+      });
+
+      // networkSeries.nodes.template.events.on("hit", (event) => { // click
+      //   console.log(event.target);
+      // });
+
+      // networkSeries.nodes.template.events.on("doublehit", (event) => { // double click
+      //   this.chart.openModal("Modal.");
+      //
+      //   // event.target.label.dataItem.dataContext
+      //   // event.target.dataItem.dataContext
+      // });
+    });
+  }
+
+  ngOnDestroy() {
+    this.zone.runOutsideAngular(() => {
+      if (this.chart) {
+        this.chart.dispose();
+      }
+    });
   }
 }
