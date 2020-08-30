@@ -27,7 +27,6 @@ import { InfoQuillDialogComponent } from '../../../dialogs/info-quill-dialog/inf
 
 interface Options {
   quillEditor: any;
-  matModal: MatDialog;
 }
 
 @Injectable({
@@ -122,8 +121,7 @@ export class QuillService {
   }
 
   getModule({
-    quillEditor = null,
-    matModal = null
+    quillEditor = null
   }: Options): object {
     return { // https://quilljs.com/docs/modules/
       // Emoji plugin:
@@ -260,11 +258,7 @@ export class QuillService {
             }
           },
           info() {
-            matModal.open(InfoQuillDialogComponent, {
-              data: {},
-              disableClose: true,
-              width: '50vw'
-            });
+            // console.log(this);
           }
         }
       },

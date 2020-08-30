@@ -5,7 +5,6 @@ import { Subscription } from 'rxjs';
 import { Book } from '../data-access/entities/book.entity';
 import { DatabaseService } from '../data-access/database.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
 import { NgDynamicBreadcrumbService } from 'ng-dynamic-breadcrumb';
 import { QuillEditorComponent } from 'ngx-quill';
 import { QuillService } from '../shared/services/quill/quill.service';
@@ -37,7 +36,6 @@ export class BookComponent implements OnInit {
   constructor(
     private databaseService: DatabaseService,
     private activateRoute: ActivatedRoute,
-    public dialog: MatDialog,
     private ngDynamicBreadcrumbService: NgDynamicBreadcrumbService,
     public quillService: QuillService,
     private bottomSheet: MatBottomSheet,
@@ -54,8 +52,7 @@ export class BookComponent implements OnInit {
     });
 
     this.quillModules = this.quillService.getModule({
-      quillEditor: this.quillEditor,
-      matModal: this.dialog
+      quillEditor: this.quillEditor
     });
   }
 
@@ -106,8 +103,6 @@ export class BookComponent implements OnInit {
         .catch((error) => {
           this.toastService.warn('Unable to update book');
         });
-
-      this.dialog.closeAll();
     }
   }
 

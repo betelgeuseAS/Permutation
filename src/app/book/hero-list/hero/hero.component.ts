@@ -23,7 +23,6 @@ import {
 } from '@angular/material/snack-bar';
 import * as _ from 'lodash'; // or import 'lodash'; declare var _:any; // or import * as _isEmpty from 'lodash/isEmpty';
 import { AudioRecorderComponent } from '../../../shared/components/audio-recorder/audio-recorder.component';
-import { MatDialog } from '@angular/material/dialog';
 import { DOCUMENT } from '@angular/common';
 import { NgDynamicBreadcrumbService } from 'ng-dynamic-breadcrumb';
 import { RemoveSheetComponent } from '../../../dialogs/remove-sheet/remove-sheet.component';
@@ -76,7 +75,6 @@ export class HeroComponent implements OnInit {
     public audioPlayerService: AudioPlayerService,
     public quillService: QuillService,
     private snackBar: MatSnackBar,
-    public dialog: MatDialog,
     @Inject(DOCUMENT) private document: Document,
     private ngDynamicBreadcrumbService: NgDynamicBreadcrumbService,
     private bottomSheet: MatBottomSheet
@@ -92,8 +90,7 @@ export class HeroComponent implements OnInit {
     });
 
     this.quillModules = this.quillService.getModule({
-      quillEditor: this.quillEditor,
-      matModal: this.dialog
+      quillEditor: this.quillEditor
     });
   }
 
