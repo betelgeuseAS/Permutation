@@ -93,8 +93,10 @@ export class PlotComponent implements OnInit {
       color: new FormControl()
     });
 
-    this.nodes = JSON.parse(this.book.plotNodes);
-    this.links = JSON.parse(this.book.plotLinks);
+    const {plotNodes, plotLinks} = this.book;
+
+    this.nodes = plotNodes ? JSON.parse(plotNodes) : [];
+    this.links = plotLinks ? JSON.parse(plotLinks) : [];
     // this.clusters = JSON.parse(this.book.plotClusters);
   }
 

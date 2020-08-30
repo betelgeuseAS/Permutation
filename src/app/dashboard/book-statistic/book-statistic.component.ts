@@ -161,6 +161,6 @@ export class BookStatisticComponent implements OnInit, AfterViewInit, OnDestroy 
       });
     });
 
-    return item;
+    return item.children.length ? item : null;
   }
 }
