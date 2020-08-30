@@ -10,6 +10,14 @@ am4core.useTheme(am4themes_animated);
 // import am4themes_material from "@amcharts/amcharts4/themes/material";
 // am4core.useTheme(am4themes_material);
 
+import * as _ from 'lodash';
+
+interface ChartData {
+  name: string;
+  value?: number;
+  children: ChartData[];
+}
+
 @Component({
   selector: 'app-book-statistic',
   templateUrl: './book-statistic.component.html',
@@ -38,74 +46,35 @@ export class BookStatisticComponent implements OnInit, AfterViewInit, OnDestroy 
       this.chart = am4core.create("chart", am4plugins_forceDirected.ForceDirectedTree);
       const networkSeries = this.chart.series.push(new am4plugins_forceDirected.ForceDirectedSeries());
 
-      this.chart.data = [
-        {
-          name: "Core",
-          children: [
-            {
-              name: "First",
-              children: [
-                { name: "A1", value: 100 },
-                { name: "A2", value: 60 }
-              ]
-            },
-            {
-              name: "Second",
-              children: [
-                { name: "B1", value: 135 },
-                { name: "B2", value: 98 }
-              ]
-            },
-            {
-              name: "Third",
-              children: [
-                {
-                  name: "C1",
-                  children: [
-                    { name: "EE1", value: 130 },
-                    { name: "EE2", value: 87 },
-                    { name: "EE3", value: 55 }
-                  ]
-                },
-                { name: "C2", value: 148 },
-                {
-                  name: "C3", children: [
-                    { name: "CC1", value: 53 },
-                    { name: "CC2", value: 30 }
-                  ]
-                },
-                { name: "C4", value: 26 }
-              ]
-            },
-            {
-              name: "Fourth",
-              children: [
-                { name: "D1", value: 415 },
-                { name: "D2", value: 148 },
-                { name: "D3", value: 89 }
-              ]
-            },
-            {
-              name: "Fifth",
-              children: [
-                {
-                  name: "E1",
-                  children: [
-                    { name: "EE1", value: 33 },
-                    { name: "EE2", value: 40 },
-                    { name: "EE3", value: 89 }
-                  ]
-                },
-                {
-                  name: "E2",
-                  value: 148
-                }
-              ]
-            }
-
-          ]
-        }
-      ];
+      this.chart.data.push(this.prepareBooksChartData());
+      // this.chart.data = [
+      //   {
+      //     name: "Core",
+      //     children: [
+      //       {
+      //         name: "Third",
+      //         children: [
+      //           {
+      //             name: "C1",
+      //             children: [
+      //               { name: "EE1", value: 130 },
+      //               { name: "EE2", value: 87 },
+      //               { name: "EE3", value: 55 }
+      //             ]
+      //           },
+      //           { name: "C2", value: 148 },
+      //           {
+      //             name: "C3", children: [
+      //               { name: "CC1", value: 53 },
+      //               { name: "CC2", value: 30 }
+      //             ]
+      //           },
+      //           { name: "C4", value: 26 }
+      //         ]
+      //       }
+      //     ]
+      //   }
+      // ];
 
       networkSeries.dataFields.value = "value";
       networkSeries.dataFields.name = "name";
@@ -161,5 +130,37 @@ export class BookStatisticComponent implements OnInit, AfterViewInit, OnDestroy 
         this.chart.dispose();
       }
     });
+  }
+
+  prepareBooksChartData(): ChartData {
+    const books = this.populatePartChartData('Books', 10, this.books);
+
+    _.forEach(this.books, (book, item) => {
+      const heroes = this.populatePartChartData('Heroes', 5, book.heroes);
+
+      if (heroes) {
+        books.children[item].children.push(heroes);
+      }
+    });
+
+    return books;
+  }
+
+  populatePartChartData(name: string, value: number, parts) {
+    const item = {
+      name,
+      value,
+      children: []
+    };
+
+    _.forEach(parts, part => {
+      item.children.push({
+        name: part.name,
+        value,
+        children: []
+      });
+    });
+
+    return item;
   }
 }

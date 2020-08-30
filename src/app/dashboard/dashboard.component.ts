@@ -22,7 +22,7 @@ export class DashboardComponent implements OnInit {
   getBooks() {
     this.databaseService
       .connection
-      .then(() => Book.find({order: {position: 'ASC'}})) // { select: ['id', 'name'] } or get with relations: .find({relations: ['heroes']}) or .find({ select: ['id', 'name'], relations: ['heroes'] })
+      .then(() => Book.find({order: {position: 'ASC'}, relations: ['heroes']})) // { select: ['id', 'name'] } or get with relations: .find({relations: ['heroes']}) or .find({ select: ['id', 'name'], relations: ['heroes'] })
       .then(books => {
         this.books = books;
       });

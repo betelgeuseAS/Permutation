@@ -1,13 +1,13 @@
-<ng-container *ngIf="books">
-  <div  fxLayout="row" fxLayout.xs="column" fxLayoutGap=".75rem">
-    <div fxFlex="50%">
-      <app-book-list [books]="books"></app-book-list>
-    </div>
-
-    <div fxFlex="50%">
-      Calendar
-    </div>
+<div  fxLayout="row" fxLayout.xs="column" fxLayoutGap=".75rem">
+  <div fxFlex="50%">
+    <app-book-list [books]="books"></app-book-list>
   </div>
 
+  <div fxFlex="50%">
+    Calendar
+  </div>
+</div>
+
+<ng-container *ngIf="books.length">
   <app-book-statistic [books]="books"></app-book-statistic>
 </ng-container>
