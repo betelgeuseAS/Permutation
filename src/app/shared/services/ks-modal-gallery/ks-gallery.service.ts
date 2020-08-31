@@ -14,12 +14,15 @@ import { ImageHero } from '../../../data-access/entities/image-hero.entity';
 })
 export class KsGalleryService {
 
+  // https://www.npmjs.com/package/@ks89/angular-modal-gallery#table-of-contents
+  // https://ks89.github.io/angular-modal-gallery-2018-v7.github.io/
+
   customPlainGalleryRowConfig: PlainGalleryConfig = {
     strategy: PlainGalleryStrategy.CUSTOM,
     layout: new AdvancedLayout(-1, true)
   };
 
-  buttonsConfigFull: ButtonsConfig = {
+  ModalGalleryComponent: ButtonsConfig = {
     visible: true,
     strategy: ButtonsStrategy.FULL
   };

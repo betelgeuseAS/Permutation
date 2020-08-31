@@ -246,7 +246,7 @@ export class HeroComponent implements OnInit {
   }
 
   removeImage(event: ButtonEvent) {
-    if (event.button.type === 1) { // click on remove button
+    if (event.button && event.button.type === 1) { // click on remove button
       const imageHeroRepository = getRepository(ImageHero);
       imageHeroRepository.delete(event.image.id) // .remove(imageHero)
         .then(() => {
