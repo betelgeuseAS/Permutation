@@ -12,21 +12,17 @@ import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import * as Filepond from 'filepond';
 // import * as moment from 'moment';
 // import { Track } from 'ngx-audio-player';
+import * as _ from 'lodash'; // or import 'lodash'; declare var _:any; // or import * as _isEmpty from 'lodash/isEmpty';
 import { AudioPlayerService, PlayerOwnAudio } from '../../../shared/services/audio-player.service';
 import { QuillService } from '../../../shared/services/quill/quill.service';
 import { QuillEditorComponent } from 'ngx-quill';
 import { FilepondService } from '../../../shared/services/filepond.service';
-import {
-  MatSnackBar,
-  MatSnackBarHorizontalPosition,
-  MatSnackBarVerticalPosition,
-} from '@angular/material/snack-bar';
-import * as _ from 'lodash'; // or import 'lodash'; declare var _:any; // or import * as _isEmpty from 'lodash/isEmpty';
 import { AudioRecorderComponent } from '../../../shared/components/audio-recorder/audio-recorder.component';
 import { DOCUMENT } from '@angular/common';
 import { NgDynamicBreadcrumbService } from 'ng-dynamic-breadcrumb';
 import { RemoveSheetComponent } from '../../../dialogs/remove-sheet/remove-sheet.component';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import {ToastService} from 'angular-toastify';
 
 @Component({
   selector: 'app-hero',
@@ -60,9 +56,6 @@ export class HeroComponent implements OnInit {
   quillModules: object;
   quillContent: string | null;
 
-  horizontalPosition: MatSnackBarHorizontalPosition = 'start';
-  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
-
   @ViewChild(AudioRecorderComponent, { static: true }) audioRecorder: AudioRecorderComponent;
 
   private subscription: Subscription;
@@ -74,10 +67,10 @@ export class HeroComponent implements OnInit {
     public ksGalleryService: KsGalleryService,
     public audioPlayerService: AudioPlayerService,
     public quillService: QuillService,
-    private snackBar: MatSnackBar,
     @Inject(DOCUMENT) private document: Document,
     private ngDynamicBreadcrumbService: NgDynamicBreadcrumbService,
-    private bottomSheet: MatBottomSheet
+    private bottomSheet: MatBottomSheet,
+    private toastService: ToastService
   ) {
     this.subscription = activateRoute.params.subscribe(params => this.id = params.heroId);
 
@@ -186,13 +179,15 @@ export class HeroComponent implements OnInit {
 
           // this.form.reset();
 
-          this.snackBar.open('Hero Updated', 'Close', {
-            duration: 3000,
-            horizontalPosition: this.horizontalPosition,
-            verticalPosition: this.verticalPosition,
-          });
-
           this.getHeroById(this.id);
+        })
+        .then(() => {
+          // name = '';
+
+          this.toastService.success('Hero successfully updated');
+        })
+        .catch((error) => {
+          this.toastService.warn('Unable to update Hero');
         });
     }
   }

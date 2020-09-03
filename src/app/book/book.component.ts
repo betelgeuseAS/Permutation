@@ -101,7 +101,7 @@ export class BookComponent implements OnInit {
           this.toastService.success('Book successfully updated');
         })
         .catch((error) => {
-          this.toastService.warn('Unable to update book');
+          this.toastService.warn('Unable to update Book');
         });
     }
   }

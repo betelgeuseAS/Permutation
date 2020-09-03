@@ -20,11 +20,6 @@
       </mat-form-field>
     </form>
   </mat-card-content>
-
-  <mat-card-actions class="mat-card-action-main">
-    <button mat-raised-button color="accent" [disabled]="form.invalid" (click)="updateHeroHandler()">{{ 'BUTTONS.HERO.UPDATE_HERO' | translate }}</button>
-    <button mat-raised-button color="warn" (click)="removeHeroSheet()">{{ 'BUTTONS.COMMON.REMOVE' | translate }}</button>
-  </mat-card-actions>
 </mat-card>
 
 <div fxLayout="row" fxLayout.lt-md="column" fxLayoutAlign="space-between none" fxLayoutGap=".75rem" fxLayoutGap.lt-md="0">
@@ -150,5 +145,12 @@
       <!-- </span>-->
       <!--</div>-->
     </quill-editor>
+  </mat-card-content>
+</mat-card>
+
+<mat-card class="main-control-handler">
+  <mat-card-content>
+    <button mat-raised-button color="accent" [disabled]="form.invalid" (click)="updateHeroHandler()">{{ 'BUTTONS.HERO.UPDATE_HERO' | translate }}</button>
+    <button mat-raised-button color="warn" (click)="removeHeroSheet()">{{ 'BUTTONS.COMMON.REMOVE' | translate }}</button>
   </mat-card-content>
 </mat-card>
