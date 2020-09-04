@@ -1,6 +1,13 @@
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, OneToMany } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  BaseEntity,
+  OneToMany
+} from 'typeorm';
 
 import { Hero } from './hero.entity';
+import { Note } from './note.entity';
 
 @Entity({name: 'book'})
 export class Book extends BaseEntity {
@@ -32,4 +39,7 @@ export class Book extends BaseEntity {
   // Than use implements interface and:
   @OneToMany('Hero', 'book')
   heroes: Hero[];
+
+  @OneToMany('Note', 'book')
+  notes: Note[];
 }
