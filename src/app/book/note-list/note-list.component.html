@@ -1,0 +1,29 @@
+<mat-card *ngIf="book" class="card-height-book">
+  <mat-card-header>
+    <mat-card-title>Notes List</mat-card-title>
+    <mat-card-subtitle>Create a <strong>new</strong> note or go to an <strong>existing</strong> note.</mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+    <mat-list role="list">
+      <mat-list-item role="listitem" *ngFor="let note of book.notes">
+        <span class="hero-list-name">{{note.name}}</span>
+
+        <div class="hero-list-buttons">
+          <button mat-stroked-button color="accent" routerLink="/book/{{note.book.id}}/note/{{note.id}}" routerLinkActive="active">Edit</button>
+          <button mat-stroked-button color="warn" (click)="removeNoteSheet(note)">Remove</button>
+        </div>
+
+        <mat-divider></mat-divider>
+      </mat-list-item>
+
+      <mat-list-item *ngIf="!book.notes.length">
+        <div class="empty-list">{{ 'COMMON.CONTENT.EMPTY_LIST' | translate }}</div>
+      </mat-list-item>
+    </mat-list>
+  </mat-card-content>
+
+  <mat-card-actions>
+    <button mat-button (click)="openCreateNoteDialog()">{{ 'Create Note' | uppercase }}</button>
+  </mat-card-actions>
+</mat-card>

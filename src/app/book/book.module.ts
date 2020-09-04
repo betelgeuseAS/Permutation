@@ -8,6 +8,8 @@ import { HeroListComponent } from './hero-list/hero-list.component';
 import { HeroComponent } from './hero-list/hero/hero.component';
 import { AudioRecorderComponent } from '../shared/components/audio-recorder/audio-recorder.component';
 import { PlotComponent } from './plot/plot.component';
+import { NoteListComponent } from './note-list/note-list.component';
+import { NoteComponent } from './note-list/note/note.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +17,9 @@ import { PlotComponent } from './plot/plot.component';
     HeroListComponent,
     HeroComponent,
     AudioRecorderComponent,
-    PlotComponent
+    PlotComponent,
+    NoteListComponent,
+    NoteComponent
   ],
   imports: [
     CommonModule,
