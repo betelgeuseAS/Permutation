@@ -1,0 +1,48 @@
+<mat-card *ngIf="note">
+  <mat-card-header>
+    <mat-card-title>Note</mat-card-title>
+    <mat-card-subtitle>{{note.name}}</mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content class="main-card-content-main-note">
+    <form [formGroup]="form">
+      <mat-form-field>
+        <mat-label>{{ 'COMMON.FIELDS.NAME' | translate }}</mat-label>
+
+        <input matInput type="text" formControlName="name" placeholder="{{ 'COMMON.FIELDS.NAME_PLACEHOLDER' | translate }}">
+        <button mat-button *ngIf="form.get('name')" matSuffix mat-icon-button aria-label="Clear" (click)="form.controls.name.setValue('')">
+          <mat-icon>close</mat-icon>
+        </button>
+
+        <mat-error class="form-text text-danger" *ngIf="form.get('name').invalid && form.get('name').touched">
+          <span *ngIf="form.get('name').errors.required">{{ 'ERRORS.FIELDS.REQUIRED' | translate }}</span>
+        </mat-error>
+      </mat-form-field>
+    </form>
+  </mat-card-content>
+</mat-card>
+
+<mat-card class="mat-card-content-note">
+  <mat-card-header>
+    <mat-card-title>Content</mat-card-title>
+    <mat-card-subtitle>Representing Content</mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+    <quill-editor
+      [styles]="{height: '80vh'}"
+      [(ngModel)]="quillContent"
+      [modules]="quillModules"
+      trackChanges="all"
+      customToolbarPosition="top"
+    >
+    </quill-editor>
+  </mat-card-content>
+</mat-card>
+
+<mat-card class="main-control-handler">
+  <mat-card-content>
+    <button mat-raised-button color="accent" [disabled]="form.invalid" (click)="updateNoteHandler()">Update Note</button>
+    <button mat-raised-button color="warn" (click)="removeNoteSheet()">{{ 'BUTTONS.COMMON.REMOVE' | translate }}</button>
+  </mat-card-content>
+</mat-card>
