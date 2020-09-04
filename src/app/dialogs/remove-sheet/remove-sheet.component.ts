@@ -41,6 +41,9 @@ export class RemoveSheetComponent implements OnInit {
           case 'Hero':
             this.document.location.href = `http://localhost:4200/#/book/${item.book.id}`;
             break;
+          case 'Note':
+            this.document.location.href = `http://localhost:4200/#/book/${item.book.id}`;
+            break;
         }
       });
   }

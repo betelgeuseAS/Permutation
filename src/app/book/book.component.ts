@@ -59,7 +59,7 @@ export class BookComponent implements OnInit {
   getBookById(bookId) {
     this.databaseService
       .connection
-      .then(() => Book.findOne({ where: {id: bookId},  relations: ['heroes'/*, 'heroes.imagePreview'*/] }))
+      .then(() => Book.findOne({ where: {id: bookId},  relations: ['heroes'/*, 'heroes.imagePreview'*/, 'notes'] }))
       .then(book => {
         this.book = book;
 
