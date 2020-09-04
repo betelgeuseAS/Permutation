@@ -8,10 +8,10 @@ interface DialogData {
 
 @Component({
   selector: 'app-create-book-dialog',
-  templateUrl: './create-hero-dialog.component.html',
-  styleUrls: ['./create-hero-dialog.component.sass']
+  templateUrl: './create-dialog.component.html',
+  styleUrls: ['./create-dialog.component.sass']
 })
-export class CreateHeroDialogComponent implements OnInit {
+export class CreateDialogComponent implements OnInit {
 
   form: FormGroup = this.data.form;
 
