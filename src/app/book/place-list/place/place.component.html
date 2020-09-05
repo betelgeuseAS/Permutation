@@ -1,0 +1,113 @@
+<mat-card *ngIf="place">
+  <mat-card-header>
+    <mat-card-title>Place</mat-card-title>
+    <mat-card-subtitle>{{place.name}}</mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content class="main-card-content-main-place">
+    <form [formGroup]="form">
+      <mat-form-field>
+        <mat-label>{{ 'COMMON.FIELDS.NAME' | translate }}</mat-label>
+
+        <input matInput type="text" formControlName="name" placeholder="{{ 'COMMON.FIELDS.NAME_PLACEHOLDER' | translate }}">
+        <button mat-button *ngIf="form.get('name')" matSuffix mat-icon-button aria-label="Clear" (click)="form.controls.name.setValue('')">
+          <mat-icon>close</mat-icon>
+        </button>
+
+        <mat-error class="form-text text-danger" *ngIf="form.get('name').invalid && form.get('name').touched">
+          <span *ngIf="form.get('name').errors.required">{{ 'ERRORS.FIELDS.REQUIRED' | translate }}</span>
+        </mat-error>
+      </mat-form-field>
+    </form>
+  </mat-card-content>
+</mat-card>
+
+<div fxLayout="row" fxLayout.lt-md="column" fxLayoutAlign="space-between none" fxLayoutGap=".75rem" fxLayoutGap.lt-md="0">
+  <div fxFlex="50%">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Gallery</mat-card-title>
+        <mat-card-subtitle>Representing Images</mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+        <div class="plain-container-row" *ngIf="images.length">
+          <ng-container *ngFor="let img of images; let i = index">
+            <div *ngIf="i <= 2">
+              <img *ngIf="img.plain && img.plain.img; else noThumb"
+                   class="my-app-custom-image-row"
+                   [src]="img.plain.img"
+                   (click)="ksGalleryService.openImageModalRow(img, images)"
+                   [alt]="img.modal.description"/>
+
+              <a class="more" *ngIf="i==2 && images.length>3" (click)="ksGalleryService.openImageModalRow(img, images)"> +{{images.length - 3}} more </a>
+
+              <ng-template #noThumb>
+                  <span class="cover-custom-image-row">
+                    <img class="custom-image-row"
+                         [src]="img.modal.img"
+                         (click)="ksGalleryService.openImageModalRow(img, images)"
+                         [alt]="img.modal.description"/>
+                  </span>
+              </ng-template>
+            </div>
+          </ng-container>
+        </div>
+
+        <ks-modal-gallery
+          [id]="0"
+          [modalImages]="images"
+          [buttonsConfig]="ksGalleryService.buttonsConfigCustom"
+          [enableCloseOutside]="false"
+          [plainGalleryConfig]="ksGalleryService.customPlainGalleryRowConfig"
+          [previewConfig]="{visible: true, number: 5}"
+          [slideConfig]="{infinite: true}"
+          (buttonBeforeHook)="removeImage($event)"
+          [currentImageConfig]="{description: ksGalleryService.customFullDescription, loadingConfig: {enable: true, type: 4}}">
+        </ks-modal-gallery>
+
+        <div class="empty-list" *ngIf="!images.length">{{ 'COMMON.CONTENT.EMPTY_GALLERY' | translate }}</div>
+      </mat-card-content>
+
+      <mat-card-actions class="mat-card-action-gallery">
+        <mat-card-subtitle>Add Images</mat-card-subtitle>
+
+        <file-pond
+          [options]="pondOptionsGallery"
+          [files]="pondFilesGallery"
+          (onaddfile)="pondHandleAddFileGallery($event)"
+          (onremovefile)="pondHandleRemoveFileGallery($event)">
+        </file-pond>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+
+  <div fxFlex="50%">
+    <mat-card></mat-card>
+  </div>
+</div>
+
+<mat-card class="mat-card-content-place">
+  <mat-card-header>
+    <mat-card-title>Content</mat-card-title>
+    <mat-card-subtitle>Representing Content</mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+    <quill-editor
+      [styles]="{height: '80vh'}"
+      [(ngModel)]="quillContent"
+      [modules]="quillModules"
+      trackChanges="all"
+      customToolbarPosition="top"
+    >
+    </quill-editor>
+  </mat-card-content>
+</mat-card>
+
+<mat-card class="main-control-handler">
+  <mat-card-content>
+    <button mat-raised-button color="accent" [disabled]="form.invalid" (click)="updatePlaceHandler()">Update Place</button>
+    <button mat-raised-button color="warn" (click)="removePlaceSheet()">{{ 'BUTTONS.COMMON.REMOVE' | translate }}</button>
+  </mat-card-content>
+</mat-card>

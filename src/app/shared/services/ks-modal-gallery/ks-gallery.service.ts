@@ -8,6 +8,7 @@ import {
   PlainGalleryStrategy,
 } from '@ks89/angular-modal-gallery';
 import { ImageHero } from '../../../data-access/entities/image-hero.entity';
+import { ImagePlace } from '../../../data-access/entities/image-place.entity';
 
 @Injectable({
   providedIn: 'root'
@@ -68,7 +69,7 @@ export class KsGalleryService {
     this.customPlainGalleryRowConfig = Object.assign({}, this.customPlainGalleryRowConfig, { layout: new AdvancedLayout(index, true) });
   }
 
-  getImages(entities?: ImageHero[]): Image[] {
+  getImages(entities): Image[] {
     return entities.map((item, index) => {
       if (item && item.data) {
         return new Image(

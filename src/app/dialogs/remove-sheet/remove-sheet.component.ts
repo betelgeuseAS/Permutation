@@ -39,9 +39,8 @@ export class RemoveSheetComponent implements OnInit {
             this.document.location.href = `http://localhost:4200/#/dashboard`;
             break;
           case 'Hero':
-            this.document.location.href = `http://localhost:4200/#/book/${item.book.id}`;
-            break;
           case 'Note':
+          case 'Place':
             this.document.location.href = `http://localhost:4200/#/book/${item.book.id}`;
             break;
         }

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { HeroComponent } from './hero-list/hero/hero.component';
 import { NoteComponent } from './note-list/note/note.component';
+import {PlaceComponent} from './place-list/place/place.component';
 
 const routes: Routes = [
   {
@@ -42,6 +43,27 @@ const routes: Routes = [
         },
         {
           label: '{{noteBreadcrumb}}',
+          url: ''
+        }
+      ]
+    }
+  },
+  {
+    path: 'book/:bookId/place/:placeId',
+    component: PlaceComponent,
+    data: {
+      title: 'place',
+      breadcrumb: [
+        {
+          label: 'Dashboard',
+          url: 'dashboard'
+        },
+        {
+          label: '{{bookBreadcrumb}}',
+          url: 'book/:bookId'
+        },
+        {
+          label: '{{placeBreadcrumb}}',
           url: ''
         }
       ]

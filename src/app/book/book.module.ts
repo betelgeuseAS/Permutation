@@ -10,6 +10,8 @@ import { AudioRecorderComponent } from '../shared/components/audio-recorder/audi
 import { PlotComponent } from './plot/plot.component';
 import { NoteListComponent } from './note-list/note-list.component';
 import { NoteComponent } from './note-list/note/note.component';
+import { PlaceListComponent } from './place-list/place-list.component';
+import { PlaceComponent } from './place-list/place/place.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +21,9 @@ import { NoteComponent } from './note-list/note/note.component';
     AudioRecorderComponent,
     PlotComponent,
     NoteListComponent,
-    NoteComponent
+    NoteComponent,
+    PlaceListComponent,
+    PlaceComponent
   ],
   imports: [
     CommonModule,
