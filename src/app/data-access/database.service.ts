@@ -7,6 +7,8 @@ import { Hero } from './entities/hero.entity';
 import { ImageHero } from './entities/image-hero.entity';
 import { AudioHero } from './entities/audio-hero.entity';
 import { Note } from './entities/note.entity';
+import { Place } from './entities/place.entity';
+import { ImagePlace } from './entities/image-place.entity';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +24,7 @@ export class DatabaseService {
     this.options = {
       type: 'sqlite',
       database: Settings.dbPath,
-      entities: [Book, Hero, ImageHero, AudioHero, Note],
+      entities: [Book, Hero, ImageHero, AudioHero, Note, Place, ImagePlace],
       synchronize: true,
       // logging: 'all',
     };

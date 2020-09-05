@@ -8,6 +8,7 @@ import {
 
 import { Hero } from './hero.entity';
 import { Note } from './note.entity';
+import { Place } from './place.entity';
 
 @Entity({name: 'book'})
 export class Book extends BaseEntity {
@@ -42,4 +43,7 @@ export class Book extends BaseEntity {
 
   @OneToMany('Note', 'book')
   notes: Note[];
+
+  @OneToMany('Place', 'book')
+  places: Place[];
 }
