@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, Input, NgZone, OnDestroy, OnInit} from '@angular/core';
+import { AfterViewInit, Component, Input, NgZone, OnDestroy, OnInit } from '@angular/core';
 
 import { Book } from '../../data-access/entities/book.entity';
 
@@ -137,9 +137,19 @@ export class BookStatisticComponent implements OnInit, AfterViewInit, OnDestroy 
 
     _.forEach(this.books, (book, item) => {
       const heroes = this.populatePartChartData('Heroes', 5, book.heroes);
+      const notes = this.populatePartChartData('Notes', 5, book.notes);
+      const places = this.populatePartChartData('Places', 5, book.places);
 
       if (heroes) {
         books.children[item].children.push(heroes);
+      }
+
+      if (notes) {
+        books.children[item].children.push(notes);
+      }
+
+      if (places) {
+        books.children[item].children.push(places);
       }
     });
 
