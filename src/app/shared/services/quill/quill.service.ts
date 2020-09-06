@@ -21,6 +21,8 @@ Quill.register('modules/imageResize', ImageResize);
 
 import { DatabaseService } from '../../../data-access/database.service';
 import { Hero } from '../../../data-access/entities/hero.entity';
+import { Note } from '../../../data-access/entities/note.entity';
+import { Place } from '../../../data-access/entities/place.entity';
 
 import { MatDialog } from '@angular/material/dialog';
 import { InfoQuillDialogComponent } from '../../../dialogs/info-quill-dialog/info-quill-dialog.component';
@@ -115,6 +117,24 @@ export class QuillService {
       .then(() => Hero.find({ select: ["id", "name"] }))
       .then(heroes => {
         this.dataMention.heroes = heroes.map(item => {
+          return {id: item.id, value: item.name};
+        });
+      });
+
+    this.databaseService
+      .connection
+      .then(() => Note.find({ select: ["id", "name"] }))
+      .then(notes => {
+        this.dataMention.notes = notes.map(item => {
+          return {id: item.id, value: item.name};
+        });
+      });
+
+    this.databaseService
+      .connection
+      .then(() => Place.find({ select: ["id", "name"] }))
+      .then(places => {
+        this.dataMention.places = places.map(item => {
           return {id: item.id, value: item.name};
         });
       });
