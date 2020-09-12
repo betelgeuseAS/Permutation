@@ -41,16 +41,16 @@ export class TimelineComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit(): void {}
 
   ngAfterViewInit() {
-    const chart = am4core.create('chart', am4plugins_timeline.SerpentineChart);
-    chart.curveContainer.padding(20, 20, 20, 20);
-    chart.levelCount = 8;
-    chart.orientation = "horizontal";
-    chart.fontSize = 11;
+    this.chart = am4core.create('chart', am4plugins_timeline.SerpentineChart);
+    this.chart.curveContainer.padding(20, 20, 20, 20);
+    this.chart.levelCount = 8;
+    this.chart.orientation = "horizontal";
+    this.chart.fontSize = 11;
 
     const colorSet = new am4core.ColorSet();
     colorSet.saturation = 0.6;
 
-    chart.data = [ {
+    this.chart.data = [ {
       category: "Module #1",
       start: "2016-01-10",
       end: "2016-01-13",
@@ -133,10 +133,10 @@ export class TimelineComponent implements OnInit, AfterViewInit, OnDestroy {
       task: "Testing and QA"
     } ];
 
-    chart.dateFormatter.dateFormat = "yyyy-MM-dd";
-    chart.dateFormatter.inputDateFormat = "yyyy-MM-dd";
+    this.chart.dateFormatter.dateFormat = "yyyy-MM-dd";
+    this.chart.dateFormatter.inputDateFormat = "yyyy-MM-dd";
 
-    const categoryAxis = chart.yAxes.push(new am4charts.CategoryAxis() as any);
+    const categoryAxis = this.chart.yAxes.push(new am4charts.CategoryAxis() as any);
     categoryAxis.dataFields.category = "category";
     categoryAxis.renderer.grid.template.disabled = true;
     categoryAxis.renderer.labels.template.paddingRight = 25;
@@ -144,7 +144,7 @@ export class TimelineComponent implements OnInit, AfterViewInit, OnDestroy {
     categoryAxis.renderer.innerRadius = -60;
     categoryAxis.renderer.radius = 60;
 
-    const dateAxis = chart.xAxes.push(new am4charts.DateAxis() as any);
+    const dateAxis = this.chart.xAxes.push(new am4charts.DateAxis() as any);
     dateAxis.renderer.minGridDistance = 70;
     dateAxis.baseInterval = { count: 1, timeUnit: "day" };
 
@@ -171,7 +171,7 @@ export class TimelineComponent implements OnInit, AfterViewInit, OnDestroy {
       return dateAxis.renderer.positionToAngle(position) + 90;
     });
 
-    const series1 = chart.series.push(new am4plugins_timeline.CurveColumnSeries());
+    const series1 = this.chart.series.push(new am4plugins_timeline.CurveColumnSeries());
     series1.columns.template.height = am4core.percent(20);
     series1.columns.template.tooltipText = "{task}: [bold]{openDateX}[/] - [bold]{dateX}[/]";
 
@@ -197,12 +197,30 @@ export class TimelineComponent implements OnInit, AfterViewInit, OnDestroy {
     bullet2.propertyFields.fill = "color";
     bullet2.locationX = 1;
 
-    chart.scrollbarX = new am4core.Scrollbar();
-    chart.scrollbarX.align = "center";
-    chart.scrollbarX.width = am4core.percent(90);
+    const eventSeries = this.chart.series.push(new am4plugins_timeline.CurveLineSeries());
+    eventSeries.dataFields.dateX = "eventDate";
+    eventSeries.dataFields.categoryY = "category";
+    eventSeries.data = [
+      { category: "", eventDate: "2016-01-15", letter: "A", description: "Something happened here" },
+      { category: "", eventDate: "2016-01-23", letter: "B", description: "Something happened here" },
+      { category: "", eventDate: "2016-02-10", letter: "C", description: "Something happened here" },
+      { category: "", eventDate: "2016-02-29", letter: "D", description: "Something happened here" },
+      { category: "", eventDate: "2016-03-06", letter: "E", description: "Something happened here" },
+      { category: "", eventDate: "2016-03-12", letter: "F", description: "Something happened here" },
+      { category: "", eventDate: "2016-03-22", letter: "G", description: "Something happened here" }];
+    eventSeries.strokeOpacity = 0;
+
+    const flagBullet = eventSeries.bullets.push(new am4plugins_bullets.FlagBullet());
+    flagBullet.label.propertyFields.text = "letter";
+    flagBullet.locationX = 0;
+    flagBullet.tooltipText = "{description}";
+
+    this.chart.scrollbarX = new am4core.Scrollbar();
+    this.chart.scrollbarX.align = "center";
+    this.chart.scrollbarX.width = am4core.percent(90);
 
     const cursor = new am4plugins_timeline.CurveCursor();
-    chart.cursor = cursor;
+    this.chart.cursor = cursor;
     cursor.xAxis = dateAxis;
     cursor.yAxis = categoryAxis;
     cursor.lineY.disabled = true;
@@ -426,10 +444,10 @@ export class TimelineComponent implements OnInit, AfterViewInit, OnDestroy {
   // }
 
   ngOnDestroy() {
-    // this.zone.runOutsideAngular(() => {
-    //   if (this.chart) {
-    //     this.chart.dispose();
-    //   }
-    // });
+    this.zone.runOutsideAngular(() => {
+      if (this.chart) {
+        this.chart.dispose();
+      }
+    });
   }
 }
