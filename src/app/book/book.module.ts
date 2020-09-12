@@ -12,6 +12,7 @@ import { NoteListComponent } from './note-list/note-list.component';
 import { NoteComponent } from './note-list/note/note.component';
 import { PlaceListComponent } from './place-list/place-list.component';
 import { PlaceComponent } from './place-list/place/place.component';
+import { TimelineComponent } from './timeline/timeline.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { PlaceComponent } from './place-list/place/place.component';
     NoteListComponent,
     NoteComponent,
     PlaceListComponent,
-    PlaceComponent
+    PlaceComponent,
+    TimelineComponent
   ],
   imports: [
     CommonModule,
