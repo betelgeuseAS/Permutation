@@ -5,6 +5,13 @@
   </mat-card-header>
 
   <mat-card-content>
+    <div class="timeline-actions">
+      <button mat-stroked-button color="primary" [matMenuTriggerFor]="menu">Add</button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item>Timeline</button>
+        <button mat-menu-item>Event</button>
+      </mat-menu>
+    </div>
     <div id="chart"></div>
   </mat-card-content>
 </mat-card>

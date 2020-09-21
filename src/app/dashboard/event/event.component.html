@@ -1,0 +1,17 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Events</mat-card-title>
+    <mat-card-subtitle>Create a <strong class="text-danger">new</strong> event or edit an <strong class="text-danger">existing</strong> event.</mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+    <div class="event-header">Today</div>
+    <div class="event-day">{{getMomentDate('D')}}</div>
+    <div class="event-month">{{getMomentDate('MMMM')}}</div>
+    <div class="event-year">{{getMomentDate('YYYY')}}</div>
+  </mat-card-content>
+
+  <mat-card-actions>
+    <button mat-button routerLink="/book/events" routerLinkActive="active">View Events</button>
+  </mat-card-actions>
+</mat-card>

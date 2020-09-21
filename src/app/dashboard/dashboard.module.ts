@@ -7,12 +7,14 @@ import { SharedModule } from '../shared/shared.module';
 import { DashboardComponent } from './dashboard.component';
 import { BookListComponent } from './book-list/book-list.component';
 import { BookStatisticComponent } from './book-statistic/book-statistic.component';
+import { EventComponent } from './event/event.component';
 
 @NgModule({
   declarations: [
     DashboardComponent,
     BookListComponent,
-    BookStatisticComponent
+    BookStatisticComponent,
+    EventComponent
   ],
   imports: [
     CommonModule,
