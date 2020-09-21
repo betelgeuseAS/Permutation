@@ -21,9 +21,9 @@ Bootstrap and package your project with Angular 9 and Electron 8 (Typescript + S
 Currently runs with:
 
 - Angular v9.0.2
-- Electron v5.0.4
+- Electron v7.2.4
 - Electron Builder v22.4.1
-- SQLite v4.1.1
+- SQLite v5.0.0
 - TypeORM v0.2.24
 
 With this sample, you can :
