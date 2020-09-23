@@ -1,0 +1,42 @@
+<h2 mat-dialog-title>Add New Event</h2>
+
+<mat-dialog-content class="mat-typography">
+  <div class="modal-body">
+    <form [formGroup]="form">
+      <mat-form-field>
+        <mat-label>{{ 'COMMON.FIELDS.NAME' | translate }}</mat-label>
+
+        <input matInput formControlName="name" placeholder="{{ 'COMMON.FIELDS.NAME_PLACEHOLDER' | translate }}">
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Event</mat-label>
+
+        <textarea matInput formControlName="content" rows="4" #message maxlength="256" placeholder="Enter Event"></textarea>
+
+        <mat-hint align="start"><strong>Your Event Message</strong> </mat-hint>
+        <mat-hint align="end">{{message.value.length}} / 256</mat-hint>
+
+        <mat-error *ngIf="form.get('content').invalid && form.get('content').touched">
+          <span *ngIf="form.get('content').errors.required">{{ 'ERRORS.FIELDS.REQUIRED' | translate }}</span>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Choose a date</mat-label>
+
+        <input matInput formControlName="date" [matDatepicker]="picker">
+
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+
+        <mat-hint align="end">Date Format: MM/DD/YYYY</mat-hint>
+      </mat-form-field>
+    </form>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close cdkFocusInitial>Cancel</button>
+  <button mat-button [mat-dialog-close]="true" [disabled]="form.invalid">Save</button>
+</mat-dialog-actions>

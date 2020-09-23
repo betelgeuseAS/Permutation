@@ -7,6 +7,8 @@ import { CreateBookDialogComponent } from './create-book-dialog/create-book-dial
 import { AddItemPlotDialogComponent } from './add-item-plot-dialog/add-item-plot-dialog.component';
 import { RemoveSheetComponent } from './remove-sheet/remove-sheet.component';
 import { PlotItemSheetComponent } from './plot-item-sheet/plot-item-shet.component';
+import { SaveEventDialogComponent } from './save-event-dialog/save-event-dialog.component';
+import { RemoveAllSheetComponent } from './remove-all-sheet/remove-all-sheet.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +17,9 @@ import { PlotItemSheetComponent } from './plot-item-sheet/plot-item-shet.compone
     CreateBookDialogComponent,
     AddItemPlotDialogComponent,
     RemoveSheetComponent,
-    PlotItemSheetComponent
+    PlotItemSheetComponent,
+    SaveEventDialogComponent,
+    RemoveAllSheetComponent
   ],
   imports: [
     CommonModule,
