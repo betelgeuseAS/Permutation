@@ -1,0 +1,36 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Events</mat-card-title>
+    <mat-card-subtitle>Events List</mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+    <mat-list role="list">
+      <mat-list-item role="listitem" *ngFor="let event of events">
+        <div class="item-content">
+          <div><strong>{{event.name}}</strong></div>
+          <div>{{event.content}}</div>
+          <div class="item-date">{{event.date}}</div>
+        </div>
+
+        <div class="item-buttons">
+          <button mat-stroked-button color="accent" (click)="openEditEventDialog(event)">Edit</button>
+          <button mat-stroked-button color="warn" (click)="removeEventSheet(event)">Remove</button>
+        </div>
+
+        <mat-divider></mat-divider>
+      </mat-list-item>
+
+      <mat-list-item *ngIf="!events.length">
+        <div class="empty-list">{{ 'COMMON.CONTENT.EMPTY_LIST' | translate }}</div>
+      </mat-list-item>
+    </mat-list>
+  </mat-card-content>
+</mat-card>
+
+<mat-card class="main-control-handler">
+  <mat-card-content>
+    <button mat-raised-button color="accent" (click)="openCreateEventDialog()">Add</button>
+    <button mat-raised-button color="warn" (click)="removeAllEventsSheet()">Remove All</button>
+  </mat-card-content>
+</mat-card>
