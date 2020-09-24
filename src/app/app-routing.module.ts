@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { PageNotFoundComponent } from './shared/components';
 import { BookComponent } from './book/book.component';
+import { EventListComponent } from './event/event-list/event-list.component';
 
 const routes: Routes = [
   {
@@ -21,6 +22,23 @@ const routes: Routes = [
         },
         {
           label: '{{bookBreadcrumb}}',
+          url: ''
+        }
+      ]
+    }
+  },
+  {
+    path: 'dashboard/events',
+    component: EventListComponent,
+    data: {
+      title: 'events',
+      breadcrumb: [
+        {
+          label: 'Dashboard',
+          url: 'dashboard'
+        },
+        {
+          label: 'Events',
           url: ''
         }
       ]
