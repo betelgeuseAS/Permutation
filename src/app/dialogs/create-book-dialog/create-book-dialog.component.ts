@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA} from '@angular/material/dialog';
-import {FormGroup} from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 
 interface DialogData {
   form: FormGroup;

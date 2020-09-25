@@ -43,6 +43,9 @@ export class RemoveSheetComponent implements OnInit {
           case 'Place':
             this.document.location.href = `http://localhost:4200/#/book/${item.book.id}`;
             break;
+          case 'Event':
+            this.bottomSheetRef.dismiss();
+            break;
         }
       });
   }
